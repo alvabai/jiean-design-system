@@ -1,5 +1,5 @@
 {
-  "url": "http://127.0.0.1:63810/arcopro/examples/dashboard.html",
+  "url": "http://127.0.0.1:64585/arcopro/examples/dashboard.html",
   "viewport": {
     "width": 1270,
     "height": 848
@@ -1395,7 +1395,7 @@
       "rect": {
         "x": 260,
         "y": 136,
-        "width": 160,
+        "width": 140,
         "height": 28
       },
       "style": {
@@ -1407,7 +1407,7 @@
         "bottom": "auto",
         "zIndex": "auto",
         "boxSizing": "border-box",
-        "width": "160px",
+        "width": "140px",
         "height": "28px",
         "minWidth": "auto",
         "paddingTop": "0px",
@@ -1453,7 +1453,7 @@
       "id": null,
       "className": "hero__meta",
       "rect": {
-        "x": 436,
+        "x": 416,
         "y": 139,
         "width": 157.41,
         "height": 22

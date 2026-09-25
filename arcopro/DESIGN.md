@@ -302,7 +302,7 @@ components:
 ## Overview
 
 `arcopro` is the enterprise application language of the JIEAN design system. It describes the
-白晓亮 (JIEAN / 捷安高科) internal software: dense back-office consoles, admin shells, data
+捷安高科 (JIEAN) internal software: dense back-office consoles, admin shells, data
 workspaces, approval flows and record management screens. It is reverse engineered from
 **Arco Design Pro** (`@arco-design/arco-design-pro`, the `arco-design-pro-next` application, plus the
 `@arco-themes/react-arco-pro` theme package and the Arco Design token layer it builds on), and it

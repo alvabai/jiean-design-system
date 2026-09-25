@@ -18,7 +18,7 @@
         "width": 1270,
         "height": 848
       },
-      "bytes": 107213
+      "bytes": 106968
     },
     {
       "id": "list",
@@ -31,7 +31,7 @@
         "width": 1270,
         "height": 848
       },
-      "bytes": 106901
+      "bytes": 106064
     },
     {
       "id": "form",
@@ -44,7 +44,7 @@
         "width": 1270,
         "height": 848
       },
-      "bytes": 74437
+      "bytes": 74534
     },
     {
       "id": "detail",
@@ -57,7 +57,7 @@
         "width": 1270,
         "height": 848
       },
-      "bytes": 86036
+      "bytes": 85396
     },
     {
       "id": "components",
@@ -70,7 +70,7 @@
         "width": 1270,
         "height": 848
       },
-      "bytes": 74871
+      "bytes": 74963
     },
     {
       "id": "index",
@@ -83,7 +83,7 @@
         "width": 1270,
         "height": 848
       },
-      "bytes": 142951
+      "bytes": 143053
     }
   ]
 }

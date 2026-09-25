@@ -23,9 +23,10 @@ inset). Where the two could disagree, the running site decided it.
 ## 2. How the token layer was built
 
 1. `tokens.less` and `css/arco.css` from the theme package were read in full and
-   parsed into `arco-theme-tokens.json`: the raw variable map, **34 component
-   prefixes**, and the resolved values, so that a token's origin can be pointed at
-   rather than asserted.
+   parsed into `arco-theme-tokens.json`: **837 component variables across 34
+   component groups**, each under the name the package gives it
+   (`@<component>-…`) with its resolved value, so that a token's origin can be
+   pointed at rather than asserted.
 2. The contract's 30 colours were then checked against that map. Every colour in
    `arcopro/DESIGN.md` resolves to a theme variable; the mapping is what the
    `Color` table's `Source` column records.

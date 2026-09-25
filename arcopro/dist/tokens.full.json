@@ -1,7 +1,7 @@
 {
   "$source": {
     "contract": "arcopro/DESIGN.md",
-    "contractSha256": "7a880436be8d80361d2213779ad0490843f482aefe0e61dcd3eb49a128eb6033",
+    "contractSha256": "9d2232fe944fc6cea10976f5099fecbc13ce4a7c555a6e904fbf77d2220e7d12",
     "generator": "scripts/export-tokens.mjs",
     "note": "Lossless derivation of arcopro/DESIGN.md. The official design.md exports (tokens/tokens.json, dist/tokens.css, dist/tailwind.theme.json) are the interoperability formats and are stored verbatim. None of them emits the component token table or the fontFeature setting, and the css-vars export omits typography entirely; this file carries the complete contract, plus rgb/alpha/luminance per colour for consumers that need numeric channels."
   },

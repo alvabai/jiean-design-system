@@ -29,8 +29,8 @@ index, dashboard, list, form, detail and a components page — served by one
 stylesheet written against the tokens.
 
 **Visual validation.** A capture-and-compare chain (`npm run 4:capture`,
-`npm run 5:compare`) that renders the example pages and compares 42 landmarks plus
-four pixel rows against readings taken from the live reference. Result: 42 of 42
+`npm run 5:compare`) that renders the example pages and compares 42 values — 38
+landmarks and four pixel rows — against readings taken from the live reference. Result: 42 of 42
 match, no drift. Six defects in this system were found and fixed by it, and the
 comparison itself was corrected twice — a mislabelled reference reading and a
 stale-screenshot race. Accepted deviations are listed in
@@ -38,8 +38,9 @@ stale-screenshot race. Accepted deviations are listed in
 
 **Verification.** `npm run check` — the contract lints clean (0 errors, 0 warnings,
 1 info), the exports are re-verified against the contract on every run (26 checks,
-including six toolchain-limitation assertions and a 45-pair contrast audit with
-five documented exceptions), and repository hygiene is enforced.
+including six toolchain-limitation assertions, and a 44-pair contrast audit in which
+30 pairs pass, 14 are covered by five documented exception codes, and none is
+undocumented), and repository hygiene is enforced.
 
 **Known limitations.** Two 14px line heights exist in the reference where this
 system uses one; no official export carries the component tokens; `lineHeight`

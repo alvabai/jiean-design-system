@@ -50,7 +50,7 @@ reference *and* on this system — and both must agree to the exact colour:
 - the sidebar's 1px rule at x=220, white to its left, and the light-sider shadow
   falling on the canvas to its right.
 
-**Geometry.** Every landmark the two implementations share, compared value by
+**Geometry.** The 38 landmarks the two implementations share, compared value by
 value, with the reference side taken from the exact-selector probe. Lengths are
 compared to 0.6px, which absorbs sub-pixel rounding and nothing else. A full
 radius is normalised before comparison: `50%` and a pixel value at or beyond half
