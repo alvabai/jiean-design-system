@@ -261,7 +261,10 @@ const AUDIT_SCRIPT = `
 
   function measure() {
     var result = {
-      url: location.href,
+      /* The page's own path, not location.href: the capture is served on an
+         ephemeral loopback port, and a port number in a committed evidence file
+         would make every run produce a diff without a measurement changing. */
+      page: location.pathname,
       viewport: { width: window.innerWidth, height: window.innerHeight },
       devicePixelRatio: window.devicePixelRatio,
       scrollWidth: document.documentElement.scrollWidth,
