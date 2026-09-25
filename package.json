@@ -1,0 +1,25 @@
+{
+  "name": "jiean-design-system",
+  "private": true,
+  "version": "1.0.0",
+  "description": "JIEAN Design System. Style package 'arcopro': an enterprise application design language reverse engineered from Arco Design Pro for JIEAN (捷安高科), specified with the Google DESIGN.md format.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "npm",
+  "scripts": {
+    "1:validate": "node scripts/validate-design.mjs",
+    "2:export": "node scripts/export-tokens.mjs",
+    "3:verify-generated": "node scripts/verify-generated.mjs",
+    "4:capture": "node scripts/visual/capture-screenshots.mjs",
+    "5:compare": "node scripts/visual/compare-metrics.mjs",
+    "6:hygiene": "node scripts/check-hygiene.mjs",
+    "check": "npm run 1:validate && npm run 2:export && npm run 3:verify-generated && npm run 6:hygiene",
+    "check:visual": "npm run 4:capture && npm run 5:compare"
+  },
+  "devDependencies": {
+    "@google/design.md": "0.4.0"
+  }
+}

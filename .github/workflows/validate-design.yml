@@ -1,0 +1,62 @@
+name: validate-design
+
+# The gate for the design contract. These steps are the local commands, in the
+# same order, so a green run locally means a green run here.
+#
+# `npm run check` runs, in order:
+#   1:validate          lint arcopro/DESIGN.md with the official toolchain
+#   2:export            run the official CLI to produce the token artifacts
+#   3:verify-generated  re-verify the artifacts against the contract (26 checks)
+#   6:hygiene           placeholders, links, JSON validity, required files
+#
+# The official CLI is additionally invoked directly below, so that the tool's own
+# output and exit code are visible in CI rather than only its wrapper's.
+#
+# The tool version is pinned in package.json (devDependencies, exact version) and
+# installed from the lockfile, so CI cannot silently pick up a new behaviour.
+# Updating it is a deliberate change: see arcopro/README.md §Updating arcopro.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Contract, tokens and hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install the official DESIGN.md tooling
+        run: npm ci
+
+      - name: Report the toolchain version
+        run: npx design.md --help | head -1
+
+      - name: Lint the contract with the official CLI
+        run: npx design.md lint arcopro/DESIGN.md
+
+      - name: Validate, export, verify generated artifacts and check hygiene
+        run: npm run check
+
+      - name: Confirm the generated artifacts are part of the commit
+        run: |
+          if [ -n "$(git status --porcelain -- arcopro/tokens arcopro/dist)" ]; then
+            echo "::error::Generated token artifacts differ from the committed ones."
+            git status --porcelain -- arcopro/tokens arcopro/dist
+            echo "Run 'npm run 2:export' locally and commit the result."
+            exit 1
+          fi
+          echo "Generated artifacts are in sync."

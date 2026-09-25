@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工作台 · arcopro 参考实现</title>
+<link rel="stylesheet" href="../dist/tokens.full.css">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+
+<!-- ===================== Shell（每个页面自包含，便于逐页对照规范） ===================== -->
+<header class="shell__header">
+  <div class="brand">
+    <svg class="brand__mark" viewBox="0 0 28 28" aria-hidden="true">
+      <circle cx="9" cy="14" r="8" fill="var(--color-primary)"></circle>
+      <path d="M17 6h4a5 5 0 0 1 0 10h-4z" fill="var(--color-primary-hover)"></path>
+      <path d="M14 16h7a5 5 0 0 1-5 6h-2z" fill="var(--color-primary-active)"></path>
+    </svg>
+    <span class="brand__name">捷安中台</span>
+  </div>
+  <div class="header-tools">
+    <div class="header-search">
+      <input type="search" placeholder="搜索…" aria-label="搜索">
+    </div>
+    <button class="icon-button" type="button" aria-label="语言">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+        <circle cx="8" cy="8" r="6"></circle><path d="M2 8h12M8 2c1.8 2 1.8 10 0 12M8 2C6.2 4 6.2 12 8 14"></path>
+      </svg>
+    </button>
+    <button class="icon-button" type="button" aria-label="通知">
+      <span class="icon-button__dot"></span>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+        <path d="M4 7a4 4 0 0 1 8 0v3l1 2H3l1-2z"></path><path d="M6.5 12.5a1.6 1.6 0 0 0 3 0"></path>
+      </svg>
+    </button>
+    <button class="icon-button" type="button" aria-label="主题">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+        <path d="M13 10.5A6 6 0 1 1 5.5 3a5 5 0 0 0 7.5 7.5z"></path>
+      </svg>
+    </button>
+    <button class="icon-button" type="button" aria-label="设置">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+        <circle cx="8" cy="8" r="2.2"></circle>
+        <path d="M8 1.6v1.7M8 12.7v1.7M1.6 8h1.7M12.7 8h1.7M3.5 3.5l1.2 1.2M11.3 11.3l1.2 1.2M12.5 3.5l-1.2 1.2M4.7 11.3l-1.2 1.2"></path>
+      </svg>
+    </button>
+    <div class="avatar" title="白晓亮">白</div>
+  </div>
+</header>
+
+<aside class="shell__sidebar">
+  <nav class="sidebar__scroll" aria-label="主导航">
+    <a class="menu-item menu-item--selected" href="dashboard.html">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="5" height="5"></rect><rect x="9.5" y="1.5" width="5" height="5"></rect>
+        <rect x="1.5" y="9.5" width="5" height="5"></rect><rect x="9.5" y="9.5" width="5" height="5"></rect>
+      </svg>工作台
+    </a>
+    <a class="menu-item" href="list-page.html">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+        <path d="M1.5 4h13M1.5 8h13M1.5 12h13"></path><circle cx="3" cy="4" r="1"></circle>
+      </svg>记录列表
+    </a>
+    <a class="menu-item" href="form-page.html">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+        <rect x="2" y="1.5" width="12" height="13" rx="0.5"></rect><path d="M4.5 5.5h7M4.5 8.5h7M4.5 11.5h4"></path>
+      </svg>新建记录
+    </a>
+    <a class="menu-item" href="detail-page.html">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+        <circle cx="8" cy="5" r="2.6"></circle><path d="M2.8 13.5a5.2 5.2 0 0 1 10.4 0"></path>
+      </svg>记录详情
+    </a>
+    <div class="menu-group">
+      <div class="menu-group__label">设计系统</div>
+      <a class="menu-item" href="components.html">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M8 1.8 14.2 5 8 8.2 1.8 5z"></path><path d="M1.8 8 8 11.2 14.2 8"></path><path d="M1.8 11 8 14.2 14.2 11"></path>
+        </svg>组件总览
+      </a>
+      <a class="menu-item" href="index.html">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M2 3.5h12v10H2z"></path><path d="M2 6.5h12M5.5 6.5v7"></path>
+        </svg>规范索引
+      </a>
+    </div>
+  </nav>
+</aside>
+
+<!-- ===================== Content ===================== -->
+<main class="shell__content">
+  <div class="shell__content-inner">
+
+    <nav class="breadcrumb" aria-label="面包屑">
+      <a class="breadcrumb__home" href="index.html" aria-label="首页">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M2 7 8 2l6 5v6.5H2z"></path>
+        </svg>
+      </a>
+      <span class="breadcrumb__sep">/</span>
+      <span>工作台</span>
+      <span class="breadcrumb__sep">/</span>
+      <span class="breadcrumb__current">概览</span>
+    </nav>
+
+    <div class="dashboard">
+      <!-- ---------- 工作区 ---------- -->
+      <div class="dashboard__main">
+        <div class="stack">
+
+          <section class="card">
+            <div class="hero">
+              <span class="hero__name">欢迎回来，白晓亮</span>
+              <span class="hero__meta">上次登录 2026-09-26 09:12</span>
+            </div>
+            <div class="divider" style="margin: var(--spacing-md) 0"></div>
+
+            <!-- KPI 行：1px 分隔线，不是卡片；图标为 54px 圆盘 -->
+            <div class="kpi-row">
+              <div class="kpi">
+                <span class="kpi__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="17" rx="1"></rect><path d="M3 9h18M8 2v4M16 2v4"></path>
+                  </svg>
+                </span>
+                <div>
+                  <div class="kpi__title">累计记录</div>
+                  <div class="kpi__value">1,286<span class="kpi__unit">条</span></div>
+                </div>
+              </div>
+              <div class="divider--vertical"></div>
+              <div class="kpi">
+                <span class="kpi__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path d="M4 4h16v16H4z"></path><path d="M4 9h16M9 9v11"></path>
+                  </svg>
+                </span>
+                <div>
+                  <div class="kpi__title">进行中</div>
+                  <div class="kpi__value">342<span class="kpi__unit">条</span></div>
+                </div>
+              </div>
+              <div class="divider--vertical"></div>
+              <div class="kpi">
+                <span class="kpi__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path d="M20 6 9 17l-5-5"></path>
+                  </svg>
+                </span>
+                <div>
+                  <div class="kpi__title">本月完成</div>
+                  <div class="kpi__value">96<span class="kpi__unit">条</span></div>
+                </div>
+              </div>
+              <div class="divider--vertical"></div>
+              <div class="kpi">
+                <span class="kpi__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path d="M12 19V5M5 12l7-7 7 7"></path>
+                  </svg>
+                </span>
+                <div>
+                  <div class="kpi__title">环比增长</div>
+                  <div class="kpi__value">12.4<span class="kpi__unit">%</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider" style="margin: var(--spacing-md) 0"></div>
+
+            <div class="chart-head">
+              <div>
+                <span class="chart-title">记录趋势</span>
+                <span class="chart-subtitle">（近 12 个月）</span>
+              </div>
+              <a href="list-page.html">查看更多</a>
+            </div>
+
+            <!-- 面积图：纯内联 SVG，颜色全部取自令牌 -->
+            <svg viewBox="0 0 640 200" role="img" aria-label="近 12 个月记录趋势面积图（示例数据）"
+                 style="width:100%;height:200px">
+              <g style="stroke: var(--color-border-subtle); stroke-width:1">
+                <line x1="0" y1="40" x2="640" y2="40"></line>
+                <line x1="0" y1="80" x2="640" y2="80"></line>
+                <line x1="0" y1="120" x2="640" y2="120"></line>
+                <line x1="0" y1="160" x2="640" y2="160"></line>
+              </g>
+              <path d="M0 150 L58 138 L116 144 L174 112 L232 120 L290 88 L348 96 L406 64 L464 74 L522 46 L580 58 L638 32 L638 200 L0 200 Z"
+                    style="fill: var(--color-primary-subtle)"></path>
+              <path d="M0 150 L58 138 L116 144 L174 112 L232 120 L290 88 L348 96 L406 64 L464 74 L522 46 L580 58 L638 32"
+                    style="fill: none; stroke: var(--color-primary); stroke-width: 2"></path>
+              <g style="fill: var(--color-text-tertiary); font-size: 11px; font-family: var(--typography-caption-font-family)">
+                <text x="0" y="196">10月</text><text x="106" y="196">12月</text><text x="212" y="196">2月</text>
+                <text x="318" y="196">4月</text><text x="424" y="196">6月</text><text x="530" y="196">8月</text>
+              </g>
+            </svg>
+          </section>
+
+          <section class="card">
+            <div class="card__head">
+              <h2 class="card__title">最近记录</h2>
+              <a href="list-page.html">全部记录</a>
+            </div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>记录编号</th>
+                    <th>名称</th>
+                    <th>类型</th>
+                    <th class="num">完成度</th>
+                    <th>状态</th>
+                    <th>创建时间</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>REC-20260926-018</td><td>线路巡检任务</td><td>周期性</td>
+                    <td class="num">86%</td>
+                    <td><span class="status status--success"><span class="status__dot"></span>已完成</span></td>
+                    <td>2026-09-26 09:12</td>
+                  </tr>
+                  <tr>
+                    <td>REC-20260925-042</td><td>设备台账核对</td><td>一次性</td>
+                    <td class="num">54%</td>
+                    <td><span class="status status--warning"><span class="status__dot"></span>进行中</span></td>
+                    <td>2026-09-25 16:40</td>
+                  </tr>
+                  <tr>
+                    <td>REC-20260924-007</td><td>培训计划评审</td><td>审核</td>
+                    <td class="num">100%</td>
+                    <td><span class="status status--error"><span class="status__dot"></span>已驳回</span></td>
+                    <td>2026-09-24 11:05</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <!-- ---------- 右侧 280px 轨道 ---------- -->
+      <aside class="dashboard__rail">
+        <div class="stack">
+          <section class="card">
+            <h2 class="card__title">快捷入口</h2>
+            <div class="rail-list">
+              <a href="form-page.html">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg>
+                新建记录
+              </a>
+              <a href="list-page.html">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1.5 4h13M1.5 8h13M1.5 12h13"></path></svg>
+                记录列表
+              </a>
+              <a href="detail-page.html">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="8" cy="5" r="2.6"></circle><path d="M2.8 13.5a5.2 5.2 0 0 1 10.4 0"></path></svg>
+                记录详情
+              </a>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2 class="card__title">公告</h2>
+            <p class="rail-note">
+              公告内容由业务系统提供，此处仅示意排版：标题使用 16px / 500，正文使用 14px，
+              次要信息降为 12px 三级文本色。
+            </p>
+          </section>
+
+          <section class="card">
+            <h2 class="card__title">文档</h2>
+            <div class="rail-image">图片位（120px 高）</div>
+          </section>
+        </div>
+      </aside>
+    </div>
+
+    <p class="page-footer">
+      本页为 <b>arcopro</b> 参考实现：数字与名称为布局示例（sample data），不代表捷安高科的真实数据。
+      规范见 <a href="../DESIGN.md">arcopro/DESIGN.md</a>，令牌见 <a href="../dist/tokens.full.css">dist/tokens.full.css</a>。
+    </p>
+  </div>
+</main>
+
+</body>
+</html>

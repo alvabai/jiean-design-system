@@ -1,0 +1,89 @@
+{
+  "requestedViewport": {
+    "width": 1270,
+    "height": 848
+  },
+  "windowChromePx": 87,
+  "browser": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "viewportMismatches": [],
+  "pages": [
+    {
+      "id": "dashboard",
+      "measured": 51,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 107213
+    },
+    {
+      "id": "list",
+      "measured": 49,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 106901
+    },
+    {
+      "id": "form",
+      "measured": 37,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 74437
+    },
+    {
+      "id": "detail",
+      "measured": 45,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 86036
+    },
+    {
+      "id": "components",
+      "measured": 67,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 74871
+    },
+    {
+      "id": "index",
+      "measured": 31,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 142951
+    }
+  ]
+}
