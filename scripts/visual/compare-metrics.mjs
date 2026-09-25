@@ -14,6 +14,10 @@
  *      Compared against arcopro/reports/evidence/arco-pro-live-probe.json, which
  *      records the reference values and, for each one, how it was obtained.
  *
+ *   3. EVERY PAGE. The shell is one component, so it has to measure the same on
+ *      all six pages, not only on the one the probe was taken from. Each page's
+ *      shell landmarks are compared against the same reference values.
+ *
  * The comparison is deliberately explicit rather than generic: every pair names
  * both sides and the property being compared, so a failure points at a real
  * decision instead of at a selector that happened to match something else. Every
@@ -41,7 +45,7 @@ const LENGTH_TOLERANCE = 0.6;
 // comparison primitives
 // ---------------------------------------------------------------------------
 
-const results = { pixels: [], geometry: [], uncovered: [] };
+const results = { pixels: [], geometry: [], pages: [], uncovered: [] };
 
 function record(section, name, reference, actual, verdict, detail) {
   results[section].push({ name, reference, actual, verdict, detail });
@@ -117,8 +121,18 @@ for (const page of ['dashboard', 'list', 'form', 'detail', 'components', 'index'
 }
 
 const shot = (name) => readPng(path.join(EVIDENCE, name));
-const reference = shot('reference-dashboard.png');
-const ours = shot(path.join('captures', 'dashboard.png'));
+
+/**
+ * The four reference pages, each with the capture it is compared against. A page
+ * that is not compared is a page whose fidelity is unknown, so all four pairs are
+ * asserted rather than sampled.
+ */
+const PAGE_SHOTS = [
+  ['dashboard', 'reference-dashboard.png', 'captures/dashboard.png'],
+  ['list', 'reference-list.png', 'captures/list.png'],
+  ['form', 'reference-form.png', 'captures/form.png'],
+  ['detail', 'reference-detail.png', 'captures/detail.png'],
+];
 
 // ---------------------------------------------------------------------------
 // 1. pixels: the rules and fills that only a screenshot can prove
@@ -139,28 +153,34 @@ const PIXEL_CASES = [
   },
 ];
 
-if (reference.width !== ours.width || reference.height !== ours.height) {
-  throw new Error(
-    `screenshot sizes differ: reference ${reference.width}x${reference.height}, ours ` +
-      `${ours.width}x${ours.height}. Re-run 4:capture at the reference viewport before comparing.`,
-  );
-}
+for (const [page, referenceFile, ourFile] of PAGE_SHOTS) {
+  const reference = shot(referenceFile);
+  const ours = shot(ourFile);
 
-for (const test of PIXEL_CASES) {
-  for (const [label, image] of [
-    ['reference', reference],
-    ['ours', ours],
-  ]) {
-    const actual = test.probe(image, 700);
-    const ok = actual.every((v, i) => v === test.expected[i]);
-    record(
-      'pixels',
-      `${label}: ${test.name}`,
-      test.expected,
-      actual,
-      ok ? 'match' : 'drift',
-      test.detail,
+  if (reference.width !== ours.width || reference.height !== ours.height) {
+    throw new Error(
+      `${page}: screenshot sizes differ — reference ${reference.width}x${reference.height}, ` +
+        `ours ${ours.width}x${ours.height}. Re-run 4:capture at the reference viewport ` +
+        'before comparing.',
     );
+  }
+
+  for (const test of PIXEL_CASES) {
+    for (const [label, image] of [
+      ['reference', reference],
+      ['ours', ours],
+    ]) {
+      const actual = test.probe(image, 700);
+      const ok = actual.every((v, i) => v === test.expected[i]);
+      record(
+        'pixels',
+        `${page} ${label}: ${test.name}`,
+        test.expected,
+        actual,
+        ok ? 'match' : 'drift',
+        test.detail,
+      );
+    }
   }
 }
 
@@ -411,6 +431,60 @@ compareLengths(
 );
 
 // ---------------------------------------------------------------------------
+// 3. every page: one shell, the same measurement on all six pages
+// ---------------------------------------------------------------------------
+
+for (const id of ['list', 'form', 'detail', 'components', 'index']) {
+  const c = captures[id].metrics;
+  const rule = captures[id].pseudo.sidebarRule.style;
+
+  compareLengths(
+    'pages',
+    `${id}: header box`,
+    shell.header.box,
+    rect(c.header),
+    'the shell is one component, so a page cannot have its own header height',
+  );
+  compareValues(
+    'pages',
+    `${id}: header bottom rule`,
+    [
+      ['borderBottomWidth', '1px', style(c.header, 'borderBottomWidth')],
+      ['borderBottomColor', 'rgb(229, 230, 235)', style(c.header, 'borderBottomColor')],
+    ],
+    'cross-checked against every page\'s pixel row at y=59',
+  );
+  compareLengths('pages', `${id}: sidebar box`, [sidebar.box[2], sidebar.box[3]], size(c.sider), '');
+  compareValues(
+    'pages',
+    `${id}: sidebar right rule`,
+    [
+      ['right', '-1px', rule.right],
+      ['left', '220px', rule.left],
+      ['width', '1px', rule.width],
+      ['height', '848px', rule.height],
+      ['backgroundColor', 'rgb(229, 230, 235)', rule.backgroundColor],
+    ],
+    'drawn by ::after outside the 220px box, so it costs the menu column nothing',
+  );
+  compareLengths(
+    'pages',
+    `${id}: menu row box`,
+    [sidebar.menuItem.box[2], sidebar.menuItem.box[3]],
+    size(c.menuSelected),
+    '204x40 on every page, whichever row happens to be selected',
+  );
+  compareLengths('pages', `${id}: avatar box`, [32, 32], size(c.avatar), '');
+  compareLengths(
+    'pages',
+    `${id}: brand mark`,
+    [shell.brandMark.box[2], shell.brandMark.box[3]],
+    size(c.brandMark),
+    '',
+  );
+}
+
+// ---------------------------------------------------------------------------
 // uncovered
 // ---------------------------------------------------------------------------
 
@@ -419,7 +493,7 @@ results.uncovered.push(
     what: 'the reference pages for list, form and detail were swept into arco-pro-metrics.json but not re-probed with exact selectors',
     why: 'their entries there use generic key names whose target element cannot be verified from the recorded numbers, so using them as comparison targets would compare the wrong elements',
     coveredInstead:
-      'every shared landmark — shell, sidebar, header, card, breadcrumb, control heights — is compared through the exact-selector probe on the dashboard, and each of the three other pages is captured and pixel-checked for its shell',
+      'every shared landmark — shell, sidebar, header, card, breadcrumb, control heights — is compared through the exact-selector probe on the dashboard; all four reference pages are compared pixel for pixel against their captures; and the shell landmarks of all six pages are compared against the same reference values',
   },
   {
     what: 'table, form and pagination internals versus the live site',
@@ -433,17 +507,19 @@ results.uncovered.push(
 // report
 // ---------------------------------------------------------------------------
 
-const all = [...results.pixels, ...results.geometry];
+const all = [...results.pixels, ...results.geometry, ...results.pages];
 const drifts = all.filter((r) => r.verdict !== 'match');
 
 const payload = {
   note:
-    'The visual fidelity comparison. "pixels" answers what only a screenshot can answer; ' +
-    '"geometry" compares landmarks against the live reference probe. Every reference value ' +
-    'in the probe carries the method that produced it.',
+    'The visual fidelity comparison. "pixels" answers what only a screenshot can answer, on ' +
+    'every page pair; "geometry" compares the dashboard\'s landmarks against the live reference ' +
+    'probe; "pages" compares the shell landmarks of the other five pages against the same ' +
+    'reference values, because one shell has to measure the same everywhere. Every reference ' +
+    'value in the probe carries the method that produced it.',
   referenceViewport: probe.captureViewport,
-  referenceScreenshots: ['reference-dashboard.png'],
-  ourScreenshots: ['captures/dashboard.png'],
+  referenceScreenshots: PAGE_SHOTS.map(([, ref]) => ref),
+  ourScreenshots: PAGE_SHOTS.map(([, , ours]) => ours),
   lengthTolerancePx: LENGTH_TOLERANCE,
   summary: {
     compared: all.length,
@@ -462,9 +538,15 @@ await writeFile(
 
 console.log('Visual fidelity comparison');
 console.log('--------------------------');
-for (const section of ['pixels', 'geometry']) {
+const SECTION_TITLES = {
+  pixels: 'Pixels (screenshot evidence, all four page pairs)',
+  geometry: 'Geometry and type (live reference probe, dashboard)',
+  pages: 'Every page (shell landmarks, against the same reference values)',
+};
+
+for (const section of ['pixels', 'geometry', 'pages']) {
   console.log('');
-  console.log(section === 'pixels' ? 'Pixels (screenshot evidence)' : 'Geometry and type (live reference probe)');
+  console.log(SECTION_TITLES[section]);
   for (const r of results[section]) {
     const mark = r.verdict === 'match' ? 'MATCH' : 'DRIFT';
     const ref = JSON.stringify(r.reference);

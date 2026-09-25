@@ -92,8 +92,9 @@ revision, and not a stale copy.
 
 **Verified, and re-checked on every `npm run check`:** every token value and its
 count; the derived artifacts' agreement with the official exports; the exports'
-limitations; the contrast ratios; the visual comparison (42 comparisons, 4 pixel
-rows) against the live reference.
+limitations; the contrast ratios; the visual comparison (89 values: 16 pixel
+checks over four page pairs, 38 dashboard landmarks, 35 shell landmarks on the
+other five pages) against the live reference.
 
 **Inferred, and labelled as such where it appears:** the intent behind upstream
 choices. The 200px brand block inside a 220px sidebar, the group header's 28px
@@ -123,7 +124,7 @@ npm run 1:validate           # contract parses; token counts and section names
 npm run 2:export             # official exports + derived artifacts, with the contract's sha256
 npm run 3:verify-generated   # 26 checks: provenance, losslessness, limitations, contrast
 npm run 4:capture            # re-render the 6 reference pages at 1270x848
-npm run 5:compare            # 42 comparisons and 4 pixel rows against the reference probe
+npm run 5:compare            # 89 comparisons against the reference probe and the four page screenshots
 npm run check                # 1 -> 2 -> 3 -> 6, the gate CI runs
 ```
 

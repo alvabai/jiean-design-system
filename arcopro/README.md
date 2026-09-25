@@ -127,7 +127,7 @@ The scripts:
 | `npm run 2:export` | runs the official CLI for three formats, then derives the lossless pair | the CLI fails, or an artifact comes out empty |
 | `npm run 3:verify-generated` | 26 checks: provenance, losslessness, known toolchain limitations, contrast | any artifact drifted from the contract |
 | `npm run 4:capture` | renders the six example pages headless and records computed styles | a page does not reach a 1270×848 viewport, or Chrome fails |
-| `npm run 5:compare` | compares 42 values against the reference: 38 landmarks and 4 pixel rows | any compared value drifts |
+| `npm run 5:compare` | compares 89 values against the reference: 16 pixel checks over four page pairs, 38 dashboard landmarks, 35 shell landmarks on the other five pages | any compared value drifts |
 | `npm run 6:hygiene` | placeholders, links, JSON validity, required files, naming | a link is broken, a file is missing, a placeholder survives |
 | `npm run check` | `1 → 2 → 3 → 6` | as above; this is the CI gate |
 | `npm run check:visual` | `4 → 5` | as above; needs Chrome, so it is not in CI |
@@ -245,8 +245,9 @@ contract (including that the contract's sha256 in the artifacts still matches) a
 checks repository hygiene. CI runs the same command, so a green run locally means a
 green run in CI.
 
-`npm run check:visual` additionally re-renders the six example pages and compares 42
-values — 38 landmarks and four pixel rows — against the recorded reference. It needs Chrome, so
+`npm run check:visual` additionally re-renders the six example pages and compares 89
+values against the recorded reference: 16 pixel checks over four page pairs, 38
+dashboard landmarks, and 35 shell landmarks on the other five pages. It needs Chrome, so
 it is run locally and reported in `reports/visual-validation.md` rather than gated
 in CI.
 

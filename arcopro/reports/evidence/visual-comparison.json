@@ -1,26 +1,32 @@
 {
-  "note": "The visual fidelity comparison. \"pixels\" answers what only a screenshot can answer; \"geometry\" compares landmarks against the live reference probe. Every reference value in the probe carries the method that produced it.",
+  "note": "The visual fidelity comparison. \"pixels\" answers what only a screenshot can answer, on every page pair; \"geometry\" compares the dashboard's landmarks against the live reference probe; \"pages\" compares the shell landmarks of the other five pages against the same reference values, because one shell has to measure the same everywhere. Every reference value in the probe carries the method that produced it.",
   "referenceViewport": {
     "width": 1270,
     "height": 848
   },
   "referenceScreenshots": [
-    "reference-dashboard.png"
+    "reference-dashboard.png",
+    "reference-list.png",
+    "reference-form.png",
+    "reference-detail.png"
   ],
   "ourScreenshots": [
-    "captures/dashboard.png"
+    "captures/dashboard.png",
+    "captures/list.png",
+    "captures/form.png",
+    "captures/detail.png"
   ],
   "lengthTolerancePx": 0.6,
   "summary": {
-    "compared": 42,
-    "match": 42,
+    "compared": 89,
+    "match": 89,
     "drift": 0,
     "uncovered": 2
   },
   "results": {
     "pixels": [
       {
-        "name": "reference: header fill and 1px bottom rule at x=700",
+        "name": "dashboard reference: header fill and 1px bottom rule at x=700",
         "reference": [
           "#e5e6eb",
           "#ffffff",
@@ -35,7 +41,7 @@
         "detail": "rule on the 59th row of a 60px header, white above it, canvas below it"
       },
       {
-        "name": "ours: header fill and 1px bottom rule at x=700",
+        "name": "dashboard ours: header fill and 1px bottom rule at x=700",
         "reference": [
           "#e5e6eb",
           "#ffffff",
@@ -50,7 +56,7 @@
         "detail": "rule on the 59th row of a 60px header, white above it, canvas below it"
       },
       {
-        "name": "reference: sidebar 1px right rule at y=400",
+        "name": "dashboard reference: sidebar 1px right rule at y=400",
         "reference": [
           "#ffffff",
           "#e5e6eb"
@@ -63,7 +69,175 @@
         "detail": "the rule sits at x=220, one pixel outside the 220px sidebar, so it consumes no layout width"
       },
       {
-        "name": "ours: sidebar 1px right rule at y=400",
+        "name": "dashboard ours: sidebar 1px right rule at y=400",
+        "reference": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "actual": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "verdict": "match",
+        "detail": "the rule sits at x=220, one pixel outside the 220px sidebar, so it consumes no layout width"
+      },
+      {
+        "name": "list reference: header fill and 1px bottom rule at x=700",
+        "reference": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "actual": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "verdict": "match",
+        "detail": "rule on the 59th row of a 60px header, white above it, canvas below it"
+      },
+      {
+        "name": "list ours: header fill and 1px bottom rule at x=700",
+        "reference": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "actual": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "verdict": "match",
+        "detail": "rule on the 59th row of a 60px header, white above it, canvas below it"
+      },
+      {
+        "name": "list reference: sidebar 1px right rule at y=400",
+        "reference": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "actual": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "verdict": "match",
+        "detail": "the rule sits at x=220, one pixel outside the 220px sidebar, so it consumes no layout width"
+      },
+      {
+        "name": "list ours: sidebar 1px right rule at y=400",
+        "reference": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "actual": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "verdict": "match",
+        "detail": "the rule sits at x=220, one pixel outside the 220px sidebar, so it consumes no layout width"
+      },
+      {
+        "name": "form reference: header fill and 1px bottom rule at x=700",
+        "reference": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "actual": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "verdict": "match",
+        "detail": "rule on the 59th row of a 60px header, white above it, canvas below it"
+      },
+      {
+        "name": "form ours: header fill and 1px bottom rule at x=700",
+        "reference": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "actual": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "verdict": "match",
+        "detail": "rule on the 59th row of a 60px header, white above it, canvas below it"
+      },
+      {
+        "name": "form reference: sidebar 1px right rule at y=400",
+        "reference": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "actual": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "verdict": "match",
+        "detail": "the rule sits at x=220, one pixel outside the 220px sidebar, so it consumes no layout width"
+      },
+      {
+        "name": "form ours: sidebar 1px right rule at y=400",
+        "reference": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "actual": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "verdict": "match",
+        "detail": "the rule sits at x=220, one pixel outside the 220px sidebar, so it consumes no layout width"
+      },
+      {
+        "name": "detail reference: header fill and 1px bottom rule at x=700",
+        "reference": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "actual": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "verdict": "match",
+        "detail": "rule on the 59th row of a 60px header, white above it, canvas below it"
+      },
+      {
+        "name": "detail ours: header fill and 1px bottom rule at x=700",
+        "reference": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "actual": [
+          "#e5e6eb",
+          "#ffffff",
+          "#f2f3f5"
+        ],
+        "verdict": "match",
+        "detail": "rule on the 59th row of a 60px header, white above it, canvas below it"
+      },
+      {
+        "name": "detail reference: sidebar 1px right rule at y=400",
+        "reference": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "actual": [
+          "#ffffff",
+          "#e5e6eb"
+        ],
+        "verdict": "match",
+        "detail": "the rule sits at x=220, one pixel outside the 220px sidebar, so it consumes no layout width"
+      },
+      {
+        "name": "detail ours: sidebar 1px right rule at y=400",
         "reference": [
           "#ffffff",
           "#e5e6eb"
@@ -578,11 +752,518 @@
         "detail": "the unit span must carry its own line-height or this grows to 36px"
       }
     ],
+    "pages": [
+      {
+        "name": "list: header box",
+        "reference": [
+          0,
+          0,
+          1270,
+          60
+        ],
+        "actual": [
+          0,
+          0,
+          1270,
+          60
+        ],
+        "verdict": "match",
+        "detail": "the shell is one component, so a page cannot have its own header height"
+      },
+      {
+        "name": "list: header bottom rule",
+        "reference": {
+          "borderBottomWidth": "1px",
+          "borderBottomColor": "rgb(229, 230, 235)"
+        },
+        "actual": {
+          "borderBottomWidth": "1px",
+          "borderBottomColor": "rgb(229, 230, 235)"
+        },
+        "verdict": "match",
+        "detail": "cross-checked against every page's pixel row at y=59"
+      },
+      {
+        "name": "list: sidebar box",
+        "reference": [
+          220,
+          848
+        ],
+        "actual": [
+          220,
+          848
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "list: sidebar right rule",
+        "reference": {
+          "right": "-1px",
+          "left": "220px",
+          "width": "1px",
+          "height": "848px",
+          "backgroundColor": "rgb(229, 230, 235)"
+        },
+        "actual": {
+          "right": "-1px",
+          "left": "220px",
+          "width": "1px",
+          "height": "848px",
+          "backgroundColor": "rgb(229, 230, 235)"
+        },
+        "verdict": "match",
+        "detail": "drawn by ::after outside the 220px box, so it costs the menu column nothing"
+      },
+      {
+        "name": "list: menu row box",
+        "reference": [
+          204,
+          40
+        ],
+        "actual": [
+          204,
+          40
+        ],
+        "verdict": "match",
+        "detail": "204x40 on every page, whichever row happens to be selected"
+      },
+      {
+        "name": "list: avatar box",
+        "reference": [
+          32,
+          32
+        ],
+        "actual": [
+          32,
+          32
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "list: brand mark",
+        "reference": [
+          33,
+          33
+        ],
+        "actual": [
+          33,
+          33
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "form: header box",
+        "reference": [
+          0,
+          0,
+          1270,
+          60
+        ],
+        "actual": [
+          0,
+          0,
+          1270,
+          60
+        ],
+        "verdict": "match",
+        "detail": "the shell is one component, so a page cannot have its own header height"
+      },
+      {
+        "name": "form: header bottom rule",
+        "reference": {
+          "borderBottomWidth": "1px",
+          "borderBottomColor": "rgb(229, 230, 235)"
+        },
+        "actual": {
+          "borderBottomWidth": "1px",
+          "borderBottomColor": "rgb(229, 230, 235)"
+        },
+        "verdict": "match",
+        "detail": "cross-checked against every page's pixel row at y=59"
+      },
+      {
+        "name": "form: sidebar box",
+        "reference": [
+          220,
+          848
+        ],
+        "actual": [
+          220,
+          848
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "form: sidebar right rule",
+        "reference": {
+          "right": "-1px",
+          "left": "220px",
+          "width": "1px",
+          "height": "848px",
+          "backgroundColor": "rgb(229, 230, 235)"
+        },
+        "actual": {
+          "right": "-1px",
+          "left": "220px",
+          "width": "1px",
+          "height": "848px",
+          "backgroundColor": "rgb(229, 230, 235)"
+        },
+        "verdict": "match",
+        "detail": "drawn by ::after outside the 220px box, so it costs the menu column nothing"
+      },
+      {
+        "name": "form: menu row box",
+        "reference": [
+          204,
+          40
+        ],
+        "actual": [
+          204,
+          40
+        ],
+        "verdict": "match",
+        "detail": "204x40 on every page, whichever row happens to be selected"
+      },
+      {
+        "name": "form: avatar box",
+        "reference": [
+          32,
+          32
+        ],
+        "actual": [
+          32,
+          32
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "form: brand mark",
+        "reference": [
+          33,
+          33
+        ],
+        "actual": [
+          33,
+          33
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "detail: header box",
+        "reference": [
+          0,
+          0,
+          1270,
+          60
+        ],
+        "actual": [
+          0,
+          0,
+          1270,
+          60
+        ],
+        "verdict": "match",
+        "detail": "the shell is one component, so a page cannot have its own header height"
+      },
+      {
+        "name": "detail: header bottom rule",
+        "reference": {
+          "borderBottomWidth": "1px",
+          "borderBottomColor": "rgb(229, 230, 235)"
+        },
+        "actual": {
+          "borderBottomWidth": "1px",
+          "borderBottomColor": "rgb(229, 230, 235)"
+        },
+        "verdict": "match",
+        "detail": "cross-checked against every page's pixel row at y=59"
+      },
+      {
+        "name": "detail: sidebar box",
+        "reference": [
+          220,
+          848
+        ],
+        "actual": [
+          220,
+          848
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "detail: sidebar right rule",
+        "reference": {
+          "right": "-1px",
+          "left": "220px",
+          "width": "1px",
+          "height": "848px",
+          "backgroundColor": "rgb(229, 230, 235)"
+        },
+        "actual": {
+          "right": "-1px",
+          "left": "220px",
+          "width": "1px",
+          "height": "848px",
+          "backgroundColor": "rgb(229, 230, 235)"
+        },
+        "verdict": "match",
+        "detail": "drawn by ::after outside the 220px box, so it costs the menu column nothing"
+      },
+      {
+        "name": "detail: menu row box",
+        "reference": [
+          204,
+          40
+        ],
+        "actual": [
+          204,
+          40
+        ],
+        "verdict": "match",
+        "detail": "204x40 on every page, whichever row happens to be selected"
+      },
+      {
+        "name": "detail: avatar box",
+        "reference": [
+          32,
+          32
+        ],
+        "actual": [
+          32,
+          32
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "detail: brand mark",
+        "reference": [
+          33,
+          33
+        ],
+        "actual": [
+          33,
+          33
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "components: header box",
+        "reference": [
+          0,
+          0,
+          1270,
+          60
+        ],
+        "actual": [
+          0,
+          0,
+          1270,
+          60
+        ],
+        "verdict": "match",
+        "detail": "the shell is one component, so a page cannot have its own header height"
+      },
+      {
+        "name": "components: header bottom rule",
+        "reference": {
+          "borderBottomWidth": "1px",
+          "borderBottomColor": "rgb(229, 230, 235)"
+        },
+        "actual": {
+          "borderBottomWidth": "1px",
+          "borderBottomColor": "rgb(229, 230, 235)"
+        },
+        "verdict": "match",
+        "detail": "cross-checked against every page's pixel row at y=59"
+      },
+      {
+        "name": "components: sidebar box",
+        "reference": [
+          220,
+          848
+        ],
+        "actual": [
+          220,
+          848
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "components: sidebar right rule",
+        "reference": {
+          "right": "-1px",
+          "left": "220px",
+          "width": "1px",
+          "height": "848px",
+          "backgroundColor": "rgb(229, 230, 235)"
+        },
+        "actual": {
+          "right": "-1px",
+          "left": "220px",
+          "width": "1px",
+          "height": "848px",
+          "backgroundColor": "rgb(229, 230, 235)"
+        },
+        "verdict": "match",
+        "detail": "drawn by ::after outside the 220px box, so it costs the menu column nothing"
+      },
+      {
+        "name": "components: menu row box",
+        "reference": [
+          204,
+          40
+        ],
+        "actual": [
+          204,
+          40
+        ],
+        "verdict": "match",
+        "detail": "204x40 on every page, whichever row happens to be selected"
+      },
+      {
+        "name": "components: avatar box",
+        "reference": [
+          32,
+          32
+        ],
+        "actual": [
+          32,
+          32
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "components: brand mark",
+        "reference": [
+          33,
+          33
+        ],
+        "actual": [
+          33,
+          33
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "index: header box",
+        "reference": [
+          0,
+          0,
+          1270,
+          60
+        ],
+        "actual": [
+          0,
+          0,
+          1270,
+          60
+        ],
+        "verdict": "match",
+        "detail": "the shell is one component, so a page cannot have its own header height"
+      },
+      {
+        "name": "index: header bottom rule",
+        "reference": {
+          "borderBottomWidth": "1px",
+          "borderBottomColor": "rgb(229, 230, 235)"
+        },
+        "actual": {
+          "borderBottomWidth": "1px",
+          "borderBottomColor": "rgb(229, 230, 235)"
+        },
+        "verdict": "match",
+        "detail": "cross-checked against every page's pixel row at y=59"
+      },
+      {
+        "name": "index: sidebar box",
+        "reference": [
+          220,
+          848
+        ],
+        "actual": [
+          220,
+          848
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "index: sidebar right rule",
+        "reference": {
+          "right": "-1px",
+          "left": "220px",
+          "width": "1px",
+          "height": "848px",
+          "backgroundColor": "rgb(229, 230, 235)"
+        },
+        "actual": {
+          "right": "-1px",
+          "left": "220px",
+          "width": "1px",
+          "height": "848px",
+          "backgroundColor": "rgb(229, 230, 235)"
+        },
+        "verdict": "match",
+        "detail": "drawn by ::after outside the 220px box, so it costs the menu column nothing"
+      },
+      {
+        "name": "index: menu row box",
+        "reference": [
+          204,
+          40
+        ],
+        "actual": [
+          204,
+          40
+        ],
+        "verdict": "match",
+        "detail": "204x40 on every page, whichever row happens to be selected"
+      },
+      {
+        "name": "index: avatar box",
+        "reference": [
+          32,
+          32
+        ],
+        "actual": [
+          32,
+          32
+        ],
+        "verdict": "match",
+        "detail": ""
+      },
+      {
+        "name": "index: brand mark",
+        "reference": [
+          33,
+          33
+        ],
+        "actual": [
+          33,
+          33
+        ],
+        "verdict": "match",
+        "detail": ""
+      }
+    ],
     "uncovered": [
       {
         "what": "the reference pages for list, form and detail were swept into arco-pro-metrics.json but not re-probed with exact selectors",
         "why": "their entries there use generic key names whose target element cannot be verified from the recorded numbers, so using them as comparison targets would compare the wrong elements",
-        "coveredInstead": "every shared landmark — shell, sidebar, header, card, breadcrumb, control heights — is compared through the exact-selector probe on the dashboard, and each of the three other pages is captured and pixel-checked for its shell"
+        "coveredInstead": "every shared landmark — shell, sidebar, header, card, breadcrumb, control heights — is compared through the exact-selector probe on the dashboard; all four reference pages are compared pixel for pixel against their captures; and the shell landmarks of all six pages are compared against the same reference values"
       },
       {
         "what": "table, form and pagination internals versus the live site",

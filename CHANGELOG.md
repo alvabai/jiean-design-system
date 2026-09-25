@@ -29,9 +29,10 @@ index, dashboard, list, form, detail and a components page — served by one
 stylesheet written against the tokens.
 
 **Visual validation.** A capture-and-compare chain (`npm run 4:capture`,
-`npm run 5:compare`) that renders the example pages and compares 42 values — 38
-landmarks and four pixel rows — against readings taken from the live reference. Result: 42 of 42
-match, no drift. Six defects in this system were found and fixed by it, and the
+`npm run 5:compare`) that renders the example pages and compares 89 values against
+readings taken from the live reference: 16 pixel checks over four page pairs, 38
+dashboard landmarks, and 35 shell landmarks on the other five pages. Result: 89 of
+89 match, no drift. Six defects in this system were found and fixed by it, and the
 comparison itself was corrected twice — a mislabelled reference reading and a
 stale-screenshot race. Accepted deviations are listed in
 `arcopro/reports/visual-validation.md` §5.
