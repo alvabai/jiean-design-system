@@ -1,9 +1,10 @@
 /**
- * Shared loader for the arcopro design contract.
+ * Shared loader for the design contracts.
  *
- * The contract lives in exactly one file, `arcopro/DESIGN.md`. Everything else
- * in this repository is derived from it. This module is the only place that
- * reads the contract, so every script sees the same resolved model.
+ * A style package is one directory holding one contract, `<package>/DESIGN.md`.
+ * Everything else in that directory is derived from it. This module is the only
+ * place that reads a contract, so every script sees the same resolved model for
+ * every package.
  *
  * Resolution is delegated to the official DESIGN.md implementation
  * (`@google/design.md`, the `lint` API), which returns a fully resolved design
@@ -23,36 +24,78 @@ export const REPO_ROOT = path.resolve(
   '..',
 );
 
-export const CONTRACT_PATH = path.join(REPO_ROOT, 'arcopro', 'DESIGN.md');
-
-/** Paths that are written by `scripts/export-tokens.mjs`. */
-export const ARTIFACTS = {
-  dtcg: path.join(REPO_ROOT, 'arcopro', 'tokens', 'tokens.json'),
-  cssVars: path.join(REPO_ROOT, 'arcopro', 'dist', 'tokens.css'),
-  tailwind: path.join(REPO_ROOT, 'arcopro', 'dist', 'tailwind.theme.json'),
-  fullCss: path.join(REPO_ROOT, 'arcopro', 'dist', 'tokens.full.css'),
-  fullJson: path.join(REPO_ROOT, 'arcopro', 'dist', 'tokens.full.json'),
-};
+/**
+ * The style packages of this repository, in the order scripts report them.
+ *
+ * Packages share the company-wide system name, the pattern documents, the
+ * toolchain and the review process; each carries its own token values. The first
+ * entry is the package the toolchain fell back to before it became multi-package.
+ */
+export const PACKAGES = ['arcopro', 'brandcolor'];
 
 /**
- * Read and resolve the design contract.
- * @returns {Promise<{raw: string, report: import('@google/design.md/linter').LintReport}>}
+ * Absolute paths for one style package.
+ * @param {string} pkg package directory name; must be one of PACKAGES
  */
-export async function loadContract() {
-  const raw = await readFile(CONTRACT_PATH, 'utf8');
-  const report = lint(raw);
-  return { raw, report };
+export function packagePaths(pkg) {
+  if (!PACKAGES.includes(pkg)) {
+    throw new Error(
+      `unknown style package "${pkg}" (expected one of ${PACKAGES.join(', ')})`,
+    );
+  }
+  const dir = path.join(REPO_ROOT, pkg);
+  return {
+    name: pkg,
+    dir,
+    contract: path.join(dir, 'DESIGN.md'),
+    /** Paths that are written by `scripts/export-tokens.mjs`. */
+    artifacts: {
+      dtcg: path.join(dir, 'tokens', 'tokens.json'),
+      cssVars: path.join(dir, 'dist', 'tokens.css'),
+      tailwind: path.join(dir, 'dist', 'tailwind.theme.json'),
+      fullCss: path.join(dir, 'dist', 'tokens.full.css'),
+      fullJson: path.join(dir, 'dist', 'tokens.full.json'),
+    },
+  };
 }
 
-/** Throw if the contract has lint errors. Warnings are reported, not fatal. */
-export function assertNoErrors(report) {
+/** Labels for the packages requested on the command line, or all of them. */
+export function requestedPackages(argv = process.argv.slice(2)) {
+  const explicit = argv
+    .filter((a) => a.startsWith('--package='))
+    .map((a) => a.slice('--package='.length));
+  if (explicit.length === 0) return PACKAGES;
+  for (const name of explicit) {
+    if (!PACKAGES.includes(name)) {
+      throw new Error(
+        `--package=${name} is not a package in this repository (expected one of ${PACKAGES.join(', ')})`,
+      );
+    }
+  }
+  return explicit;
+}
+
+/**
+ * Read and resolve one package's design contract.
+ * @param {string} pkg package directory name; must be one of PACKAGES
+ * @returns {Promise<{raw: string, report: import('@google/design.md/linter').LintReport, paths: object}>}
+ */
+export async function loadContract(pkg = PACKAGES[0]) {
+  const paths = packagePaths(pkg);
+  const raw = await readFile(paths.contract, 'utf8');
+  const report = lint(raw);
+  return { raw, report, paths };
+}
+
+/** Throw if a contract has lint errors. Warnings are reported, not fatal. */
+export function assertNoErrors(report, label = 'DESIGN.md') {
   const errors = report.findings.filter((f) => f.severity === 'error');
   if (errors.length > 0) {
     const detail = errors
       .map((f) => `  - ${f.path ?? '<document>'}: ${f.message}`)
       .join('\n');
     throw new Error(
-      `arcopro/DESIGN.md has ${errors.length} lint error(s):\n${detail}`,
+      `${label} has ${errors.length} lint error(s):\n${detail}`,
     );
   }
 }
@@ -131,7 +174,7 @@ export function kebab(key) {
  *
  * This is the lossless companion to the official `css-vars` export: the official
  * export carries colours, spacing and radii; it does not carry typography or
- * component tokens (see arcopro/reports/designmd-validation.md).
+ * component tokens (see `<package>/reports/designmd-validation.md`).
  */
 export function cssCustomProperties(state) {
   const typographyNames = typographyNameIndex(state);
@@ -226,7 +269,7 @@ export function fullJson(state, { contractPath, contractSha256, generator }) {
       contractSha256,
       generator,
       note:
-        'Lossless derivation of arcopro/DESIGN.md. The official design.md exports ' +
+        `Lossless derivation of ${contractPath}. The official design.md exports ` +
         '(tokens/tokens.json, dist/tokens.css, dist/tailwind.theme.json) are the ' +
         'interoperability formats and are stored verbatim. None of them emits the ' +
         'component token table or the fontFeature setting, and the css-vars export ' +

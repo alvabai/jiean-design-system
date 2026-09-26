@@ -23,7 +23,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
-import { REPO_ROOT } from './lib/design-system.mjs';
+import { PACKAGES, REPO_ROOT } from './lib/design-system.mjs';
 
 const SKIP_DIRS = new Set(['node_modules', '.git', '.DS_Store']);
 const failures = [];
@@ -218,43 +218,6 @@ for (const f of scannedFiles) {
 // 5. the delivery is complete
 // ---------------------------------------------------------------------------
 
-const REQUIRED = [
-  'README.md',
-  'README_zh-CN.md',
-  'AGENTS.md',
-  'LICENSE',
-  'THIRD_PARTY_NOTICES.md',
-  'CHANGELOG.md',
-  'package.json',
-  'package-lock.json',
-  '.github/workflows/validate-design.yml',
-  'arcopro/DESIGN.md',
-  'arcopro/README.md',
-  'arcopro/README_zh-CN.md',
-  'arcopro/tokens/tokens.json',
-  'arcopro/dist/tokens.css',
-  'arcopro/dist/tailwind.theme.json',
-  'arcopro/dist/tokens.full.css',
-  'arcopro/dist/tokens.full.json',
-  'arcopro/reports/source-audit.md',
-  'arcopro/reports/designmd-validation.md',
-  'arcopro/reports/visual-validation.md',
-  'arcopro/examples/index.html',
-  'arcopro/examples/dashboard.html',
-  'arcopro/examples/list-page.html',
-  'arcopro/examples/form-page.html',
-  'arcopro/examples/detail-page.html',
-  'arcopro/examples/components.html',
-  'arcopro/examples/assets/app.css',
-  'scripts/lib/design-system.mjs',
-  'scripts/validate-design.mjs',
-  'scripts/export-tokens.mjs',
-  'scripts/verify-generated.mjs',
-  'scripts/check-hygiene.mjs',
-  'scripts/visual/capture-screenshots.mjs',
-  'scripts/visual/compare-metrics.mjs',
-];
-
 const PATTERN_DOCS = [
   'foundations',
   'application-shell',
@@ -271,7 +234,51 @@ const PATTERN_DOCS = [
   'accessibility',
   'responsive',
 ];
-for (const doc of PATTERN_DOCS) REQUIRED.push(`arcopro/docs/${doc}.md`);
+
+const REQUIRED = [
+  'README.md',
+  'README_zh-CN.md',
+  'AGENTS.md',
+  'LICENSE',
+  'THIRD_PARTY_NOTICES.md',
+  'CHANGELOG.md',
+  'package.json',
+  'package-lock.json',
+  '.github/workflows/validate-design.yml',
+  'scripts/lib/design-system.mjs',
+  'scripts/validate-design.mjs',
+  'scripts/export-tokens.mjs',
+  'scripts/verify-generated.mjs',
+  'scripts/check-hygiene.mjs',
+  'scripts/derive-brand-ramp.mjs',
+  'scripts/visual/capture-screenshots.mjs',
+  'scripts/visual/compare-metrics.mjs',
+  'scripts/compare-packages.mjs',
+  // Every style package delivers the same file set, so the list is generated
+  // from PACKAGES rather than repeated per package.
+  ...PACKAGES.flatMap((pkg) => [
+    `${pkg}/DESIGN.md`,
+    `${pkg}/README.md`,
+    `${pkg}/README_zh-CN.md`,
+    `${pkg}/tokens/tokens.json`,
+    `${pkg}/dist/tokens.css`,
+    `${pkg}/dist/tailwind.theme.json`,
+    `${pkg}/dist/tokens.full.css`,
+    `${pkg}/dist/tokens.full.json`,
+    `${pkg}/reports/source-audit.md`,
+    `${pkg}/reports/designmd-validation.md`,
+    `${pkg}/reports/visual-validation.md`,
+    `${pkg}/examples/index.html`,
+    `${pkg}/examples/dashboard.html`,
+    `${pkg}/examples/list-page.html`,
+    `${pkg}/examples/form-page.html`,
+    `${pkg}/examples/detail-page.html`,
+    `${pkg}/examples/components.html`,
+    `${pkg}/examples/assets/app.css`,
+    ...PATTERN_DOCS.map((doc) => `${pkg}/docs/${doc}.md`),
+  ]),
+];
+
 
 for (const r of REQUIRED) {
   const full = path.join(REPO_ROOT, r);

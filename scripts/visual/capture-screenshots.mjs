@@ -34,35 +34,47 @@ import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-import { REPO_ROOT } from '../lib/design-system.mjs';
+import { REPO_ROOT, PACKAGES, requestedPackages } from '../lib/design-system.mjs';
 
 /** Viewport matching the reference-site capture, which required >= 1100px. */
 const VIEWPORT = { width: 1270, height: 848 };
 
 /**
  * `--window-size` sizes the browser window, not the page viewport: in
- * `--headless=new` on macOS the window frame costs 87px of height. Calibrated on
- * Chrome 153.0.8010.53 by requesting 1270x848 / 900 / 935 / 950 / 960 and reading
- * back `innerWidth`/`innerHeight`: 935 is the value that yields a 848px viewport.
- * The script re-reads the real viewport after every capture and warns on a
- * mismatch, so a browser update cannot silently change what was measured.
+ * `--headless=new` on macOS the window frame costs height the page never sees.
+ * Measured on Chrome 153 by requesting 1270x935 and reading back
+ * `innerWidth`/`innerHeight`, that cost was 87px, which is the default below.
  *
- * Because the window is 87px taller than the viewport, Chrome's screenshot comes
- * back 87px taller as well; the picture is cropped back to the viewport before it
- * is kept, so a stored screenshot spans exactly what the page rendered.
+ * It is not a constant of the browser: it moves with the desktop state (a
+ * running Chrome session, a window clamped by the display, a changed toolbar).
+ * So the default is only a starting point — every page is calibrated against the
+ * viewport the page really gets, and the capture is re-taken with a corrected
+ * window height until the viewport matches. A capture that never reaches the
+ * reference viewport fails rather than being written, because a picture taken in
+ * a different viewport cannot be compared with the reference pixel for pixel.
+ *
+ * Because the window is taller than the viewport by that cost, Chrome's
+ * screenshot comes back taller as well; the picture is cropped back to the
+ * viewport before it is kept, so a stored screenshot spans exactly what the page
+ * rendered.
  */
 const WINDOW_CHROME_PX = 87;
 
-const PAGES = [
-  { id: 'dashboard', file: 'arcopro/examples/dashboard.html' },
-  { id: 'list', file: 'arcopro/examples/list-page.html' },
-  { id: 'form', file: 'arcopro/examples/form-page.html' },
-  { id: 'detail', file: 'arcopro/examples/detail-page.html' },
-  { id: 'components', file: 'arcopro/examples/components.html' },
-  { id: 'index', file: 'arcopro/examples/index.html' },
+/** How many times one page may be re-taken while the viewport is calibrated. */
+const CALIBRATION_ATTEMPTS = 5;
+
+/** The reference pages of one package, in the order they are captured. */
+const pagesFor = (pkg) => [
+  { id: 'dashboard', file: `${pkg}/examples/dashboard.html` },
+  { id: 'list', file: `${pkg}/examples/list-page.html` },
+  { id: 'form', file: `${pkg}/examples/form-page.html` },
+  { id: 'detail', file: `${pkg}/examples/detail-page.html` },
+  { id: 'components', file: `${pkg}/examples/components.html` },
+  { id: 'index', file: `${pkg}/examples/index.html` },
 ];
 
-const OUT_DIR = path.join(REPO_ROOT, 'arcopro', 'reports', 'evidence', 'captures');
+/** Where one package's captures are written. */
+const outDirFor = (pkg) => path.join(REPO_ROOT, pkg, 'reports', 'evidence', 'captures');
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -322,7 +334,9 @@ function instrument(html) {
 // static server with on-the-fly instrumentation
 // ---------------------------------------------------------------------------
 
-const targetPaths = new Set(PAGES.map((p) => `/${p.file}`));
+const targetPaths = new Set(
+  PACKAGES.flatMap((pkg) => pagesFor(pkg)).map((p) => `/${p.file}`),
+);
 
 function startServer() {
   const server = createServer(async (req, res) => {
@@ -431,7 +445,7 @@ function runChrome(chrome, args, { resolveOn, pngPath, hardTimeoutMs = 60000 }) 
 }
 
 /** Flags shared by both Chrome invocations, plus the throwaway profile. */
-function baseFlags(profileDir) {
+function baseFlags(profileDir, chromePx = WINDOW_CHROME_PX) {
   return [
     '--headless=new',
     '--disable-gpu',
@@ -440,7 +454,7 @@ function baseFlags(profileDir) {
     '--disable-extensions',
     '--hide-scrollbars',
     '--force-device-scale-factor=1',
-    `--window-size=${VIEWPORT.width},${VIEWPORT.height + WINDOW_CHROME_PX}`,
+    `--window-size=${VIEWPORT.width},${VIEWPORT.height + chromePx}`,
     `--user-data-dir=${profileDir}`,
   ];
 }
@@ -458,22 +472,30 @@ async function main() {
     );
   }
 
-  await mkdir(OUT_DIR, { recursive: true });
-  const profileDir = await mkdtemp(path.join(tmpdir(), 'arcopro-chrome-'));
+  const packages = requestedPackages();
+  const profileDir = await mkdtemp(path.join(tmpdir(), 'jiean-design-system-chrome-'));
   const { server, port } = await startServer();
   console.log(`browser : ${chrome}`);
   console.log(`server  : http://127.0.0.1:${port} (repository root)`);
   console.log(`viewport: ${VIEWPORT.width}x${VIEWPORT.height}`);
   console.log('');
 
-  const summary = [];
-  const viewportWarnings = [];
+  const captured = [];
 
   try {
-    for (const page of PAGES) {
+    for (const [pkgIndex, pkg] of packages.entries()) {
+      const pages = pagesFor(pkg);
+      const outDir = outDirFor(pkg);
+      await mkdir(outDir, { recursive: true });
+      const summary = [];
+      const viewportWarnings = [];
+      if (pkgIndex > 0) console.log('');
+      console.log(`package : ${pkg}`);
+
+      for (const page of pages) {
       const url = `http://127.0.0.1:${port}/${page.file}`;
-      const jsonPath = path.join(OUT_DIR, `${page.id}.json`);
-      const pngPath = path.join(OUT_DIR, `${page.id}.png`);
+      const jsonPath = path.join(outDir, `${page.id}.json`);
+      const pngPath = path.join(outDir, `${page.id}.png`);
       /* Chrome writes --screenshot straight to this path, and the readiness
          check looks for a complete PNG on it. A PNG left over from an earlier
          run already ends with IEND, so the check would pass before Chrome has
@@ -482,26 +504,59 @@ async function main() {
          makes an incomplete or stale PNG impossible to mistake for the new one. */
       await rm(pngPath, { force: true });
 
-      const dom = await runChrome(
-        chrome,
-        [...baseFlags(profileDir), '--virtual-time-budget=4000', '--dump-dom', url],
-        { resolveOn: 'dom' },
-      );
-
-      const m = dom.stdout.match(
-        /<script type="application\/json" id="__arcopro_audit__">([\s\S]*?)<\/script>/,
-      );
-      if (!m) {
-        throw new Error(
-          `no audit payload found in the DOM for ${page.id}; ` +
-            'the page may not have rendered (check that it has no unclosed tag)',
+      /* Calibrate the window height for this page before taking its picture.
+         The frame's cost in pixels is measured, not assumed: the DOM pass reports
+         the viewport the page really got, and the window is resized by exactly the
+         shortfall before the next attempt. Only a page that landed on the
+         reference viewport is screenshotted. */
+      let chromePx = WINDOW_CHROME_PX;
+      let audit = null;
+      for (let attempt = 1; attempt <= CALIBRATION_ATTEMPTS; attempt += 1) {
+        const dom = await runChrome(
+          chrome,
+          [...baseFlags(profileDir, chromePx), '--virtual-time-budget=4000', '--dump-dom', url],
+          { resolveOn: 'dom' },
         );
+
+        const m = dom.stdout.match(
+          /<script type="application\/json" id="__arcopro_audit__">([\s\S]*?)<\/script>/,
+        );
+        if (!m) {
+          throw new Error(
+            `no audit payload found in the DOM for ${page.id}; ` +
+              'the page may not have rendered (check that it has no unclosed tag)',
+          );
+        }
+        audit = JSON.parse(m[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&'));
+
+        const got = audit.viewport;
+        if (got.height === VIEWPORT.height && got.width === VIEWPORT.width) break;
+        const shortfall = VIEWPORT.height - got.height;
+        if (attempt === CALIBRATION_ATTEMPTS) {
+          throw new Error(
+            `${page.id}: the page sees a ${got.width}x${got.height} viewport after ` +
+              `${CALIBRATION_ATTEMPTS} attempts with window heights of ` +
+              `${VIEWPORT.height + chromePx - shortfall}px and ${VIEWPORT.height + chromePx}px. ` +
+              'The window is being clamped by the desktop, and a capture taken now would not ' +
+              'be comparable with the reference. Close the other browser windows and re-run.',
+          );
+        }
+        console.log(
+          `${page.id.padEnd(11)} viewport ${got.width}x${got.height} — ` +
+            `re-taking with a window ${shortfall >= 0 ? 'taller' : 'shorter'} by ` +
+            `${Math.abs(shortfall)}px`,
+        );
+        chromePx += shortfall;
       }
-      const audit = JSON.parse(m[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&'));
 
       await runChrome(
         chrome,
-        [...baseFlags(profileDir), '--virtual-time-budget=4000', `--screenshot=${pngPath}`, url],
+        [
+          ...baseFlags(profileDir, chromePx),
+          '--virtual-time-budget=4000',
+          `--screenshot=${pngPath}`,
+          url,
+        ],
         { resolveOn: 'png', pngPath },
       );
 
@@ -552,54 +607,64 @@ async function main() {
       }
 
       const pngBytes = (await readFile(pngPath)).length;
-      summary.push({ id: page.id, measured, viewport: vp, png: size, bytes: pngBytes });
+      summary.push({ id: page.id, measured, viewport: vp, png: size, bytes: pngBytes, windowChromePx: chromePx });
       console.log(
         `${page.id.padEnd(11)} ${String(measured).padStart(3)} elements measured  ` +
           `${size ? `${size.width}x${size.height}` : '??'} png  viewport ${viewportNote}`,
       );
+    }
+      const thin = summary.filter((s) => s.measured < 15);
+      if (thin.length > 0) {
+        throw new Error(
+          `too few elements matched on: ${thin.map((s) => `${s.id} (${s.measured})`).join(', ')}. ` +
+            'A page whose selectors do not match produces an empty comparison, which would ' +
+            'silently pass step 5.',
+        );
+      }
+
+      await writeFile(
+        path.join(outDir, 'capture-summary.json'),
+        `${JSON.stringify(
+          {
+            package: pkg,
+            requestedViewport: VIEWPORT,
+            windowChromePxDefault: WINDOW_CHROME_PX,
+            browser: chrome,
+            viewportMismatches: viewportWarnings,
+            pages: summary,
+          },
+          null,
+          2,
+        )}\n`,
+        'utf8',
+      );
+
+      if (viewportWarnings.length > 0) {
+        console.log('');
+        console.log('WARNING — captured viewport differs from the reference viewport:');
+        for (const w of viewportWarnings) console.log(`  ${w}`);
+        console.log(
+          'Re-calibrate WINDOW_CHROME_PX in this file, or record the difference in ' +
+            'reports/visual-validation.md, before trusting a pixel-for-pixel comparison.',
+        );
+      }
+
+      captured.push({ pkg, pages: summary.length, outDir });
     }
   } finally {
     server.close();
     await rm(profileDir, { recursive: true, force: true });
   }
 
-  const thin = summary.filter((s) => s.measured < 15);
-  if (thin.length > 0) {
-    throw new Error(
-      `too few elements matched on: ${thin.map((s) => `${s.id} (${s.measured})`).join(', ')}. ` +
-        'A page whose selectors do not match produces an empty comparison, which would ' +
-        'silently pass step 5.',
-    );
-  }
-
-  await writeFile(
-    path.join(OUT_DIR, 'capture-summary.json'),
-    `${JSON.stringify(
-      {
-        requestedViewport: VIEWPORT,
-        windowChromePx: WINDOW_CHROME_PX,
-        browser: chrome,
-        viewportMismatches: viewportWarnings,
-        pages: summary,
-      },
-      null,
-      2,
-    )}\n`,
-    'utf8',
-  );
-
-  if (viewportWarnings.length > 0) {
-    console.log('');
-    console.log('WARNING — captured viewport differs from the reference viewport:');
-    for (const w of viewportWarnings) console.log(`  ${w}`);
-    console.log(
-      'Re-calibrate WINDOW_CHROME_PX in this file, or record the difference in ' +
-        'reports/visual-validation.md, before trusting a pixel-for-pixel comparison.',
-    );
-  }
-
   console.log('');
-  console.log(`4:capture OK — ${summary.length} pages written to ${path.relative(REPO_ROOT, OUT_DIR)}`);
+  for (const c of captured) {
+    console.log(
+      `  ${c.pkg.padEnd(10)} ${c.pages} pages → ${path.relative(REPO_ROOT, c.outDir)}`,
+    );
+  }
+  console.log(
+    `4:capture OK — ${captured.reduce((n, c) => n + c.pages, 0)} pages for ${packages.length} package(s).`,
+  );
 }
 
 main().catch((err) => {

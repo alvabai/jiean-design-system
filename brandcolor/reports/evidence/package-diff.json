@@ -1,0 +1,198 @@
+{
+  "generatedBy": "scripts/compare-packages.mjs",
+  "packages": [
+    "arcopro",
+    "brandcolor"
+  ],
+  "colours": {
+    "total": 30,
+    "differing": [
+      {
+        "role": "mask",
+        "arcopro": "#1D212999",
+        "brandcolor": "#35353599",
+        "token": "#35353599"
+      },
+      {
+        "role": "primary",
+        "arcopro": "#165DFF",
+        "brandcolor": "#D7000F",
+        "token": "#d7000f"
+      },
+      {
+        "role": "primary-active",
+        "arcopro": "#0E42D2",
+        "brandcolor": "#A80B16",
+        "token": "#a80b16"
+      },
+      {
+        "role": "primary-disabled",
+        "arcopro": "#94BFFF",
+        "brandcolor": "#FFA4AA",
+        "token": "#ffa4aa"
+      },
+      {
+        "role": "primary-hover",
+        "arcopro": "#4080FF",
+        "brandcolor": "#FF303F",
+        "token": "#ff303f"
+      },
+      {
+        "role": "primary-subtle",
+        "arcopro": "#E8F3FF",
+        "brandcolor": "#FFEEEF",
+        "token": "#ffeeef"
+      },
+      {
+        "role": "text-primary",
+        "arcopro": "#1D2129",
+        "brandcolor": "#353535",
+        "token": "#353535"
+      },
+      {
+        "role": "tooltip",
+        "arcopro": "#1D2129",
+        "brandcolor": "#353535",
+        "token": "#353535"
+      }
+    ],
+    "identical": 22
+  },
+  "groupsExact": [
+    {
+      "group": "typography",
+      "entries": 10
+    },
+    {
+      "group": "spacing",
+      "entries": 13
+    },
+    {
+      "group": "rounded",
+      "entries": 5
+    }
+  ],
+  "groupsNormalised": [
+    {
+      "group": "components",
+      "entries": 61,
+      "colourRoles": [
+        "anvas",
+        "ark-border",
+        "ark-canvas",
+        "ark-elevated",
+        "ark-surface",
+        "ark-text",
+        "ark-text-secondary",
+        "arning",
+        "arning-subtle",
+        "ask",
+        "ext-disabled",
+        "ext-primary",
+        "ext-secondary",
+        "ext-tertiary",
+        "rimary",
+        "rimary-active",
+        "rimary-disabled",
+        "rimary-hover",
+        "rimary-subtle",
+        "rror",
+        "rror-subtle",
+        "uccess",
+        "uccess-subtle",
+        "urface",
+        "urface-hover",
+        "urface-pressed"
+      ]
+    }
+  ],
+  "source": [
+    {
+      "file": "examples/index.html",
+      "bytes": {
+        "arcopro": 8213,
+        "brandcolor": 8231
+      },
+      "colourRoles": [],
+      "identical": true
+    },
+    {
+      "file": "examples/dashboard.html",
+      "bytes": {
+        "arcopro": 12762,
+        "brandcolor": 12771
+      },
+      "colourRoles": [],
+      "identical": true
+    },
+    {
+      "file": "examples/list-page.html",
+      "bytes": {
+        "arcopro": 11157,
+        "brandcolor": 11163
+      },
+      "colourRoles": [],
+      "identical": true
+    },
+    {
+      "file": "examples/form-page.html",
+      "bytes": {
+        "arcopro": 7965,
+        "brandcolor": 7971
+      },
+      "colourRoles": [],
+      "identical": true
+    },
+    {
+      "file": "examples/detail-page.html",
+      "bytes": {
+        "arcopro": 8373,
+        "brandcolor": 8379
+      },
+      "colourRoles": [],
+      "identical": true
+    },
+    {
+      "file": "examples/components.html",
+      "bytes": {
+        "arcopro": 20129,
+        "brandcolor": 20138
+      },
+      "colourRoles": [
+        "anvas",
+        "ark-canvas",
+        "ark-elevated",
+        "ark-surface",
+        "arning",
+        "arning-subtle",
+        "ext-disabled",
+        "ext-primary",
+        "ext-secondary",
+        "ext-tertiary",
+        "rimary",
+        "rimary-active",
+        "rimary-disabled",
+        "rimary-hover",
+        "rimary-subtle",
+        "rror",
+        "rror-subtle",
+        "uccess",
+        "uccess-subtle",
+        "urface",
+        "urface-hover",
+        "urface-pressed"
+      ],
+      "identical": true
+    },
+    {
+      "file": "examples/assets/app.css",
+      "bytes": {
+        "arcopro": 32753,
+        "brandcolor": 32768
+      },
+      "colourRoles": [],
+      "identical": true
+    }
+  ],
+  "failures": []
+}

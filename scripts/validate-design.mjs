@@ -14,9 +14,10 @@
 
 import path from 'node:path';
 
-import { CONTRACT_PATH, REPO_ROOT, loadContract } from './lib/design-system.mjs';
+import { REPO_ROOT, loadContract, requestedPackages } from './lib/design-system.mjs';
 
 const verbose = process.argv.includes('--verbose');
+const packages = requestedPackages();
 
 const severityOrder = { error: 0, warning: 1, info: 2 };
 const label = { error: 'ERROR  ', warning: 'WARNING', info: 'INFO   ' };
@@ -27,52 +28,68 @@ function rel(p) {
 }
 
 const { raw, report } = await loadContract();
-const findings = [...report.findings].sort(
-  (a, b) => (severityOrder[a.severity] ?? 9) - (severityOrder[b.severity] ?? 9),
-);
 
-const shown = findings.filter((f) => verbose || f.severity !== 'info');
 
-console.log(`Contract: ${rel(CONTRACT_PATH)}`);
-console.log(`Bytes:    ${Buffer.byteLength(raw, 'utf8')}`);
+const lintOne = async (pkg) => {
+  const { raw, report, paths } = await loadContract(pkg);
+  const findings = [...report.findings].sort(
+    (a, b) => (severityOrder[a.severity] ?? 9) - (severityOrder[b.severity] ?? 9),
+  );
 
-const counts = {
-  colors: report.designSystem.colors.size,
-  typography: report.designSystem.typography.size,
-  spacing: report.designSystem.spacing.size,
-  rounded: report.designSystem.rounded.size,
-  components: report.designSystem.components.size,
-};
-console.log(
-  `Tokens:   ${counts.colors} colors, ${counts.typography} typography, ` +
-    `${counts.spacing} spacing, ${counts.rounded} rounded, ${counts.components} components`,
-);
+  const shown = findings.filter((f) => verbose || f.severity !== 'info');
 
-const sections = report.documentSections.map((s) => s.title ?? s.heading ?? s.name);
-console.log(`Sections: ${sections.length} (${sections.join(', ')})`);
-console.log('');
+  console.log(`Contract: ${rel(paths.contract)}`);
+  console.log(`Bytes:    ${Buffer.byteLength(raw, 'utf8')}`);
 
-if (shown.length === 0) {
-  console.log('Lint: no findings at the shown severity level.');
-} else {
-  for (const f of shown) {
-    console.log(`${label[f.severity] ?? f.severity}  ${rel(f.path)}  ${f.message}`);
+  const counts = {
+    colors: report.designSystem.colors.size,
+    typography: report.designSystem.typography.size,
+    spacing: report.designSystem.spacing.size,
+    rounded: report.designSystem.rounded.size,
+    components: report.designSystem.components.size,
+  };
+  console.log(
+    `Tokens:   ${counts.colors} colors, ${counts.typography} typography, ` +
+      `${counts.spacing} spacing, ${counts.rounded} rounded, ${counts.components} components`,
+  );
+
+  const sections = report.documentSections.map((s) => s.title ?? s.heading ?? s.name);
+  console.log(`Sections: ${sections.length} (${sections.join(', ')})`);
+  console.log('');
+
+  if (shown.length === 0) {
+    console.log('Lint: no findings at the shown severity level.');
+  } else {
+    for (const f of shown) {
+      console.log(`${label[f.severity] ?? f.severity}  ${rel(f.path)}  ${f.message}`);
+    }
   }
+
+  const errors = findings.filter((f) => f.severity === 'error').length;
+  const warnings = findings.filter((f) => f.severity === 'warning').length;
+  const infos = findings.filter((f) => f.severity === 'info').length;
+
+  console.log('');
+  console.log(`Summary: ${errors} error(s), ${warnings} warning(s), ${infos} info.`);
+  if (!verbose && infos > 0) {
+    console.log('Re-run with --verbose to list info findings.');
+  }
+  return { pkg, errors };
+};
+
+const results = [];
+for (const [i, pkg] of packages.entries()) {
+  if (i > 0) console.log('');
+  results.push(await lintOne(pkg));
 }
 
-const errors = findings.filter((f) => f.severity === 'error').length;
-const warnings = findings.filter((f) => f.severity === 'warning').length;
-const infos = findings.filter((f) => f.severity === 'info').length;
-
-console.log('');
-console.log(`Summary: ${errors} error(s), ${warnings} warning(s), ${infos} info.`);
-if (!verbose && infos > 0) {
-  console.log('Re-run with --verbose to list info findings.');
-}
-
-if (errors > 0) {
-  console.error(`\n1:validate FAILED: ${errors} lint error(s) in ${rel(CONTRACT_PATH)}.`);
+const failed = results.filter((r) => r.errors > 0);
+if (failed.length > 0) {
+  console.error(
+    `\n1:validate FAILED: ${failed.map((r) => r.pkg).join(', ')} — ` +
+      `${failed.reduce((n, r) => n + r.errors, 0)} lint error(s).`,
+  );
   process.exit(1);
 }
 
-console.log('1:validate OK.');
+console.log(`\n1:validate OK — ${packages.length} contract(s) lint clean.`);
