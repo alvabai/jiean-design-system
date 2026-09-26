@@ -220,6 +220,7 @@ for (const f of scannedFiles) {
 
 const REQUIRED = [
   'README.md',
+  'README_zh-CN.md',
   'AGENTS.md',
   'LICENSE',
   'THIRD_PARTY_NOTICES.md',
@@ -229,6 +230,7 @@ const REQUIRED = [
   '.github/workflows/validate-design.yml',
   'arcopro/DESIGN.md',
   'arcopro/README.md',
+  'arcopro/README_zh-CN.md',
   'arcopro/tokens/tokens.json',
   'arcopro/dist/tokens.css',
   'arcopro/dist/tailwind.theme.json',
