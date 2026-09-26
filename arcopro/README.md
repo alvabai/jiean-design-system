@@ -1,5 +1,7 @@
 # arcopro
 
+**English** · [中文版](README_zh-CN.md)
+
 The enterprise style package of the JIEAN Design System.
 
 ## What is arcopro?

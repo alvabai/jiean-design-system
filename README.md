@@ -1,5 +1,7 @@
 # JIEAN Design System
 
+**English** · [中文版](README_zh-CN.md)
+
 Company-wide visual and interaction design system for 捷安高科 (JIEAN).
 
 This repository is the authority on how JIEAN software looks and behaves. It is
