@@ -31,7 +31,7 @@ export const REPO_ROOT = path.resolve(
  * toolchain and the review process; each carries its own token values. The first
  * entry is the package the toolchain fell back to before it became multi-package.
  */
-export const PACKAGES = ['arco-blue', 'brandcolor', 'industrial-steel-blue'];
+export const PACKAGES = ['arco-blue', 'jiean-red', 'industrial-steel-blue'];
 
 /**
  * Absolute paths for one style package.

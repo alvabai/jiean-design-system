@@ -2,7 +2,8 @@
 
 **English** · [中文版](README_zh-CN.md)
 
-The enterprise style package of the JIEAN Design System.
+The enterprise style package of the JIEAN Design System — `arco-blue`
+(ArcoBlue / 阿科蓝).
 
 ## What is arco-blue?
 
@@ -12,13 +13,35 @@ one tone — a data-dense internal application where operators, engineers and
 managers spend a working day.
 
 It is deliberately small in vocabulary and strict in the few things it says. It
-specifies 30 colours, 10 typography roles, 13 spacing steps, 5 radii and 61
+specifies 34 colours, 11 typography roles, 13 spacing steps, 5 radii and 61
 component tokens; it does not specify a component library. An implementation may
 use Arco React, Ant Design, a Tailwind build, hand-written CSS, or anything else.
 Whichever it uses, the values and the patterns come from here.
 
 The name is a style package name, not a product name. It says which package you
 are reading, in the same way `arco-blue-compact` would say which one it is.
+
+## Visual Examples
+
+Four pages, each rendered from the committed HTML at a 1280×900 viewport, DPR 1,
+light theme, no JavaScript, no build step. Each PNG sits beside the page it was
+rendered from, and each page is self-contained: its stylesheet is inlined, so
+`examples/` is a flat directory of eight files.
+
+| Page | Preview |
+|---|---|
+| Workbench — KPI row, trend chart, recent-records table, right rail | ![Workbench](examples/dashboard.png) |
+| List page — query area, toolbar, dense table | ![List page](examples/list-page.png) |
+| Form page — three-column grouped form, inline states, fixed action bar | ![Form page](examples/form-page.png) |
+| Detail page — steps, current and previous parameter blocks, related records | ![Detail page](examples/detail-page.png) |
+
+The previews are checked, not decorative: `npm run 10:screenshots` verifies each
+file exists, is a real PNG, is exactly 1280×900, is no older than the HTML and
+tokens it was rendered from, and **carries the declared palette on its pixels** —
+`canvas`, `surface`, `primary` and `text-primary` must each cover at least the
+documented floor, and neither of the other two packages' primaries
+may appear at all. Regenerate with `npm run 11:screenshots:write`. What the
+renders do and do not prove is in `reports/visual-validation.md`.
 
 ## Design Source
 
@@ -92,20 +115,18 @@ arco-blue/
 │   ├── tailwind.theme.json      official Tailwind theme
 │   ├── tokens.full.css          derived: 217 custom properties (lossless)
 │   └── tokens.full.json         derived: lossless, includes line heights,
-│                                font features and all 61 component tokens
-├── examples/                the reference implementation, no build step
-│   ├── index.html
-│   ├── dashboard.html           four required pages
-│   ├── list-page.html
-│   ├── form-page.html
-│   ├── detail-page.html
-│   ├── components.html      the vocabulary on one page
-│   └── assets/app.css       the only stylesheet, written against the tokens
+│                                font features and all 75 component tokens
+├── examples/                the reference implementation, flat and self-contained
+│   ├── dashboard.html       + dashboard.png
+│   ├── list-page.html       + list-page.png
+│   ├── form-page.html       + form-page.png
+│   └── detail-page.html     + detail-page.png
 └── reports/
     ├── source-audit.md          where every value came from
     ├── designmd-validation.md   what the toolchain really does
-    ├── visual-validation.md     the fidelity comparison and its result
-    └── evidence/                raw readings, screenshots, machine-readable results
+    ├── visual-validation.md     what the previews prove
+    ├── machine-validation.json  the structural checks, machine-readable
+    └── evidence/                the derivation and the cross-package diff
 ```
 
 ## Quick Start
@@ -128,8 +149,8 @@ The scripts:
 | `npm run 1:validate` | lints `DESIGN.md`, prints token counts and section names | the contract does not parse, or lint reports an error |
 | `npm run 2:export` | runs the official CLI for three formats, then derives the lossless pair | the CLI fails, or an artifact comes out empty |
 | `npm run 3:verify-generated` | 26 checks: provenance, losslessness, known toolchain limitations, contrast | any artifact drifted from the contract |
-| `npm run 4:capture` | renders the six example pages headless and records computed styles | a page does not reach a 1270×848 viewport, or Chrome fails |
-| `npm run 5:compare` | compares 89 values against the reference: 16 pixel checks over four page pairs, 38 dashboard landmarks, 35 shell landmarks on the other five pages | any compared value drifts |
+| `npm run 4:capture` | renders the four example pages headless and records computed styles | a page does not reach a 1270×848 viewport, or Chrome fails |
+| `npm run 5:compare` | compares 75 values against the reference: 16 pixel checks over four page pairs, 38 dashboard landmarks, 21 shell landmarks on the other three pages | any compared value drifts |
 | `npm run 6:hygiene` | placeholders, links, JSON validity, required files, naming | a link is broken, a file is missing, a placeholder survives |
 | `npm run check` | `1 → 2 → 3 → 6` | as above; this is the CI gate |
 | `npm run check:visual` | `4 → 5` | as above; needs Chrome, so it is not in CI |
@@ -141,7 +162,7 @@ against `arco-blue`.
 
 1. **Read the design specification.** `DESIGN.md`. Read the prose sections for the
    part of the UI you are building; the frontmatter is for the tools.
-2. **Inspect semantic tokens.** The 30 colours are named by role — `primary`,
+2. **Inspect semantic tokens.** The 34 colours are named by role — `primary`,
    `canvas`, `surface`, `text-secondary`, `border` — not by appearance. Read
    `dist/tokens.full.json` for the complete resolved set, including line heights,
    font features and component tokens.
@@ -247,9 +268,9 @@ contract (including that the contract's sha256 in the artifacts still matches) a
 checks repository hygiene. CI runs the same command, so a green run locally means a
 green run in CI.
 
-`npm run check:visual` additionally re-renders the six example pages and compares 89
+`npm run check:visual` additionally re-renders the four example pages and compares 75
 values against the recorded reference: 16 pixel checks over four page pairs, 38
-dashboard landmarks, and 35 shell landmarks on the other five pages. It needs Chrome, so
+dashboard landmarks, and 21 shell landmarks on the other three pages. It needs Chrome, so
 it is run locally and reported in `reports/visual-validation.md` rather than gated
 in CI.
 
@@ -300,7 +321,7 @@ change, not a design change, and is never a reason to alter a token value.
 
 Stated here because a design system that hides its limits gets used past them.
 
-1. **No official export carries the 61 component tokens, and only one carries
+1. **No official export carries the 75 component tokens, and only one carries
    typography.** `dist/tokens.css` is colours, spacing and radii only. Use
    `dist/tokens.full.css` or `dist/tokens.full.json` when you need component
    tokens or type. The reason and the exact losses are in
@@ -319,7 +340,7 @@ Stated here because a design system that hides its limits gets used past them.
 5. **States were not visually compared.** Hover, focus and pressed are specified and
    contrast-audited, but the fidelity comparison is a static render.
 6. **The examples are a reference implementation, not a component library.** They
-   are HTML, one stylesheet and the token file, written to demonstrate the
+   are HTML (styles inlined) and the token file, written to demonstrate the
    specification. They are not intended to be copied into a product as-is.
 7. **`css-tailwind`, `tailwind` and `diff` from the official CLI are unexercised.**
    They were not needed for the deliveries this package makes; see

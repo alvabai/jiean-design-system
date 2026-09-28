@@ -1,4 +1,10 @@
 # Tables
+> **Scope and provenance.** This is JIEAN's own implementation guide for the
+> `ArcoBlue` package: it states what this package requires. It is not a
+> translation or a restatement of Arco's documentation, and it is not an Arco
+> publication. Where a value is labelled *measured* or *Arco*, that is evidence
+> about the research baseline recorded in [`../DESIGN.md`](../DESIGN.md)
+> (Reference Sources) — not a claim that Arco defines this system.
 
 ## Purpose
 
@@ -8,7 +14,7 @@ grey header band.
 
 Reference implementation: [`../examples/list-page.html`](../examples/list-page.html)
 (the table in its full list-page context) and the "表格密度" section of
-[`../examples/components.html`](../examples/components.html) (the table in
+[`../examples/list-page.html`](../examples/list-page.html) (the table in
 isolation).
 
 ## Structure and values

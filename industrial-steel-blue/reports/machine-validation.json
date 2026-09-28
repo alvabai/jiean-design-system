@@ -3,8 +3,8 @@
   "package": "industrial-steel-blue",
   "contract": {
     "path": "industrial-steel-blue/DESIGN.md",
-    "bytes": 65380,
-    "sha256": "4b4a83f9b682d82cd011406bf014bc18190b7e75a573403c3eb515cd0e0e80ed"
+    "bytes": 65384,
+    "sha256": "d18f12453495fa25176a15196e62eea772e18e84a8c0e058f033ad852a72f86c"
   },
   "tokens": {
     "colors": 34,
@@ -155,7 +155,7 @@
     {
       "name": "legacy-naming",
       "status": "pass",
-      "detail": "6 legacy name(s) searched, none found"
+      "detail": "7 legacy name(s) searched, none found"
     }
   ],
   "summary": {

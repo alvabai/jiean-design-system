@@ -18,8 +18,8 @@
   ],
   "lengthTolerancePx": 0.6,
   "summary": {
-    "compared": 89,
-    "match": 89,
+    "compared": 75,
+    "match": 75,
     "drift": 0,
     "uncovered": 2
   },
@@ -516,7 +516,7 @@
           "backgroundColor": "rgb(242, 243, 245)"
         },
         "verdict": "match",
-        "detail": "selection changes fill, text colour and weight, and nothing else"
+        "detail": "selection changes fill and weight, and paints its text in this package's `primary` (the one deliberate colour divergence from the reference)"
       },
       {
         "name": "group label row",
@@ -1045,208 +1045,6 @@
       },
       {
         "name": "detail: brand mark",
-        "reference": [
-          33,
-          33
-        ],
-        "actual": [
-          33,
-          33
-        ],
-        "verdict": "match",
-        "detail": ""
-      },
-      {
-        "name": "components: header box",
-        "reference": [
-          0,
-          0,
-          1270,
-          60
-        ],
-        "actual": [
-          0,
-          0,
-          1270,
-          60
-        ],
-        "verdict": "match",
-        "detail": "the shell is one component, so a page cannot have its own header height"
-      },
-      {
-        "name": "components: header bottom rule",
-        "reference": {
-          "borderBottomWidth": "1px",
-          "borderBottomColor": "rgb(229, 230, 235)"
-        },
-        "actual": {
-          "borderBottomWidth": "1px",
-          "borderBottomColor": "rgb(229, 230, 235)"
-        },
-        "verdict": "match",
-        "detail": "cross-checked against every page's pixel row at y=59"
-      },
-      {
-        "name": "components: sidebar box",
-        "reference": [
-          220,
-          848
-        ],
-        "actual": [
-          220,
-          848
-        ],
-        "verdict": "match",
-        "detail": ""
-      },
-      {
-        "name": "components: sidebar right rule",
-        "reference": {
-          "right": "-1px",
-          "left": "220px",
-          "width": "1px",
-          "height": "848px",
-          "backgroundColor": "rgb(229, 230, 235)"
-        },
-        "actual": {
-          "right": "-1px",
-          "left": "220px",
-          "width": "1px",
-          "height": "848px",
-          "backgroundColor": "rgb(229, 230, 235)"
-        },
-        "verdict": "match",
-        "detail": "drawn by ::after outside the 220px box, so it costs the menu column nothing"
-      },
-      {
-        "name": "components: menu row box",
-        "reference": [
-          204,
-          40
-        ],
-        "actual": [
-          204,
-          40
-        ],
-        "verdict": "match",
-        "detail": "204x40 on every page, whichever row happens to be selected"
-      },
-      {
-        "name": "components: avatar box",
-        "reference": [
-          32,
-          32
-        ],
-        "actual": [
-          32,
-          32
-        ],
-        "verdict": "match",
-        "detail": ""
-      },
-      {
-        "name": "components: brand mark",
-        "reference": [
-          33,
-          33
-        ],
-        "actual": [
-          33,
-          33
-        ],
-        "verdict": "match",
-        "detail": ""
-      },
-      {
-        "name": "index: header box",
-        "reference": [
-          0,
-          0,
-          1270,
-          60
-        ],
-        "actual": [
-          0,
-          0,
-          1270,
-          60
-        ],
-        "verdict": "match",
-        "detail": "the shell is one component, so a page cannot have its own header height"
-      },
-      {
-        "name": "index: header bottom rule",
-        "reference": {
-          "borderBottomWidth": "1px",
-          "borderBottomColor": "rgb(229, 230, 235)"
-        },
-        "actual": {
-          "borderBottomWidth": "1px",
-          "borderBottomColor": "rgb(229, 230, 235)"
-        },
-        "verdict": "match",
-        "detail": "cross-checked against every page's pixel row at y=59"
-      },
-      {
-        "name": "index: sidebar box",
-        "reference": [
-          220,
-          848
-        ],
-        "actual": [
-          220,
-          848
-        ],
-        "verdict": "match",
-        "detail": ""
-      },
-      {
-        "name": "index: sidebar right rule",
-        "reference": {
-          "right": "-1px",
-          "left": "220px",
-          "width": "1px",
-          "height": "848px",
-          "backgroundColor": "rgb(229, 230, 235)"
-        },
-        "actual": {
-          "right": "-1px",
-          "left": "220px",
-          "width": "1px",
-          "height": "848px",
-          "backgroundColor": "rgb(229, 230, 235)"
-        },
-        "verdict": "match",
-        "detail": "drawn by ::after outside the 220px box, so it costs the menu column nothing"
-      },
-      {
-        "name": "index: menu row box",
-        "reference": [
-          204,
-          40
-        ],
-        "actual": [
-          204,
-          40
-        ],
-        "verdict": "match",
-        "detail": "204x40 on every page, whichever row happens to be selected"
-      },
-      {
-        "name": "index: avatar box",
-        "reference": [
-          32,
-          32
-        ],
-        "actual": [
-          32,
-          32
-        ],
-        "verdict": "match",
-        "detail": ""
-      },
-      {
-        "name": "index: brand mark",
         "reference": [
           33,
           33

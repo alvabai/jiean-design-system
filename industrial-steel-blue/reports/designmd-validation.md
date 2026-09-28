@@ -95,7 +95,7 @@ exist:
 
 ## 5. Scope of the verdict
 
-The two earlier packages in this repository (`arco-blue`, `brandcolor`) predate this
+The two earlier packages in this repository (`arco-blue`, `jiean-red`) predate this
 structural layer. They are checked by the layers that existed when they were
 written — front matter, required keys, reference resolution, colour values,
 canonical sections, section order and foreign contamination — and the five newer

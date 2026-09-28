@@ -13,18 +13,18 @@ implement against.
 
 ```text
 arco-blue
-brandcolor
+jiean-red
 industrial-steel-blue
 ```
 
-`arco-blue` (阿科蓝) is the enterprise style package, extracted from the enterprise
+`arco-blue` (ArcoBlue, 阿科蓝) is the enterprise style package, extracted from the enterprise
 application language that Arco Design Pro demonstrates.
 
-`brandcolor` is that same package with its colour layer replaced by 捷安's brand
+`jiean-red` (JIEAN Red, 捷安红) is that same package with its colour layer replaced by 捷安's brand
 colours: 捷安红 `#D7000F` as the primary, 深灰 `#353535` on the three dark anchors,
 and four primary steps derived from them by holding each step's relative luminance.
 Geometry, typography, spacing, radii and all 61 component tokens are identical to
-`arco-blue`'s — 22 of the 30 colour roles included — and `npm run 8:package-diff`
+`arco-blue`'s — 25 of the 34 colour roles included — and `npm run 8:package-diff`
 proves it on every commit.
 
 `industrial-steel-blue` (工业钢蓝) is the industrial style package: the same
@@ -43,7 +43,7 @@ described below — apply to that package only.
 ```text
 JIEAN Design System
 ├── arco-blue
-├── brandcolor
+├── jiean-red
 └── industrial-steel-blue
 ```
 
@@ -52,7 +52,7 @@ visual and interaction decisions are recorded. A style package is one expression
 of it — a token set, a pattern library, and a reference implementation for a
 particular product family or density.
 
-**Two further packages did exactly that.** `brandcolor` sits beside `arco-blue`
+**Two further packages did exactly that.** `jiean-red` sits beside `arco-blue`
 without changing the company-wide name, the contract format or the review process:
 it differs only in its colour layer, and that difference is machine-checked rather
 than described. `industrial-steel-blue` does the same for a different product
@@ -75,7 +75,7 @@ relationships are proved on every commit, and a further package
 | `scripts/` | The validation, export and comparison tooling |
 | `AGENTS.md` | The instruction file for coding agents |
 
-`<package>` is `arco-blue`, `brandcolor` or `industrial-steel-blue`. All three have
+`<package>` is `arco-blue`, `jiean-red` or `industrial-steel-blue`. All three have
 that structure. The first two differ only in the colour layer; the third adapts the
 colour layer within a recorded allow-list and additionally carries
 `reports/machine-validation.json`, `reports/evidence/palette-derivation.json` and
@@ -99,7 +99,7 @@ the palette on their pixels — and checks the repository's hygiene. It is the s
 command CI runs. If it passes, this repository is in a good state.
 
 To see the result rather than test it, open `arco-blue/examples/dashboard.html`,
-`brandcolor/examples/dashboard.html` or `industrial-steel-blue/examples/dashboard.html`
+`jiean-red/examples/dashboard.html` or `industrial-steel-blue/examples/dashboard.html`
 in a browser and compare the three. The pages need no build step: they are HTML and
 the derived token file, and the third package's pages carry their stylesheet inline
 so that `examples/` stays flat.
@@ -115,7 +115,7 @@ so that `examples/` stays flat.
 4. `arco-blue/examples/dashboard.html` — the shell in the browser.
 5. `arco-blue/reports/source-audit.md` — where every value came from, and what was
    inferred rather than measured.
-6. `brandcolor/DESIGN.md` §Colors — the same system in 捷安's brand red: which
+6. `jiean-red/DESIGN.md` §Colors — the same system in 捷安's brand red: which
    eight roles moved, and why the four derived steps hold their luminance. Its
    `reports/visual-validation.md` states what that change is and is not evidenced
    by.
@@ -129,7 +129,7 @@ so that `examples/` stays flat.
 
 `arco-blue` was extracted from **Arco Design Pro**, whose repository and theme
 package are MIT licensed, using Google's **DESIGN.md** format and its `design.md`
-toolchain (Apache 2.0). `brandcolor` reuses that extraction unchanged and replaces
+toolchain (Apache 2.0). `jiean-red` reuses that extraction unchanged and replaces
 the colour layer with 捷安's brand colours; its geometry, typography and component
 tokens are `arco-blue`'s. `industrial-steel-blue` was researched from the same
 baseline — Arco Design `2.66.16` and Arco Design Pro `bb6aebcceca6`, both recorded

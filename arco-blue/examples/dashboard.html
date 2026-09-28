@@ -5,7 +5,1399 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>工作台 · ArcoBlue 参考实现</title>
 <link rel="stylesheet" href="../dist/tokens.full.css">
-<link rel="stylesheet" href="assets/app.css">
+<style>
+/* ==========================================================================
+ * ArcoBlue — reference implementation stylesheet
+ * ==========================================================================
+ *
+ * Framework-independent CSS for the ArcoBlue design language. Every value that
+ * the contract defines comes from `var(--…)`; this file introduces geometry
+ * (grid, flex, positioning) and nothing that the tokens already answer.
+ *
+ * Token source : ../dist/tokens.full.css  (generated from arco-blue/DESIGN.md)
+ * Contract     : arco-blue/DESIGN.md
+ *
+ * It is deliberately written as plain CSS with no preprocessor and no build step,
+ * and it is inlined into each example page's `<style>` block so that `examples/`
+ * stays a flat directory: four pages, each with the PNG rendered from it beside
+ * it. A reader can still open a page straight from the filesystem and compare it
+ * with the specification line by line.
+ * ========================================================================== */
+
+/* --------------------------------------------------------------------------
+ * 0. Reset
+ * -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-font-size);
+  font-weight: var(--typography-body-font-weight);
+  line-height: var(--typography-body-line-height);
+  color: var(--color-text-primary);
+  background-color: var(--color-canvas);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+svg {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+ * 1. Shell — the fixed frame (DESIGN.md › Layout)
+ * -------------------------------------------------------------------------- */
+
+.shell {
+  min-width: var(--component-shell-content-width);
+}
+
+.shell__header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--component-shell-header-height);
+  padding: 0 20px;
+  background-color: var(--component-shell-header-background-color);
+  border-bottom: 1px solid var(--color-border);
+  min-width: var(--component-shell-content-width);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 200px;
+}
+
+.brand__mark {
+  /* measured: the reference logo svg is 33x33 inside a 200px logo block whose
+     name starts 10px later, at x=63. */
+  width: 33px;
+  height: 33px;
+  flex: none;
+}
+
+.brand__name {
+  font-size: var(--typography-page-title-font-size);
+  font-weight: var(--typography-page-title-font-weight);
+  /* measured: .logo-name is 20px/500 with a 30px line box, 2px taller than the
+     page-title role it shares its size and weight with. */
+  line-height: 30px;
+  color: var(--color-text-primary);
+}
+
+.header-tools {
+  display: flex;
+  align-items: center;
+  /* measured: 16px between the 32px circle buttons, and the right inset is 28px
+     (the header's 20px plus the 8px the tool item carries). */
+  gap: 16px;
+  padding-right: 8px;
+}
+
+.header-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 196px;
+  height: 32px;
+  padding: 0 12px;
+  background-color: var(--color-canvas);
+  /* The single large-radius exception in the language: a circle-cap on a
+     32px-tall control. See DESIGN.md › Shapes. */
+  border-radius: 16px;
+}
+
+.header-search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  color: var(--color-text-primary);
+}
+
+.header-search input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.icon-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-canvas);
+  color: var(--color-text-secondary);
+}
+
+.icon-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-button__dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-error);
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-avatar-size);
+  height: var(--component-avatar-size);
+  border-radius: var(--rounded-full);
+  background-color: var(--color-text-disabled);
+  color: var(--component-shell-header-background-color);
+  font-size: 14px;
+}
+
+.shell__sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 99;
+  width: var(--component-shell-sidebar-width);
+  padding-top: var(--component-shell-header-height);
+  background-color: var(--component-shell-sidebar-background-color);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* The sidebar's right rule. Measured on the reference: .arco-layout-sider has
+   border-right-width 0px and draws the rule as an absolutely positioned 1px
+   ::after at right:-1px, so the rule sits at x=220 — outside the 220px box. That
+   is why the menu column stays a full 204px wide. A border on the sidebar itself
+   would consume 1px of it. */
+.shell__sidebar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -1px;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--color-border);
+}
+
+.sidebar__scroll {
+  height: 100%;
+  overflow-y: auto;
+  /* measured: .arco-menu-inner is 4px top/bottom and 8px left/right, so a menu item
+     measures 204x40 inside a 220px sidebar. */
+  padding: 4px 8px;
+}
+
+.menu-group {
+  margin-top: 8px;
+}
+
+.menu-group__label {
+  /* measured: the reference's collapsible group header is a 40px row inset 12px
+     on the left and 28px on the right, the wider right inset leaving room for the
+     trailing affordance that opens and closes the group. This system keeps the
+     row and its insets and sets its own caption type on it, so a group label reads
+     as a label rather than as a fourteenth menu item. */
+  height: var(--component-menu-item-height);
+  line-height: var(--component-menu-item-height);
+  padding: 0 28px 0 var(--component-menu-item-padding);
+  margin-bottom: 4px;
+  font-size: var(--typography-caption-font-size);
+  color: var(--color-text-tertiary);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: var(--component-menu-item-height);
+  /* measured: the reference's menu row carries a 40px line box, equal to its own
+     height. The row is centred by flex here, so the label lands in the same place
+     either way — this keeps the row's typography identical too, which is what the
+     comparison in scripts/visual/compare-metrics.mjs asserts. */
+  line-height: var(--component-menu-item-height);
+  padding: 0 var(--component-menu-item-padding);
+  margin-bottom: 4px;
+  border-radius: var(--rounded-sm);
+  font-size: var(--typography-body-font-size);
+  color: var(--color-text-primary);
+}
+
+.menu-item svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+
+.menu-item--selected {
+  background-color: var(--component-menu-item-selected-background-color);
+  color: var(--component-menu-item-selected-text-color);
+  font-weight: 500;
+}
+
+.menu-item--selected svg {
+  color: var(--component-menu-item-selected-text-color);
+}
+
+.shell__content {
+  min-height: 100vh;
+  /* 1100px is a MINIMUM: content is never centred into it (DESIGN.md › Layout). */
+  min-width: var(--component-shell-content-width);
+  padding-top: var(--component-shell-header-height);
+  padding-left: var(--component-shell-sidebar-width);
+  background-color: var(--component-shell-content-background-color);
+}
+
+.shell__content-inner {
+  padding: 16px 20px 0;
+}
+
+/* --------------------------------------------------------------------------
+ * 2. Breadcrumb
+ * -------------------------------------------------------------------------- */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  margin-bottom: var(--spacing-md);
+  font-size: var(--typography-body-font-size);
+  color: var(--color-text-secondary);
+}
+
+.breadcrumb a,
+.breadcrumb span {
+  color: var(--color-text-secondary);
+}
+
+.breadcrumb__home {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb__home svg {
+  width: 16px;
+  height: 16px;
+}
+
+.breadcrumb__sep {
+  color: var(--color-text-tertiary);
+}
+
+.breadcrumb__current {
+  color: var(--component-breadcrumb-item-active-text-color);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+ * 3. Cards and stacks
+ * -------------------------------------------------------------------------- */
+
+.stack > * + * {
+  margin-top: var(--spacing-md);
+}
+
+.card {
+  padding: var(--component-card-padding);
+  background-color: var(--component-card-background-color);
+  border-radius: var(--component-card-rounded);
+}
+
+.card--flush {
+  padding: 0;
+}
+
+.card__title {
+  font-size: var(--typography-card-title-font-size);
+  font-weight: var(--typography-card-title-font-weight);
+  line-height: var(--typography-card-title-line-height);
+  color: var(--component-card-title-text-color);
+  margin-bottom: var(--spacing-md);
+}
+
+.card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.card__head .card__title {
+  margin-bottom: 0;
+}
+
+.page-title {
+  font-size: var(--typography-page-title-font-size);
+  font-weight: var(--typography-page-title-font-weight);
+  line-height: var(--typography-page-title-line-height);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.hero__name {
+  font-size: var(--typography-page-title-font-size);
+  font-weight: var(--typography-page-title-font-weight);
+  line-height: var(--typography-page-title-line-height);
+}
+
+.hero__meta {
+  margin-left: var(--spacing-sm);
+  font-size: var(--typography-caption-font-size);
+  color: var(--color-text-tertiary);
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--color-border-subtle);
+}
+
+.divider--strong {
+  background-color: var(--color-border);
+}
+
+.divider--vertical {
+  width: 1px;
+  height: 60px;
+  align-self: center;
+  background-color: var(--color-border-subtle);
+}
+
+/* --------------------------------------------------------------------------
+ * 4. Buttons
+ * -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 15px;
+  border: 1px solid transparent;
+  border-radius: var(--rounded-sm);
+  font-size: var(--typography-button-font-size);
+  font-weight: var(--typography-button-font-weight);
+  white-space: nowrap;
+}
+
+.btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.btn--primary {
+  background-color: var(--component-button-primary-background-color);
+  color: var(--component-button-primary-text-color);
+}
+
+.btn--primary:hover {
+  background-color: var(--component-button-primary-hover-background-color);
+}
+
+.btn--primary:active {
+  background-color: var(--component-button-primary-active-background-color);
+}
+
+.btn--primary[disabled] {
+  background-color: var(--component-button-primary-disabled-background-color);
+  cursor: not-allowed;
+}
+
+.btn--secondary {
+  background-color: var(--component-button-secondary-background-color);
+  color: var(--component-button-secondary-text-color);
+}
+
+.btn--secondary:hover {
+  background-color: var(--component-button-secondary-hover-background-color);
+}
+
+.btn--secondary[disabled] {
+  color: var(--component-control-disabled-text-text-color);
+  cursor: not-allowed;
+}
+
+.btn--text {
+  height: 28px;
+  padding: 0 15px;
+  background: transparent;
+  color: var(--color-primary);
+}
+
+.btn--text:hover {
+  background-color: var(--color-canvas);
+}
+
+.btn--lg {
+  height: 36px;
+  padding: 0 19px;
+}
+
+.btn--sm {
+  height: 28px;
+  padding: 0 15px;
+}
+
+.btn-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* --------------------------------------------------------------------------
+ * 5. Form controls
+ * -------------------------------------------------------------------------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.field__label {
+  font-size: var(--typography-label-font-size);
+  line-height: var(--typography-label-line-height);
+  color: var(--component-form-label-text-color);
+}
+
+.field__hint {
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  color: var(--color-text-tertiary);
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  height: var(--component-input-height);
+  padding: 0 var(--component-input-padding);
+  border: 1px solid transparent;
+  border-radius: var(--rounded-sm);
+  background-color: var(--component-input-background-color);
+  color: var(--component-input-text-color);
+  font-family: inherit;
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+  outline: 0;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.input:hover,
+.select:hover,
+.textarea:hover {
+  background-color: var(--component-input-hover-background-color);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  background-color: var(--component-input-focus-background-color);
+  border-color: var(--color-primary);
+}
+
+.input[disabled],
+.textarea[disabled] {
+  background-color: var(--color-canvas);
+  color: var(--component-control-disabled-text-text-color);
+  cursor: not-allowed;
+}
+
+.textarea {
+  height: auto;
+  min-height: 80px;
+  padding: 6px var(--component-input-padding);
+  resize: vertical;
+}
+
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3E%3Cpath fill='%234E5969' d='M8 11.4 2.6 6l1.4-1.4L8 8.6l4-4L13.4 6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.select--placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.checkbox,
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--typography-body-font-size);
+  color: var(--color-text-primary);
+}
+
+.checkbox__box {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--rounded-sm);
+  background-color: var(--component-shell-header-background-color);
+  flex: none;
+}
+
+.checkbox__box--checked {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 16 16'%3E%3Cpath fill='%23fff' d='m6.2 11.4-3.6-3.6 1.4-1.4 2.2 2.2 5.8-5.8 1.4 1.4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.radio__dot {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--rounded-full);
+  background-color: var(--component-shell-header-background-color);
+  flex: none;
+}
+
+.radio__dot--checked {
+  border: 5px solid var(--color-primary);
+}
+
+.switch {
+  width: 36px;
+  height: 20px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-border);
+  position: relative;
+  flex: none;
+}
+
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--rounded-full);
+  background-color: var(--component-shell-header-background-color);
+}
+
+.switch--on {
+  background-color: var(--color-primary);
+}
+
+.switch--on::after {
+  left: 18px;
+}
+
+/* Grouped form: three columns on the 24-column grid with an 80px gutter. */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: var(--spacing-form-gutter);
+  row-gap: 20px;
+}
+
+.form-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-grid--four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--spacing-search-gutter);
+}
+
+/* Fixed action bar at the foot of a form page. */
+.form-actions {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 12px 40px;
+  background-color: var(--component-shell-header-background-color);
+  box-shadow: 0 -3px 12px rgb(0 0 0 / 10%);
+}
+
+/* --------------------------------------------------------------------------
+ * 6. Search area of a list page
+ * -------------------------------------------------------------------------- */
+
+.search {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 160px;
+  margin-bottom: 20px;
+}
+
+.search__fields {
+  padding-right: 20px;
+  margin-bottom: 20px;
+}
+
+.search__actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding-left: 20px;
+  margin-bottom: 20px;
+  border-left: 1px solid var(--color-border);
+}
+
+.search__actions .btn {
+  width: 100%;
+}
+
+.search-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--spacing-search-gutter);
+  row-gap: 20px;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.search-field__label {
+  flex: none;
+  width: 84px;
+  font-size: var(--typography-label-font-size);
+  /* measured: formLabel line-height is 32px, centring the label against the 32px control */
+  line-height: 32px;
+  color: var(--component-form-label-text-color);
+  text-align: left;
+}
+
+.search-field__control {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-foot {
+  grid-column: 1 / -1;
+  height: 1px;
+  background-color: var(--color-border-subtle);
+}
+
+/* --------------------------------------------------------------------------
+ * 7. Tables
+ * -------------------------------------------------------------------------- */
+
+.table-wrap {
+  border-radius: var(--rounded-md) var(--rounded-md) 0 0;
+  overflow: hidden;
+}
+
+.table th,
+.table td {
+  padding: var(--spacing-table-y) var(--spacing-table-x);
+  font-size: var(--typography-table-font-size);
+  line-height: var(--typography-table-line-height);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  background-color: var(--component-table-header-background-color);
+  color: var(--component-table-header-text-color);
+  font-weight: 500;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.table td {
+  background-color: var(--component-table-cell-background-color);
+  color: var(--component-table-cell-text-color);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table tbody tr:hover td {
+  background-color: var(--component-table-row-hover-background-color);
+}
+
+.table .num {
+  font-feature-settings: 'tnum';
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.table .cell-actions {
+  white-space: nowrap;
+}
+
+.table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.table__sort svg {
+  width: 12px;
+  height: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.table__empty {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) 0 0;
+}
+
+.pagination__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--component-pagination-item-size);
+  height: var(--component-pagination-item-size);
+  padding: 0 6px;
+  border-radius: var(--rounded-sm);
+  font-size: var(--typography-caption-font-size);
+  color: var(--color-text-primary);
+}
+
+.pagination__item:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.pagination__item--active {
+  background-color: var(--component-pagination-item-active-background-color);
+  color: var(--component-pagination-item-active-text-color);
+}
+
+.pagination__item[aria-disabled='true'] {
+  color: var(--component-control-disabled-text-text-color);
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+ * 8. Status, tags and links
+ * -------------------------------------------------------------------------- */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  color: var(--color-text-primary);
+}
+
+.status__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--rounded-full);
+  flex: none;
+}
+
+.status--success .status__dot {
+  background-color: var(--component-status-dot-success-background-color);
+}
+
+.status--warning .status__dot {
+  background-color: var(--component-status-dot-warning-background-color);
+}
+
+.status--error .status__dot {
+  background-color: var(--component-status-dot-error-background-color);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: var(--component-tag-height);
+  padding: 0 var(--component-tag-padding);
+  border-radius: var(--rounded-sm);
+  background-color: var(--component-tag-background-color);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  color: var(--component-tag-text-color);
+}
+
+.tag--success {
+  background-color: var(--component-alert-success-background-color);
+}
+
+.tag--warning {
+  background-color: var(--component-alert-warning-background-color);
+}
+
+.tag--error {
+  background-color: var(--component-alert-error-background-color);
+}
+
+.alert {
+  display: flex;
+  gap: var(--spacing-sm);
+  padding: 8px var(--spacing-control-inset);
+  border-radius: var(--rounded-sm);
+  font-size: var(--typography-body-font-size);
+}
+
+.alert--info {
+  background-color: var(--component-alert-info-background-color);
+}
+
+.alert--success {
+  background-color: var(--component-alert-success-background-color);
+}
+
+.alert--warning {
+  background-color: var(--component-alert-warning-background-color);
+}
+
+.alert--error {
+  background-color: var(--component-alert-error-background-color);
+}
+
+/* --------------------------------------------------------------------------
+ * 9. KPI row (DESIGN.md › Components › Data display)
+ * -------------------------------------------------------------------------- */
+
+.kpi-row {
+  display: flex;
+  align-items: center;
+}
+
+.kpi {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-control-inset);
+  flex: 1;
+  min-width: 0;
+  padding-left: var(--spacing-card);
+}
+
+.kpi__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-kpi-icon-size);
+  height: var(--component-kpi-icon-size);
+  flex: none;
+  border-radius: var(--rounded-full);
+  background-color: var(--component-kpi-icon-background-color);
+  color: var(--color-text-secondary);
+}
+
+.kpi__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.kpi__title {
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  color: var(--component-statistic-title-text-color);
+}
+
+.kpi__value {
+  font-size: var(--typography-statistic-font-size);
+  font-weight: var(--typography-statistic-font-weight);
+  line-height: var(--typography-statistic-line-height);
+  font-feature-settings: 'tnum';
+  color: var(--component-statistic-value-text-color);
+}
+
+.kpi__unit {
+  margin-left: var(--spacing-sm);
+  font-size: var(--typography-caption-font-size);
+  font-weight: 400;
+  /* The unit must carry its own line-height. Inheriting the statistic role's 33px
+     line box would make the 12px unit's inline box taller than the 22px number's
+     strut, growing .kpi__value to 36px; the reference count box measures 33px. */
+  line-height: var(--typography-caption-line-height);
+  color: var(--component-statistic-unit-text-color);
+}
+
+/* --------------------------------------------------------------------------
+ * 10. Dashboard layout: workspace + 280px rail
+ * -------------------------------------------------------------------------- */
+
+.dashboard {
+  display: flex;
+  align-items: flex-start;
+}
+
+.dashboard__main {
+  width: calc(100% - 296px);
+  margin-right: var(--spacing-md);
+  min-width: 0;
+}
+
+.dashboard__rail {
+  width: var(--component-dashboard-rail-width);
+  flex: none;
+}
+
+.rail-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-control-inset);
+}
+
+.rail-list a {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--color-text-primary);
+}
+
+.rail-list a:hover {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.rail-list svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-tertiary);
+}
+
+.rail-note {
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  color: var(--color-text-secondary);
+}
+
+.rail-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  border-radius: var(--rounded-sm);
+  background-color: var(--color-canvas);
+  color: var(--color-text-tertiary);
+  font-size: var(--typography-caption-font-size);
+}
+
+.chart-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+}
+
+.chart-title {
+  font-size: var(--typography-card-title-font-size);
+  font-weight: var(--typography-card-title-font-weight);
+  line-height: var(--typography-card-title-line-height);
+}
+
+.chart-subtitle {
+  margin-left: var(--spacing-xs);
+  font-size: var(--typography-caption-font-size);
+  font-weight: 400;
+  color: var(--color-text-tertiary);
+}
+
+.chart-legend {
+  display: flex;
+  gap: var(--spacing-md);
+  font-size: var(--typography-caption-font-size);
+  color: var(--color-text-secondary);
+}
+
+.chart-legend span::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-primary);
+  vertical-align: middle;
+}
+
+/* --------------------------------------------------------------------------
+ * 11. Steps, descriptions, definition rows
+ * -------------------------------------------------------------------------- */
+
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 548px;
+  margin: 8px auto 30px;
+  padding-left: 0;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.step__index {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  margin-right: var(--spacing-control-inset);
+}
+
+.step__title {
+  font-size: var(--typography-section-title-font-size);
+  /* measured: stepTitle line-height is 28px, the step circle plus its 2px ring */
+  line-height: 28px;
+  color: var(--color-text-primary);
+  padding-right: var(--spacing-control-inset);
+  white-space: nowrap;
+}
+
+.step--done .step__index {
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+.step--active .step__index {
+  background-color: var(--color-primary);
+  color: var(--component-button-primary-text-color);
+}
+
+.step--active .step__title {
+  font-weight: 500;
+}
+
+.step__line {
+  flex: 1;
+  height: 1px;
+  margin-right: var(--spacing-control-inset);
+  background-color: var(--color-border);
+}
+
+.desc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: var(--spacing-lg);
+  row-gap: var(--spacing-control-inset);
+}
+
+.desc {
+  display: flex;
+  gap: var(--spacing-sm);
+  min-width: 0;
+}
+
+.desc__label {
+  flex: none;
+  width: 132px;
+  text-align: right;
+  font-size: var(--typography-body-font-size);
+  color: var(--color-text-tertiary);
+}
+
+.desc__value {
+  color: var(--color-text-primary);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.desc__value--strong {
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+ * 12. Overlays and tooltips (static demonstrations)
+ * -------------------------------------------------------------------------- */
+
+.tooltip-demo {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-bubble {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-control-inset);
+  border-radius: var(--rounded-sm);
+  background-color: var(--component-tooltip-background-color);
+  color: var(--component-tooltip-text-color);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+}
+
+.modal-demo {
+  width: var(--component-modal-width);
+  padding: 0;
+  border-radius: var(--component-modal-rounded);
+  background-color: var(--component-modal-background-color);
+  overflow: hidden;
+}
+
+.modal-demo__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--component-modal-header-height);
+  padding: 0 var(--component-modal-header-padding);
+  font-size: var(--typography-card-title-font-size);
+  font-weight: 500;
+}
+
+.modal-demo__body {
+  padding: var(--spacing-lg) var(--component-modal-header-padding);
+  color: var(--color-text-secondary);
+}
+
+.modal-demo__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--component-modal-header-padding);
+}
+
+.popup-demo {
+  display: inline-block;
+  padding: var(--spacing-xs) 0;
+  border-radius: var(--component-popup-rounded);
+  background-color: var(--component-popup-background-color);
+  box-shadow: 0 4px 10px rgb(0 0 0 / 10%);
+  font-size: var(--typography-body-font-size);
+}
+
+.popup-demo div {
+  padding: 5px var(--spacing-control-inset);
+}
+
+.popup-demo div:hover {
+  background-color: var(--color-surface-hover);
+}
+
+/* --------------------------------------------------------------------------
+ * 13. Spec-sheet helpers — the specimen blocks live in the contract
+ *     (`../DESIGN.md`), because these four pages are the required page set
+ * -------------------------------------------------------------------------- */
+
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--spacing-control-inset);
+}
+
+.swatch {
+  border: 1px solid var(--color-border);
+  border-radius: var(--rounded-sm);
+  overflow: hidden;
+}
+
+.swatch__chip {
+  height: 56px;
+}
+
+.swatch__meta {
+  padding: 6px var(--spacing-sm);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  color: var(--color-text-secondary);
+}
+
+.swatch__meta b {
+  display: block;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.spec-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-control-inset);
+}
+
+.spec-row + .spec-row {
+  margin-top: var(--spacing-md);
+}
+
+.spec-label {
+  width: 96px;
+  flex: none;
+  font-size: var(--typography-caption-font-size);
+  color: var(--color-text-tertiary);
+}
+
+.type-sample {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.type-sample__meta {
+  width: 220px;
+  flex: none;
+  font-size: var(--typography-caption-font-size);
+  color: var(--color-text-tertiary);
+}
+
+.surface-mock {
+  padding: var(--spacing-lg);
+  border-radius: var(--rounded-md);
+}
+
+/* Dark surface anchors — surface-only, not a validated theme. */
+[data-theme='dark'] .surface-mock {
+  background-color: var(--component-dark-shell-content-background-color);
+  color: var(--component-dark-text-primary-text-color);
+}
+
+[data-theme='dark'] .card,
+[data-theme='dark'] .surface-mock--card {
+  background-color: var(--component-dark-card-background-color);
+  color: var(--component-dark-text-primary-text-color);
+}
+
+[data-theme='dark'] .divider {
+  background-color: var(--component-dark-divider-background-color);
+}
+
+[data-theme='dark'] .text-secondary {
+  color: var(--component-dark-text-secondary-text-color);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-tertiary {
+  color: var(--color-text-tertiary);
+}
+
+.text-caption {
+  font-size: var(--typography-caption-font-size);
+  color: var(--color-text-tertiary);
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+.page-footer {
+  padding: var(--spacing-lg) 0 var(--spacing-xl);
+  font-size: var(--typography-caption-font-size);
+  color: var(--color-text-tertiary);
+}
+
+.page-footer a {
+  color: var(--color-primary);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+</style>
 </head>
 <body>
 
@@ -74,15 +1466,15 @@
     </a>
     <div class="menu-group">
       <div class="menu-group__label">设计系统</div>
-      <a class="menu-item" href="components.html">
+      <a class="menu-item" href="../DESIGN.md">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
           <path d="M8 1.8 14.2 5 8 8.2 1.8 5z"></path><path d="M1.8 8 8 11.2 14.2 8"></path><path d="M1.8 11 8 14.2 14.2 11"></path>
         </svg>组件总览
       </a>
-      <a class="menu-item" href="index.html">
+      <a class="menu-item" href="../docs/foundations.md">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
           <path d="M2 3.5h12v10H2z"></path><path d="M2 6.5h12M5.5 6.5v7"></path>
-        </svg>规范索引
+        </svg>设计基础
       </a>
     </div>
   </nav>
@@ -93,7 +1485,7 @@
   <div class="shell__content-inner">
 
     <nav class="breadcrumb" aria-label="面包屑">
-      <a class="breadcrumb__home" href="index.html" aria-label="首页">
+      <a class="breadcrumb__home" href="dashboard.html" aria-label="首页">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
           <path d="M2 7 8 2l6 5v6.5H2z"></path>
         </svg>
@@ -281,6 +1673,8 @@
     <p class="page-footer">
       本页为 <b>ArcoBlue</b> 参考实现：数字与名称为布局示例（sample data），不代表捷安高科的真实数据。
       规范见 <a href="../DESIGN.md">arco-blue/DESIGN.md</a>，令牌见 <a href="../dist/tokens.full.css">dist/tokens.full.css</a>。
+      本页由捷安高科（JIEAN）基于公开的 Arco Design / Arco Design Pro 官方资料独立分析产出，不是 Arco Design 的官方出版物、主题包或发行版。
+      本页由捷安高科（JIEAN）基于公开的 Arco Design / Arco Design Pro 官方资料独立分析产出，不是 Arco Design 的官方出版物、主题包或发行版。
     </p>
   </div>
 </main>

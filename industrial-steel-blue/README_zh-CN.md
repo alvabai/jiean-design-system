@@ -181,8 +181,8 @@ open industrial-steel-blue/examples/dashboard.html
 | `npm run 4:capture` | 渲染 `arco-blue` 示例页并记录计算样式 | 页面达不到 1270×848 视口或 Chrome 失败 |
 | `npm run 5:compare` | 用 `arco-blue` 页面与记录基线比对 | 任何被比对的值漂移 |
 | `npm run 6:hygiene` | 占位符、链接、JSON 合法性、必需文件、命名 | 链接失效、文件缺失、占位符残留 |
-| `npm run 7:brand-ramp` | 从品牌字面值重新推导 `brandcolor` 色阶 | 推导值漂移 |
-| `npm run 8:package-diff` | 证明两组跨包关系：`arco-blue`↔`brandcolor` 只差颜色；`arco-blue`↔`industrial-steel-blue` 只在记录的白名单内不同 | 白名单外有令牌移动，或有未记录的新增 |
+| `npm run 7:jiean-red-ramp` | 从品牌字面值重新推导 `jiean-red` 色阶 | 推导值漂移 |
+| `npm run 8:package-diff` | 证明两组跨包关系：`arco-blue`↔`jiean-red` 只差颜色；`arco-blue`↔`industrial-steel-blue` 只在记录的白名单内不同 | 白名单外有令牌移动，或有未记录的新增 |
 | `npm run 9:steel-ramp` | 重新推导十阶钢蓝并断言 8 条对比度性质 | 色阶或比值漂移，或契约中的说法与推导矛盾 |
 | `npm run 10:screenshots` | 校验四张预览：存在、PNG 合法、精确 1280×900、不过期、像素配色 | 预览缺失、过期、尺寸不对或颜色不对 |
 | `npm run 11:screenshots:write` | 重新渲染四张预览 | 页面无法达到 1280×900 |

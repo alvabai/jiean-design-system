@@ -8,10 +8,10 @@ JIEAN product. Read this file first. It is short on purpose.
    repository and your own instincts disagree about a colour, a size, a space, a
    radius or a pattern, this repository is right.
 
-2. **The system ships three style packages: `arco-blue`, `brandcolor` and
+2. **The system ships three style packages: `arco-blue`, `jiean-red` and
    `industrial-steel-blue`.** The company-wide system is `JIEAN Design System`;
    `arco-blue` is the enterprise package researched from Arco Design Pro (Arco is a
-   source, not the author of this repository), `brandcolor` is that same package with
+   source, not the author of this repository), `jiean-red` is that same package with
    the colour layer replaced by 捷安's brand colours, and `industrial-steel-blue` is
    the industrial package, which adapts the colour layer into a derived steel blue
    within a recorded allow-list and adds motion, responsive behaviour and its own gap
@@ -22,7 +22,7 @@ JIEAN product. Read this file first. It is short on purpose.
 3. **Before creating or changing UI, read `<package>/DESIGN.md`.** Its frontmatter
    is the token set; its prose is the reasoning. Do not begin writing markup, styles
    or a component until you have read the contract of the package you are using —
-   `brandcolor`'s §Colors is where its palette and the rules that go with it live, and
+   `jiean-red`'s §Colors is where its palette and the rules that go with it live, and
    `industrial-steel-blue`'s §Known Gaps is where that package states what it does not
    yet solve.
 
@@ -31,12 +31,12 @@ JIEAN product. Read this file first. It is short on purpose.
    filter, cards, feedback, data visualization, workflow, permission, accessibility
    and responsive behaviour. Read the ones the task touches, not just `DESIGN.md`.
 
-5. **Use exported tokens where appropriate.** `<package>/dist/tokens.full.css` (217
-   custom properties in `arco-blue` and `brandcolor`, 262 in `industrial-steel-blue`) or
+5. **Use exported tokens where appropriate.** `<package>/dist/tokens.full.css` (262
+   custom properties in every package) or
    `<package>/dist/tokens.full.json`; `<package>/dist/tokens.css` and
    `tailwind.theme.json` when you want the official output. Reference a token by its
    **role**, never by its value — `primary` is `#165DFF` in `arco-blue`, `#D7000F` in
-   `brandcolor` and `#3E6489` in `industrial-steel-blue`, and each is correct in its
+   `jiean-red` and `#3E6489` in `industrial-steel-blue`, and each is correct in its
    own package.
 
 6. **Do not invent conflicting colours, spacing, typography, radius or patterns.**
@@ -65,7 +65,7 @@ JIEAN product. Read this file first. It is short on purpose.
 
 ## Do not
 
-- Do not copy values out of `<package>/examples/assets/app.css` as a shortcut: that
+- Do not copy values out of the example pages' inlined styles as a shortcut: that
   file is written against the tokens, so read the tokens. (In
   `industrial-steel-blue` that stylesheet is inlined into each page, so read the
   tokens rather than lifting the inline block.)
@@ -91,5 +91,5 @@ If you changed anything a user sees, also re-render the previews and check them 
 `industrial-steel-blue`, and `npm run check:visual` on a machine where a headless
 browser can be given a stable 1270×848 viewport for the other two. Report what they
 said, including a failure. `check:visual` is not part of `npm run check`, and
-`brandcolor`'s `reports/visual-validation.md` §5 explains what that leaves
+`jiean-red`'s `reports/visual-validation.md` §5 explains what that leaves
 unverified instead.

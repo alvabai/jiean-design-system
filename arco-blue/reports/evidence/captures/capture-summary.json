@@ -19,7 +19,7 @@
         "width": 1270,
         "height": 848
       },
-      "bytes": 107092,
+      "bytes": 108027,
       "windowChromePx": 87
     },
     {
@@ -33,7 +33,7 @@
         "width": 1270,
         "height": 848
       },
-      "bytes": 106128,
+      "bytes": 115155,
       "windowChromePx": 87
     },
     {
@@ -47,7 +47,7 @@
         "width": 1270,
         "height": 848
       },
-      "bytes": 74596,
+      "bytes": 78089,
       "windowChromePx": 87
     },
     {
@@ -61,35 +61,7 @@
         "width": 1270,
         "height": 848
       },
-      "bytes": 85396,
-      "windowChromePx": 87
-    },
-    {
-      "id": "components",
-      "measured": 67,
-      "viewport": {
-        "width": 1270,
-        "height": 848
-      },
-      "png": {
-        "width": 1270,
-        "height": 848
-      },
-      "bytes": 74963,
-      "windowChromePx": 87
-    },
-    {
-      "id": "index",
-      "measured": 31,
-      "viewport": {
-        "width": 1270,
-        "height": 848
-      },
-      "png": {
-        "width": 1270,
-        "height": 848
-      },
-      "bytes": 144187,
+      "bytes": 85369,
       "windowChromePx": 87
     }
   ]

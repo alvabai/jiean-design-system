@@ -56,22 +56,20 @@ export const EXTENSION_SECTIONS = [
 /**
  * Packages that must carry the extension sections.
  *
- * The extension set was introduced with `industrial-steel-blue`. The two earlier
- * packages predate it and are grandfathered rather than made to fail a rule that
- * did not exist when they were written; the gap is recorded in the repository
- * README and is the next piece of work for them.
+ * All three packages carry them. The extension set was introduced with
+ * `industrial-steel-blue`; `arco-blue` and `jiean-red` were brought up to the same
+ * standard afterwards, so the set is now every package in the repository.
  */
-export const EXTENDED_PACKAGES = new Set(['industrial-steel-blue']);
+export const EXTENDED_PACKAGES = new Set(['arco-blue', 'jiean-red', 'industrial-steel-blue']);
 
 /**
  * Packages the structural layer is enforced on.
  *
- * `arco-blue` and `brandcolor` were written before this layer existed, and they are
- * grandfathered: their checks are reported as `waived` with the reason, instead of
- * being failed or quietly skipped. The repository README records the gap as open
- * work, and nothing about those two packages is changed or hidden by the waiver.
+ * Every package. The layer was introduced with `industrial-steel-blue`, and
+ * `arco-blue` and `jiean-red` were upgraded to it afterwards; no package is
+ * grandfathered any more, so nothing is reported as waived.
  */
-export const STRUCTURAL_PACKAGES = new Set(['industrial-steel-blue']);
+export const STRUCTURAL_PACKAGES = new Set(['arco-blue', 'jiean-red', 'industrial-steel-blue']);
 
 /** Mandatory component categories. Every entry must appear in the coverage table. */
 export const MANDATORY_COMPONENTS = {
@@ -310,18 +308,14 @@ export const ALLOWED_CONTEXT = [
 ];
 
 /**
- * Checks that are waived for the packages written before this layer existed.
+ * Checks that were waived for the packages written before this layer existed.
  *
- * They are waived, not deleted: the reason is in the JSON next to the finding, so
- * a reader can see exactly what was not checked and why.
+ * The set is empty: `arco-blue` and `jiean-red` were upgraded to the structural
+ * layer, so every check now runs on every package. The constant is kept so the
+ * history stays legible, and so that re-using this list is a deliberate act rather
+ * than an oversight.
  */
-export const WAIVED_FOR_EARLIER_PACKAGES = new Set([
-  'coverage-matrix',
-  'state-coverage',
-  'typography-coverage',
-  'colour-coverage',
-  'legacy-naming',
-]);
+export const WAIVED_FOR_EARLIER_PACKAGES = new Set([]);
 
 /** Names this package must not use for itself. */
 export const LEGACY_TERMS = [
@@ -331,6 +325,7 @@ export const LEGACY_TERMS = [
   'jat-design',
   'arcopro-design',
   'arcopro',
+  'brandcolor',
 ];
 
 const OK = (detail, extra = {}) => ({ status: 'pass', detail, ...extra });

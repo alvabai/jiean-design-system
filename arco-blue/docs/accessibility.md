@@ -1,4 +1,10 @@
 # Accessibility
+> **Scope and provenance.** This is JIEAN's own implementation guide for the
+> `ArcoBlue` package: it states what this package requires. It is not a
+> translation or a restatement of Arco's documentation, and it is not an Arco
+> publication. Where a value is labelled *measured* or *Arco*, that is evidence
+> about the research baseline recorded in [`../DESIGN.md`](../DESIGN.md)
+> (Reference Sources) — not a claim that Arco defines this system.
 
 ## Purpose
 
@@ -132,11 +138,12 @@ unavoidable: `#A64500` (Arco `orange-8`, 6.05:1) for warning, `#008026` (Arco
 
 **E5 — `primary` on dark surfaces (2.29–3.44:1).**
 Dark surfaces are **anchors, not a theme**: the contract defines six dark values
-so an implementer does not invent them, and
-[`../examples/components.html`](../examples/components.html) renders them. A
-screen that ships dark UI must re-audit contrast against its own surfaces and must
-not use `primary` for text on a dark fill — use `dark-text` or
-`dark-text-secondary`, both of which pass on all three dark surfaces.
+so an implementer does not invent them. The four example pages render the light
+theme only, so they do not demonstrate them. `primary-on-dark` is the role
+intended for interactive use on those surfaces, and it clears AA on all three
+(4.61–6.95:1); `primary` itself does not, and must not be used for text on a dark
+fill — use `dark-text` or `dark-text-secondary`, both of which pass on all three
+dark surfaces.
 
 ## Non-colour requirements
 

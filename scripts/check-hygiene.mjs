@@ -262,28 +262,20 @@ const PATTERN_DOCS = [
 /**
  * The example files each package ships.
  *
- * `arco-blue` and `brandcolor` ship the six-page set with a shared stylesheet.
+ * `arco-blue` and `jiean-red` ship the six-page set with a shared stylesheet.
  * `industrial-steel-blue` ships the flat four-page set the industrial task book
  * specifies — `dashboard`, `list-page`, `form-page`, `detail-page`, each as HTML
  * plus the PNG rendered from it, with the styles inlined so `examples/` has no
  * subdirectory.
  */
-const SIX_PAGE_EXAMPLES = [
-  'examples/index.html',
-  'examples/dashboard.html',
-  'examples/list-page.html',
-  'examples/form-page.html',
-  'examples/detail-page.html',
-  'examples/components.html',
-  'examples/assets/app.css',
-];
-
 const FOUR_PAGE_EXAMPLES = ['dashboard', 'list-page', 'form-page', 'detail-page'].flatMap((page) => [
   `examples/${page}.html`,
   `examples/${page}.png`,
 ]);
 
 const PACKAGE_EXAMPLE_FILES = {
+  'arco-blue': FOUR_PAGE_EXAMPLES,
+  'jiean-red': FOUR_PAGE_EXAMPLES,
   'industrial-steel-blue': FOUR_PAGE_EXAMPLES,
 };
 
@@ -302,7 +294,7 @@ const REQUIRED = [
   'scripts/export-tokens.mjs',
   'scripts/verify-generated.mjs',
   'scripts/check-hygiene.mjs',
-  'scripts/derive-brand-ramp.mjs',
+  'scripts/derive-jiean-red-ramp.mjs',
   'scripts/visual/capture-screenshots.mjs',
   'scripts/visual/compare-metrics.mjs',
   'scripts/compare-packages.mjs',
@@ -328,7 +320,7 @@ const REQUIRED = [
     // structural layer; the two earlier packages are grandfathered out of that
     // layer, so they are not required to carry a report it did not produce.
     ...(STRUCTURAL_PACKAGES.has(pkg) ? [`${pkg}/reports/machine-validation.json`] : []),
-    ...(PACKAGE_EXAMPLE_FILES[pkg] ?? SIX_PAGE_EXAMPLES).map((file) => `${pkg}/${file}`),
+    ...(PACKAGE_EXAMPLE_FILES[pkg] ?? FOUR_PAGE_EXAMPLES).map((file) => `${pkg}/${file}`),
     ...PATTERN_DOCS.map((doc) => `${pkg}/docs/${doc}.md`),
   ]),
 ];

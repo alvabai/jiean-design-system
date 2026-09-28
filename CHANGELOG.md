@@ -3,6 +3,49 @@
 All notable changes to the style packages in this repository. The version policy
 that governs which digit moves is in each package's `README.md` §Versioning.
 
+## 3.0.0 — 2026-09-28
+
+All three style packages now ship the same delivery: one contract with the same
+sections, two coverage tables, one four-page preview set, one report set and one
+bilingual README. Getting there renamed one package and expanded two, and **no colour
+value that already existed changed** — the palette is what distinguishes a package, so
+it is the one layer this release holds still.
+
+**`brandcolor` becomes `jiean-red`.** The directory, the identifier, the display name
+`JIEAN Red` and the Chinese name `捷安红` replace `brandcolor` everywhere it appeared:
+the contract and its prose, the 14 pattern documents, the reference pages' titles and
+footers, the reports, both READMEs, `AGENTS.md`, the CI workflow and the scripts —
+`scripts/derive-brand-ramp.mjs` is now `scripts/derive-jiean-red-ramp.mjs`, and the
+colour map is `JIEAN_RED_COLOUR_MAP`. `brandcolor` joins the legacy-name list that
+`npm run 1:validate` enforces, so the old identifier cannot come back.
+
+**`arco-blue` and `jiean-red` are upgraded to the V2 structure.** Both contracts now
+pass all 12 structural checks — a component coverage table, three state tables, and the
+Motion, Responsive Behavior, Iteration Guide, Known Gaps and Reference Sources sections
+— and both packages gain the same four colour roles (`primary-on-dark`, plus
+`error-strong`, `error-strong-hover` and `error-strong-active`), the `code` typography
+role, the `dark-link` and `dark-button-primary` component tokens, and the eleven
+component tokens the coverage tables name. The four new colour roles are additions
+taken from Arco's published steps; nothing existing was redefined.
+
+**Both packages' `examples/` are flat.** Four HTML pages with a preview beside each,
+styles inlined, at 1280×900: the six-page set, `components.html`, `index.html` and the
+shared `assets/app.css` are retired across the repository, and every script that named
+them now names the four pages. Each package also ships four reports (`source-audit.md`,
+`designmd-validation.md`, `machine-validation.json`, `visual-validation.md`),
+fourteen pattern documents carrying a Scope and provenance block, and a bilingual
+README with the four previews embedded.
+
+**What did not move.** Every colour value that existed before this release is
+unchanged, in all three packages: verified by reading both contracts' frontmatter
+against `HEAD`, by `npm run 8:package-diff`, and by the contracts sha256 `npm run
+2:export` records.
+
+**Toolchain and CI.** The V2 requirements are enforced on all three packages instead of
+on `industrial-steel-blue` alone: the earlier-package waiver list is empty, the preview
+palette expectation and the selected-row colour comparison are per-package, and the
+visual capture compares the four pages rather than six.
+
 ## 2.0.0 — 2026-09-28
 
 The enterprise style package is renamed. `arcopro` becomes **`arco-blue`**, its
@@ -95,10 +138,10 @@ dark-surface exception and leaves one open on `dark-elevated`. The root README,
 
 ## 1.1.0 — 2026-09-26
 
-The `brandcolor` style package: the same design system with 捷安's brand colours in
+The `jiean-red` style package: the same design system with 捷安's brand colours in
 place of the blue, and a machine check that says so.
 
-**A second package.** `brandcolor/` carries the whole package — contract, 14 pattern
+**A second package.** `jiean-red/` carries the whole package — contract, 14 pattern
 documents, token artifacts, six example pages, three evidence reports, and its own
 README in English and Chinese. Eight of the 30 colour roles differ from `arco-blue`:
 捷安红 `#D7000F` as `primary`, 深灰 `#353535` for `text-primary`, `tooltip` and `mask`,
@@ -122,7 +165,7 @@ primary fill 5.19 → 5.39:1 — while the brand grey cost the dark text some he
 `text-primary` on surface 16.13 → 12.27:1, its weakest pairing 10.76:1.
 
 **Tooling.** Every script now works per package (`--package=` filters validation,
-export, verification, hygiene and capture). `scripts/derive-brand-ramp.mjs --check`
+export, verification, hygiene and capture). `scripts/derive-jiean-red-ramp.mjs --check`
 re-derives the ramp from the brand literals and fails if a step drifts.
 `scripts/compare-packages.mjs` is the cross-package proof above.
 `scripts/visual/capture-screenshots.mjs` now calibrates the window height against the
@@ -131,9 +174,9 @@ fails rather than storing a picture taken in the wrong viewport. `npm run check`
 now `1 → 2 → 3 → 7 → 8 → 6`; `npm run check:visual` (`4 → 5`) stays local-only.
 
 **Not done, and recorded as not done.** The render-level comparison was not run for
-`brandcolor`: this desktop could not hand a headless browser a stable 1270×848
+`jiean-red`: this desktop could not hand a headless browser a stable 1270×848
 viewport, so no capture evidence for the package is committed.
-`brandcolor/reports/visual-validation.md` §5 gives the reason and the commands that
+`jiean-red/reports/visual-validation.md` §5 gives the reason and the commands that
 produce it; §3 sets out what carries over from `arco-blue`'s measurement, and why the
 pixel probes it rests on are colour-neutral.
 
@@ -141,7 +184,7 @@ pixel probes it rests on are colour-neutral.
 subtle tints differ by 7 of 255, so the split is carried by rule rather than by
 appearance; the brand grey takes only the light theme's three dark anchors; four of
 the five primary steps are derived values rather than brand-issued ones. See
-`brandcolor/README.md` §Known Limitations.
+`jiean-red/README.md` §Known Limitations.
 
 ## 1.0.0 — 2026-09-26
 

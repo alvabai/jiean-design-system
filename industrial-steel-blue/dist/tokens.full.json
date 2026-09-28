@@ -1,7 +1,7 @@
 {
   "$source": {
     "contract": "industrial-steel-blue/DESIGN.md",
-    "contractSha256": "4b4a83f9b682d82cd011406bf014bc18190b7e75a573403c3eb515cd0e0e80ed",
+    "contractSha256": "d18f12453495fa25176a15196e62eea772e18e84a8c0e058f033ad852a72f86c",
     "generator": "scripts/export-tokens.mjs",
     "note": "Lossless derivation of industrial-steel-blue/DESIGN.md. The official design.md exports (tokens/tokens.json, dist/tokens.css, dist/tailwind.theme.json) are the interoperability formats and are stored verbatim. None of them emits the component token table or the fontFeature setting, and the css-vars export omits typography entirely; this file carries the complete contract, plus rgb/alpha/luminance per colour for consumers that need numeric channels."
   },

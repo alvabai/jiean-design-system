@@ -7,6 +7,7 @@
         "primary-active": "#0e42d2",
         "primary-disabled": "#94bfff",
         "primary-subtle": "#e8f3ff",
+        "primary-on-dark": "#6aa1ff",
         "canvas": "#f2f3f5",
         "surface": "#ffffff",
         "surface-hover": "#f7f8fa",
@@ -23,6 +24,9 @@
         "warning": "#ff7d00",
         "warning-subtle": "#fff7e8",
         "error": "#f53f3f",
+        "error-strong": "#cb272d",
+        "error-strong-hover": "#a1151e",
+        "error-strong-active": "#770813",
         "error-subtle": "#ffece8",
         "mask": "#1d212999",
         "tooltip": "#1d2129",
@@ -63,6 +67,9 @@
         ],
         "statistic": [
           "Inter, -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Hiragino Sans GB\", \"noto sans\", \"Microsoft YaHei\", \"Helvetica Neue\", Helvetica, Arial, sans-serif"
+        ],
+        "code": [
+          "Consolas, Menlo, monospace"
         ]
       },
       "fontSize": {
@@ -134,6 +141,13 @@
           {
             "lineHeight": "33px",
             "fontWeight": "600"
+          }
+        ],
+        "code": [
+          "13px",
+          {
+            "lineHeight": "20px",
+            "fontWeight": "400"
           }
         ]
       },

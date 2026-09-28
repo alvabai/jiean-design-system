@@ -8,10 +8,10 @@ name: validate-design
 #                       then run the structural layer (industrial-steel-blue)
 #   2:export            run the official CLI to produce the token artifacts
 #   3:verify-generated  re-verify the artifacts against the contract, per package
-#   7:brand-ramp        re-derive brandcolor's primary ramp from the brand red
+#   7:jiean-red-ramp        re-derive jiean-red's primary ramp from the brand red
 #   9:steel-ramp        re-derive industrial-steel-blue's ten-step steel family and
 #                       assert its eight contrast properties
-#   8:package-diff      prove both cross-package relationships: arco-blue<->brandcolor
+#   8:package-diff      prove both cross-package relationships: arco-blue<->jiean-red
 #                       differ in colour and nothing else, and
 #                       arco-blue<->industrial-steel-blue differ only inside the
 #                       recorded allow-list
@@ -63,7 +63,7 @@ jobs:
 
       - name: Lint the contracts with the official CLI
         run: |
-          for contract in arco-blue/DESIGN.md brandcolor/DESIGN.md industrial-steel-blue/DESIGN.md; do
+          for contract in arco-blue/DESIGN.md jiean-red/DESIGN.md industrial-steel-blue/DESIGN.md; do
             echo "design.md lint $contract"
             npx design.md lint "$contract"
           done
@@ -73,7 +73,7 @@ jobs:
 
       - name: Confirm the generated artifacts are part of the commit
         run: |
-          artifacts="arco-blue/tokens arco-blue/dist brandcolor/tokens brandcolor/dist industrial-steel-blue/tokens industrial-steel-blue/dist"
+          artifacts="arco-blue/tokens arco-blue/dist jiean-red/tokens jiean-red/dist industrial-steel-blue/tokens industrial-steel-blue/dist"
           if [ -n "$(git status --porcelain -- $artifacts)" ]; then
             echo "::error::Generated token artifacts differ from the committed ones."
             git status --porcelain -- $artifacts

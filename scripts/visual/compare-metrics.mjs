@@ -15,7 +15,7 @@
  *      records the reference values and, for each one, how it was obtained.
  *
  *   3. EVERY PAGE. The shell is one component, so it has to measure the same on
- *      all six pages, not only on the one the probe was taken from. Each page's
+ *      all four pages, not only on the one the probe was taken from. Each page's
  *      shell landmarks are compared against the same reference values.
  *
  * The comparison is deliberately explicit rather than generic: every pair names
@@ -57,8 +57,16 @@ for (const [pkgIndex, pkg] of packages.entries()) {
   const EVIDENCE = path.join(REPO_ROOT, pkg, 'reports', 'evidence');
   const CAPTURES = path.join(EVIDENCE, 'captures');
 
+  // The reference application's selected row is its own `primary`; each package
+  // paints the same row in its own. Recorded per package so the check stays exact.
+  const SELECTED_ITEM_COLOURS = {
+    'arco-blue': 'rgb(22, 93, 255)',
+    'jiean-red': 'rgb(215, 0, 15)',
+    'industrial-steel-blue': 'rgb(62, 100, 137)',
+  };
+
   const captures = {};
-  for (const page of ['dashboard', 'list', 'form', 'detail', 'components', 'index']) {
+  for (const page of ['dashboard', 'list', 'form', 'detail']) {
     try {
       captures[page] = JSON.parse(await readFile(path.join(CAPTURES, `${page}.json`), 'utf8'));
     } catch {
@@ -341,10 +349,14 @@ for (const [pkgIndex, pkg] of packages.entries()) {
     'selected menu item state',
     [
       ['fontWeight', sidebar.menuItemSelected.fontWeight, style(d.menuSelected, 'fontWeight')],
-      ['color', sidebar.menuItemSelected.color, style(d.menuSelected, 'color')],
+      // The selected row carries the package's own `primary`, which is exactly the
+      // colour a package is expected to change: this comparison is therefore made
+      // against the role, not against the reference application's literal blue.
+      ['color', SELECTED_ITEM_COLOURS[pkg], style(d.menuSelected, 'color')],
       ['backgroundColor', sidebar.menuItemSelected.backgroundColor, style(d.menuSelected, 'backgroundColor')],
     ],
-    'selection changes fill, text colour and weight, and nothing else',
+    'selection changes fill and weight, and paints its text in this package\'s `primary` '
+      + '(the one deliberate colour divergence from the reference)',
   );
   compareValues(
     'geometry',
@@ -446,10 +458,10 @@ for (const [pkgIndex, pkg] of packages.entries()) {
   );
 
   // ---------------------------------------------------------------------------
-  // 3. every page: one shell, the same measurement on all six pages
+  // 3. every page: one shell, the same measurement on all four pages
   // ---------------------------------------------------------------------------
 
-  for (const id of ['list', 'form', 'detail', 'components', 'index']) {
+  for (const id of ['list', 'form', 'detail']) {
     const c = captures[id].metrics;
     const rule = captures[id].pseudo.sidebarRule.style;
 
@@ -508,7 +520,7 @@ for (const [pkgIndex, pkg] of packages.entries()) {
       what: 'the reference pages for list, form and detail were swept into arco-pro-metrics.json but not re-probed with exact selectors',
       why: 'their entries there use generic key names whose target element cannot be verified from the recorded numbers, so using them as comparison targets would compare the wrong elements',
       coveredInstead:
-        'every shared landmark — shell, sidebar, header, card, breadcrumb, control heights — is compared through the exact-selector probe on the dashboard; all four reference pages are compared pixel for pixel against their captures; and the shell landmarks of all six pages are compared against the same reference values',
+        'every shared landmark — shell, sidebar, header, card, breadcrumb, control heights — is compared through the exact-selector probe on the dashboard; all four reference pages are compared pixel for pixel against their captures; and the shell landmarks of all four pages are compared against the same reference values',
     },
     {
       what: 'table, form and pagination internals versus the live site',

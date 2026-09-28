@@ -35,7 +35,7 @@ inset). Where the two could disagree, the running site decided it.
    number at 33px and a 12px caption at 18px. The multiplier that produces those
    (1.5715 at 14px) is Arco's, not ours; the contract states the resulting pixel
    values, because that is what the toolchain can carry.
-4. Spacing, radius and the 61 component tokens come from the same theme map plus
+4. Spacing, radius and the 75 component tokens come from the same theme map plus
    the measured geometry of the reference pages.
 
 ## 3. What was measured on the live reference, and what was not
@@ -92,9 +92,16 @@ revision, and not a stale copy.
 
 **Verified, and re-checked on every `npm run check`:** every token value and its
 count; the derived artifacts' agreement with the official exports; the exports'
-limitations; the contrast ratios; the visual comparison (89 values: 16 pixel
-checks over four page pairs, 38 dashboard landmarks, 35 shell landmarks on the
-other five pages) against the live reference.
+limitations; the contrast ratios; the visual comparison (75 values: 16 pixel
+checks over four page pairs, 38 dashboard landmarks, 21 shell landmarks on the
+other three pages) against the live reference.
+
+**Added in the V2 structure layer, and how they are classified:** `primary-on-dark`,
+`error-strong`, `error-strong-hover`, `error-strong-active`, the `code` typography role,
+the `dark-link` and `dark-button-primary` component tokens, and the eleven component
+tokens the coverage tables name. The four colours are Arco's published steps
+(`blue-4`, and `red-7` to `red-9`), so they are verified values rather than inferred
+ones. Every one of them is an addition: no token that already existed changed value.
 
 **Inferred, and labelled as such where it appears:** the intent behind upstream
 choices. The 200px brand block inside a 220px sidebar, the group header's 28px
@@ -111,7 +118,7 @@ substitutes computed in `arco-blue/docs/accessibility.md`.
 ## 6. Out of scope
 
 - The reference application's business logic, data and routing.
-- Arco's full component library. This system specifies the 61 component tokens the
+- Arco's full component library. This system specifies the 75 component tokens the
   reference actually uses and the 14 pattern documents it needs; it does not
   re-derive the library.
 - Any page of the reference that could not be reached in the captured session.

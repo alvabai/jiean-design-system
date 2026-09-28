@@ -4,6 +4,7 @@
   --color-primary-active: #0e42d2;
   --color-primary-disabled: #94bfff;
   --color-primary-subtle: #e8f3ff;
+  --color-primary-on-dark: #6aa1ff;
   --color-canvas: #f2f3f5;
   --color-surface: #ffffff;
   --color-surface-hover: #f7f8fa;
@@ -20,6 +21,9 @@
   --color-warning: #ff7d00;
   --color-warning-subtle: #fff7e8;
   --color-error: #f53f3f;
+  --color-error-strong: #cb272d;
+  --color-error-strong-hover: #a1151e;
+  --color-error-strong-active: #770813;
   --color-error-subtle: #ffece8;
   --color-mask: #1d212999;
   --color-tooltip: #1d2129;

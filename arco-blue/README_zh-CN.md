@@ -2,15 +2,34 @@
 
 **中文版** · [English version](README.md)
 
-JIEAN Design System 的企业级 style package。
+JIEAN Design System 的企业级 style package —— ArcoBlue（阿科蓝）。
 
 ## arco-blue 是什么？
 
 `arco-blue` 是 JIEAN 的企业应用 style package：一组令牌、一套成文的模式语言，以及一份参考实现；三者共同描述同一种密度、同一种语气——操作员、工程师与管理者在其中度过一个工作日的、数据密集的内部应用。
 
-它在词汇上刻意保持小，在少数几件它明确表态的事上保持严格。它规定 30 种颜色、10 个排版角色、13 级间距、5 种圆角与 61 个组件令牌；它不规定组件库。实现可以用 Arco React、Ant Design、Tailwind 构建链、手写 CSS，或任何其他东西。无论用哪一种，数值与模式都来自这里。
+它在词汇上刻意保持小，在少数几件它明确表态的事上保持严格。它规定 34 种颜色、11 个排版角色、13 级间距、5 种圆角与 75 个组件令牌；它不规定组件库。实现可以用 Arco React、Ant Design、Tailwind 构建链、手写 CSS，或任何其他东西。无论用哪一种，数值与模式都来自这里。
 
 这个名字是 style package 的名字，不是产品名。它说明你正在读的是哪一个包，就像 `arco-blue-compact` 会说明它自己是谁。
+
+## 视觉示例
+
+四个页面，均由仓库内的 HTML 在 1280×900、DPR 1、浅色主题、无 JavaScript、无构建步骤下渲染。
+每张 PNG 就放在它对应的页面旁边，且每个页面都是自包含的（样式已内联），因此 `examples/`
+是一个「四页 HTML + 四张 PNG」的平铺目录。
+
+| 页面 | 预览 |
+|---|---|
+| 工作台 —— KPI 行、趋势折线、最近记录表、右侧 rail | ![工作台](examples/dashboard.png) |
+| 列表页 —— 查询区、工具条、高密度表格 | ![列表页](examples/list-page.png) |
+| 表单页 —— 三列分组表单、行内状态、固定操作条 | ![表单页](examples/form-page.png) |
+| 详情页 —— 步骤条、当前/变更前参数块、关联记录 | ![详情页](examples/detail-page.png) |
+
+这些预览图是被校验的，不是装饰：`npm run 10:screenshots` 会逐张检查文件是否存在、是否为真正的
+PNG、是否精确为 1280×900、是否不比它依据的 HTML 与令牌陈旧，以及**像素上是否真的带着本包声明的
+配色**——`canvas`、`surface`、`primary`、`text-primary` 各自的像素数必须达到记录的下限，另外
+两个同门包的主色必须一个像素都不出现。重新渲染用 `npm run 11:screenshots:write`。这些图能证明
+什么、不能证明什么，写在 `reports/visual-validation.md`。
 
 ## 设计来源
 
@@ -67,20 +86,18 @@ arco-blue/
 │   ├── tailwind.theme.json       官方 Tailwind 主题
 │   ├── tokens.full.css           派生：217 个自定义属性（无损）
 │   └── tokens.full.json          派生：无损，含行高、
-│                                 字体特性与全部 61 个组件令牌
-├── examples/                参考实现，无构建步骤
-│   ├── index.html
-│   ├── dashboard.html            四个必需页面
-│   ├── list-page.html
-│   ├── form-page.html
-│   ├── detail-page.html
-│   ├── components.html      一页看全词汇
-│   └── assets/app.css       唯一一份样式表，对照令牌编写
+│                                 字体特性与全部 75 个组件令牌
+├── examples/                 参考实现，平铺且自包含
+│   ├── dashboard.html        + dashboard.png
+│   ├── list-page.html        + list-page.png
+│   ├── form-page.html        + form-page.png
+│   └── detail-page.html      + detail-page.png
 └── reports/
-    ├── source-audit.md           每个数值从哪来
-    ├── designmd-validation.md    工具链实际做了什么
-    ├── visual-validation.md      保真度比对及其结果
-    └── evidence/                 原始读数、截图、机器可读结果
+    ├── source-audit.md          每个数值的来源
+    ├── designmd-validation.md   工具链的真实行为
+    ├── visual-validation.md     预览图能证明什么
+    ├── machine-validation.json  结构校验结果（机器可读）
+    └── evidence/                推导过程与跨包差集证据
 ```
 
 ## 快速开始
@@ -102,8 +119,8 @@ Node 18 或更高。示例没有构建步骤：直接打开 HTML 文件，或用
 | `npm run 1:validate` | 对 `DESIGN.md` 做 lint，打印令牌数量与小节名 | 契约无法解析，或 lint 报出 error |
 | `npm run 2:export` | 用官方 CLI 导出三种格式，再派生无损文件对 | CLI 失败，或某个产物为空 |
 | `npm run 3:verify-generated` | 26 项检查：出处、无损性、已知工具链限制、对比度 | 任何产物与契约发生漂移 |
-| `npm run 4:capture` | 无头渲染六个示例页并记录计算样式 | 某页未达到 1270×848 视口，或 Chrome 失败 |
-| `npm run 5:compare` | 对参考值比对 89 项：四个页面对 16 项像素检查、dashboard 38 项地标、其余五页 35 项外壳地标 | 任何被比对的数值发生漂移 |
+| `npm run 4:capture` | 无头渲染四个示例页并记录计算样式 | 某页未达到 1270×848 视口，或 Chrome 失败 |
+| `npm run 5:compare` | 对参考值比对 75 项：四个页面对 16 项像素检查、dashboard 38 项地标、其余三页 21 项外壳地标 | 任何被比对的数值发生漂移 |
 | `npm run 6:hygiene` | 占位符、链接、JSON 合法性、必需文件、命名 | 链接失效、文件缺失、占位符残留 |
 | `npm run check` | `1 → 2 → 3 → 6` | 同上；这是 CI 的门禁 |
 | `npm run check:visual` | `4 → 5` | 同上；需要 Chrome，因此不进 CI |
@@ -113,7 +130,7 @@ Node 18 或更高。示例没有构建步骤：直接打开 HTML 文件，或用
 你不需要 AI 工具、React 工程或本仓库的工具链，就能基于 `arco-blue` 开发。
 
 1. **读设计规范。** `DESIGN.md`。为你正在构建的那部分 UI 读正文小节；frontmatter 是给工具的。
-2. **查看语义令牌。** 30 种颜色按角色命名——`primary`、`canvas`、`surface`、`text-secondary`、`border`——而不是按外观命名。解析后的完整集合见 `dist/tokens.full.json`，其中包含行高、字体特性与组件令牌。
+2. **查看语义令牌。** 34 种颜色按角色命名——`primary`、`canvas`、`surface`、`text-secondary`、`border`——而不是按外观命名。解析后的完整集合见 `dist/tokens.full.json`，其中包含行高、字体特性与组件令牌。
 3. **使用生成的 CSS。** `dist/tokens.full.css` 定义了 217 个自定义属性，可直接用于普通 CSS；若你要 CLI 输出的官方原样结果，则用 `dist/tokens.css`。`dist/tailwind.theme.json` 可直接放入 Tailwind 配置。
 4. **查组件指引。** `docs/`——每个模式领域一篇文档，各自包含数值、状态、密度与对比度说明。
 5. **查企业级模式。** `docs/workflow.md`（多步与审批）、`docs/permission.md`（按角色可见的 UI）、`docs/tables.md`（高密度数据面）、`docs/feedback.md`（最常被遗忘的那些状态）。
@@ -198,7 +215,7 @@ arco-blue/docs/ 下的相关文档。绝不引入规范中没有的颜色、尺�
 
 `npm run check` 是门禁。它用官方 linter 检查 `DESIGN.md`、用官方 CLI 导出令牌、把生成的产物与契约核对（包括产物中记录的契约 sha256 是否仍然一致），并检查仓库卫生。CI 运行同一条命令，因此本地绿等于 CI 绿。
 
-`npm run check:visual` 另外重新渲染六个示例页，并与记录的参考值比对 89 项：四个页面对 16 项像素检查、dashboard 38 项地标、其余五页 35 项外壳地标。它需要 Chrome，因此在本地运行并把结果写进 `reports/visual-validation.md`，而不作为 CI 门禁。
+`npm run check:visual` 另外重新渲染四个示例页，并与记录的参考值比对 75 项：四个页面对 16 项像素检查、dashboard 38 项地标、其余三页 21 项外壳地标。它需要 Chrome，因此在本地运行并把结果写进 `reports/visual-validation.md`，而不作为 CI 门禁。
 
 ## 更新 arco-blue
 
@@ -230,10 +247,10 @@ arco-blue/docs/ 下的相关文档。绝不引入规范中没有的颜色、尺�
 
 写在这里，因为一个隐瞒自身限制的设计系统会被用到超出限制。
 
-1. **没有任何官方导出承载那 61 个组件令牌，只有一种承载排版。** `dist/tokens.css` 只有颜色、间距与圆角。需要组件令牌或排版时，用 `dist/tokens.full.css` 或 `dist/tokens.full.json`。原因与确切丢失内容见 `reports/designmd-validation.md`。
+1. **没有任何官方导出承载那 75 个组件令牌，只有一种承载排版。** `dist/tokens.css` 只有颜色、间距与圆角。需要组件令牌或排版时，用 `dist/tokens.full.css` 或 `dist/tokens.full.json`。原因与确切丢失内容见 `reports/designmd-validation.md`。
 2. **契约中 `lineHeight` 必须写成 px 尺寸。** 无单位倍数会被工具链静默丢弃——不报错、不警告。契约使用像素值，`3:verify-generated` 断言这个坑仍然存在。
 3. **参考实现在 1100px 以下不响应式**，本系统记录的布局同样如此：`--component-shell-content-width` 是最小值，不是固定宽度。低于 1100px 时布局性质会变化，`docs/responsive.md` 说明此时应当是什么样。
 4. **14px 文本只有一种行高，而参考实现有两种。** 参考实现中外壳里的 14px 文本行盒为 21px，表格单元格里为 22.001px；本系统一律使用 22px。记录于 `reports/visual-validation.md` §5。
 5. **交互状态未做视觉比对。** hover、focus、pressed 有规定并做过对比度审计，但保真度比对是静态渲染。
-6. **示例是参考实现，不是组件库。** 它们是 HTML、一份样式表与令牌文件，用来演示规范。它们不打算被原样复制进产品。
+6. **示例是参考实现，不是组件库。** 它们是 HTML（样式已内联）与令牌文件，用来演示规范。它们不打算被原样复制进产品。
 7. **官方 CLI 的 `css-tailwind`、`tailwind` 与 `diff` 未使用。** 本包所需的交付用不到它们；见 `reports/designmd-validation.md` §7。

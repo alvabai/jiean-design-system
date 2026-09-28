@@ -6,7 +6,7 @@
  * The repository holds three packages with two different relationships, so the
  * comparison is configured per pair rather than hard-coded for one:
  *
- *   arco-blue ↔ brandcolor — "colour only". 8 of 30 colour roles take 捷安 brand
+ *   arco-blue ↔ jiean-red — "colour only". 8 of 30 colour roles take 捷安 brand
  *     values and every other design decision was to stay identical. Typography,
  *     spacing and radii must be byte-identical; the 61 component tokens must be
  *     identical once each colour literal is replaced by the role it belongs to;
@@ -31,8 +31,8 @@
  * that is on disk right now, by hash, so a stale artifact fails here.
  *
  * What this does not cover: rendered output. Comparing pictures of the packages
- * needs a headless browser; for `brandcolor` that layer is absent rather than
- * approximated (see `brandcolor/reports/visual-validation.md`), and for
+ * needs a headless browser; for `jiean-red` that layer is absent rather than
+ * approximated (see `jiean-red/reports/visual-validation.md`), and for
  * `industrial-steel-blue` it is covered by `npm run 10:screenshots`, which
  * re-derives the committed PNGs from the committed HTML.
  *
@@ -45,13 +45,14 @@ import path from 'node:path';
 
 import { REPO_ROOT } from './lib/design-system.mjs';
 
-/** The colour roles `brandcolor` is expected to change, with both values. */
-const BRAND_COLOUR_MAP = {
+/** The colour roles `jiean-red` is expected to change, with both values. */
+const JIEAN_RED_COLOUR_MAP = {
   primary: ['#165DFF', '#D7000F'],
   'primary-hover': ['#4080FF', '#FF303F'],
   'primary-active': ['#0E42D2', '#A80B16'],
   'primary-disabled': ['#94BFFF', '#FFA4AA'],
   'primary-subtle': ['#E8F3FF', '#FFEEEF'],
+  'primary-on-dark': ['#6AA1FF', '#FF7680'],
   'text-primary': ['#1D2129', '#353535'],
   tooltip: ['#1D2129', '#353535'],
   mask: ['#1D212999', '#35353599'],
@@ -59,13 +60,10 @@ const BRAND_COLOUR_MAP = {
 
 /** The example pages whose source must survive normalisation unchanged. */
 const ARCO_BLUE_SOURCE_FILES = [
-  'examples/index.html',
   'examples/dashboard.html',
   'examples/list-page.html',
   'examples/form-page.html',
   'examples/detail-page.html',
-  'examples/components.html',
-  'examples/assets/app.css',
 ];
 
 /** The pages `industrial-steel-blue` ships: flat, four pages, no shared stylesheet file. */
@@ -84,14 +82,9 @@ const STEEL_SOURCE_FILES = [
  */
 const STEEL_RELATIONSHIP = {
   /** Typography roles the adaptation adds; everything else must be identical. */
-  addedTypography: ['code'],
+  addedTypography: [],
   /** Colour roles the adaptation adds, with the value it must have. */
-  addedColours: {
-    'primary-on-dark': '#628DB8',
-    'error-strong': '#CB272D',
-    'error-strong-hover': '#A1151E',
-    'error-strong-active': '#770813',
-  },
+  addedColours: {},
   /**
    * Colour roles allowed to differ from the baseline, with the rule that
    * describes each family. `transform` means "derive from the baseline step, do
@@ -103,6 +96,7 @@ const STEEL_RELATIONSHIP = {
     'primary-active': 'transform',
     'primary-disabled': 'transform',
     'primary-subtle': 'transform',
+    'primary-on-dark': 'transform',
   },
   /** Files the adaptation does not copy, and why. */
   notCopied: {
@@ -114,13 +108,13 @@ const STEEL_RELATIONSHIP = {
 
 const PAIRS = [
   {
-    id: 'arco-blue-brandcolor',
+    id: 'arco-blue-jiean-red',
     left: 'arco-blue',
-    right: 'brandcolor',
+    right: 'jiean-red',
     mode: 'colour-only',
-    colourMap: BRAND_COLOUR_MAP,
+    colourMap: JIEAN_RED_COLOUR_MAP,
     sourceFiles: ARCO_BLUE_SOURCE_FILES,
-    evidenceIn: 'brandcolor',
+    evidenceIn: 'jiean-red',
     claim: 'colour only',
   },
   {
@@ -180,8 +174,8 @@ function colourLiterals(palette) {
  * surfaces as an unexplained difference.
  */
 const SELF_NAMES = {
-  'arco-blue': ['arco-blue', 'ArcoBlue'],
-  brandcolor: ['brandcolor'],
+  'arco-blue': ['arco-blue', 'ArcoBlue', '阿科蓝'],
+  'jiean-red': ['jiean-red', 'JIEAN Red', '捷安红'],
 };
 
 /**

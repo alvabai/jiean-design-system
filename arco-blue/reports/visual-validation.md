@@ -60,8 +60,8 @@ a pixel value at or beyond half the box are the same circle, and reporting them 
 different would be reporting a spelling difference as a visual one.
 
 **Every page, against the same values.** The shell is one component, so it has to
-measure the same on all six pages rather than only on the page the probe was taken
-from. Each of the other five pages is compared against the same reference values
+measure the same on all four pages rather than only on the page the probe was taken
+from. Each of the other three pages is compared against the same reference values
 for the shell landmarks: the header box and its rule, the sidebar box and its
 rule's resolved geometry, a menu row's box, the avatar and the brand mark.
 
@@ -243,9 +243,10 @@ Two further corrections were to the *comparison itself*, and both matter as much
    dashboard card is 605px tall because of what is inside it; ours is 435px for the
    same reason. Widths, insets and control heights are compared; content-driven
    heights are not, and are not claimed to match.
-5. **`components.html` and `index.html` have no reference counterpart.** They were
-   captured and their shell is pixel-checked, but they are not part of the
-   landmark comparison.
+5. **The specimen pages were retired.** Earlier revisions shipped `components.html`
+   and `index.html` beside the four required pages. Neither had a reference
+   counterpart, so both are gone: `examples/` is now the four pages with a preview
+   beside each, and every one of them is inside the landmark comparison.
 
 ## 6. Not covered
 

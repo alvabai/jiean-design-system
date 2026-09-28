@@ -997,7 +997,7 @@ How to change this package without breaking it.
    `dist/tailwind.theme.json`, `dist/tokens.full.css` and `dist/tokens.full.json`.
 4. `npm run 3:verify-generated` — checks that every generated artifact exists, is registered and is
    plausible, and runs the contrast audit.
-5. `npm run 7:brand-ramp` and `npm run 9:steel-ramp` — fail if the palettes and DESIGN.md have
+5. `npm run 7:jiean-red-ramp` and `npm run 9:steel-ramp` — fail if the palettes and DESIGN.md have
    drifted apart.
 6. `npm run 8:package-diff` — compares this package with its baseline and fails on an undocumented
    difference.

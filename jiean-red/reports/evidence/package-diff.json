@@ -1,0 +1,125 @@
+{
+  "generatedBy": "scripts/compare-packages.mjs",
+  "pair": "arco-blue-jiean-red",
+  "mode": "colour-only",
+  "claim": "colour only",
+  "packages": [
+    "arco-blue",
+    "jiean-red"
+  ],
+  "colours": {
+    "total": 34,
+    "differing": [
+      {
+        "role": "mask",
+        "arco-blue": "#1D212999",
+        "jiean-red": "#35353599"
+      },
+      {
+        "role": "primary",
+        "arco-blue": "#165DFF",
+        "jiean-red": "#D7000F"
+      },
+      {
+        "role": "primary-active",
+        "arco-blue": "#0E42D2",
+        "jiean-red": "#A80B16"
+      },
+      {
+        "role": "primary-disabled",
+        "arco-blue": "#94BFFF",
+        "jiean-red": "#FFA4AA"
+      },
+      {
+        "role": "primary-hover",
+        "arco-blue": "#4080FF",
+        "jiean-red": "#FF303F"
+      },
+      {
+        "role": "primary-on-dark",
+        "arco-blue": "#6AA1FF",
+        "jiean-red": "#FF7680"
+      },
+      {
+        "role": "primary-subtle",
+        "arco-blue": "#E8F3FF",
+        "jiean-red": "#FFEEEF"
+      },
+      {
+        "role": "text-primary",
+        "arco-blue": "#1D2129",
+        "jiean-red": "#353535"
+      },
+      {
+        "role": "tooltip",
+        "arco-blue": "#1D2129",
+        "jiean-red": "#353535"
+      }
+    ],
+    "added": [],
+    "identical": 25
+  },
+  "groupsExact": [
+    {
+      "group": "typography",
+      "entries": 11
+    },
+    {
+      "group": "spacing",
+      "entries": 13
+    },
+    {
+      "group": "rounded",
+      "entries": 5
+    }
+  ],
+  "groupsAdded": [],
+  "components": {
+    "group": "components",
+    "entries": 75
+  },
+  "componentsAdded": [],
+  "source": [
+    {
+      "file": "examples/dashboard.html",
+      "bytes": {
+        "arco-blue": 45933,
+        "jiean-red": 45937
+      },
+      "colourRoles": [],
+      "identical": true,
+      "asserted": true
+    },
+    {
+      "file": "examples/list-page.html",
+      "bytes": {
+        "arco-blue": 44228,
+        "jiean-red": 44232
+      },
+      "colourRoles": [],
+      "identical": true,
+      "asserted": true
+    },
+    {
+      "file": "examples/form-page.html",
+      "bytes": {
+        "arco-blue": 41038,
+        "jiean-red": 41042
+      },
+      "colourRoles": [],
+      "identical": true,
+      "asserted": true
+    },
+    {
+      "file": "examples/detail-page.html",
+      "bytes": {
+        "arco-blue": 41444,
+        "jiean-red": 41448
+      },
+      "colourRoles": [],
+      "identical": true,
+      "asserted": true
+    }
+  ],
+  "failures": []
+}

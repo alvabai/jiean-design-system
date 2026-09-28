@@ -1,7 +1,7 @@
 {
   "$source": {
     "contract": "arco-blue/DESIGN.md",
-    "contractSha256": "9107f4051e42f8d2672c784a579e9cc2a822f3215bac35e0661b6dbcfc7f02c2",
+    "contractSha256": "b13ad1101a5f7c524911ff8e57211a386413ea69d2f45ff022b21cf61e78cd83",
     "generator": "scripts/export-tokens.mjs",
     "note": "Lossless derivation of arco-blue/DESIGN.md. The official design.md exports (tokens/tokens.json, dist/tokens.css, dist/tailwind.theme.json) are the interoperability formats and are stored verbatim. None of them emits the component token table or the fontFeature setting, and the css-vars export omits typography entirely; this file carries the complete contract, plus rgb/alpha/luminance per colour for consumers that need numeric channels."
   },
@@ -57,6 +57,16 @@
       ],
       "alpha": 1,
       "luminance": 0.885
+    },
+    "primary-on-dark": {
+      "value": "#6aa1ff",
+      "rgb": [
+        106,
+        161,
+        255
+      ],
+      "alpha": 1,
+      "luminance": 0.358
     },
     "canvas": {
       "value": "#f2f3f5",
@@ -217,6 +227,36 @@
       ],
       "alpha": 1,
       "luminance": 0.233
+    },
+    "error-strong": {
+      "value": "#cb272d",
+      "rgb": [
+        203,
+        39,
+        45
+      ],
+      "alpha": 1,
+      "luminance": 0.143
+    },
+    "error-strong-hover": {
+      "value": "#a1151e",
+      "rgb": [
+        161,
+        21,
+        30
+      ],
+      "alpha": 1,
+      "luminance": 0.082
+    },
+    "error-strong-active": {
+      "value": "#770813",
+      "rgb": [
+        119,
+        8,
+        19
+      ],
+      "alpha": 1,
+      "luminance": 0.041
     },
     "error-subtle": {
       "value": "#ffece8",
@@ -389,6 +429,14 @@
       "lineHeight": "33px",
       "letterSpacing": null,
       "fontFeature": "tnum"
+    },
+    "code": {
+      "fontFamily": "Consolas, Menlo, monospace",
+      "fontSize": "13px",
+      "fontWeight": 400,
+      "lineHeight": "20px",
+      "letterSpacing": null,
+      "fontFeature": null
     }
   },
   "spacing": {
@@ -553,6 +601,107 @@
       },
       "unresolvedRefs": []
     },
+    "button-outline": {
+      "properties": {
+        "height": {
+          "value": "32px",
+          "kind": "dimension"
+        },
+        "padding": {
+          "value": "15px",
+          "kind": "dimension"
+        },
+        "rounded": {
+          "value": "2px",
+          "kind": "dimension"
+        },
+        "typography": {
+          "value": "button",
+          "kind": "typography"
+        },
+        "backgroundColor": {
+          "value": "#ffffff",
+          "kind": "color"
+        },
+        "textColor": {
+          "value": "#165dff",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "button-text": {
+      "properties": {
+        "height": {
+          "value": "32px",
+          "kind": "dimension"
+        },
+        "padding": {
+          "value": "15px",
+          "kind": "dimension"
+        },
+        "rounded": {
+          "value": "2px",
+          "kind": "dimension"
+        },
+        "typography": {
+          "value": "button",
+          "kind": "typography"
+        },
+        "textColor": {
+          "value": "#165dff",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "button-danger": {
+      "properties": {
+        "height": {
+          "value": "32px",
+          "kind": "dimension"
+        },
+        "padding": {
+          "value": "15px",
+          "kind": "dimension"
+        },
+        "rounded": {
+          "value": "2px",
+          "kind": "dimension"
+        },
+        "typography": {
+          "value": "button",
+          "kind": "typography"
+        },
+        "backgroundColor": {
+          "value": "#cb272d",
+          "kind": "color"
+        },
+        "textColor": {
+          "value": "#ffffff",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "button-danger-hover": {
+      "properties": {
+        "backgroundColor": {
+          "value": "#a1151e",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "button-danger-active": {
+      "properties": {
+        "backgroundColor": {
+          "value": "#770813",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
     "button-secondary": {
       "properties": {
         "height": {
@@ -646,6 +795,37 @@
       "properties": {
         "backgroundColor": {
           "value": "#ffffff",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "input-disabled": {
+      "properties": {
+        "backgroundColor": {
+          "value": "#f2f3f5",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "input-error": {
+      "properties": {
+        "textColor": {
+          "value": "#f53f3f",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "input-readonly": {
+      "properties": {
+        "backgroundColor": {
+          "value": "#f2f3f5",
+          "kind": "color"
+        },
+        "textColor": {
+          "value": "#4e5969",
           "kind": "color"
         }
       },
@@ -780,6 +960,41 @@
       },
       "unresolvedRefs": []
     },
+    "table-row-selected": {
+      "properties": {
+        "backgroundColor": {
+          "value": "#e8f3ff",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "table-empty": {
+      "properties": {
+        "textColor": {
+          "value": "#86909c",
+          "kind": "color"
+        },
+        "typography": {
+          "value": "secondary-body",
+          "kind": "typography"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "table-loading": {
+      "properties": {
+        "backgroundColor": {
+          "value": "#ffffff",
+          "kind": "color"
+        },
+        "textColor": {
+          "value": "#4e5969",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
     "divider-horizontal": {
       "properties": {
         "height": {
@@ -836,6 +1051,15 @@
         "typography": {
           "value": "button",
           "kind": "typography"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "menu-item-hover": {
+      "properties": {
+        "backgroundColor": {
+          "value": "#f7f8fa",
+          "kind": "color"
         }
       },
       "unresolvedRefs": []
@@ -1164,6 +1388,48 @@
       "properties": {
         "backgroundColor": {
           "value": "#f53f3f",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "dark-link": {
+      "properties": {
+        "typography": {
+          "value": "button",
+          "kind": "typography"
+        },
+        "textColor": {
+          "value": "#6aa1ff",
+          "kind": "color"
+        }
+      },
+      "unresolvedRefs": []
+    },
+    "dark-button-primary": {
+      "properties": {
+        "height": {
+          "value": "32px",
+          "kind": "dimension"
+        },
+        "padding": {
+          "value": "15px",
+          "kind": "dimension"
+        },
+        "rounded": {
+          "value": "2px",
+          "kind": "dimension"
+        },
+        "typography": {
+          "value": "button",
+          "kind": "typography"
+        },
+        "backgroundColor": {
+          "value": "#6aa1ff",
+          "kind": "color"
+        },
+        "textColor": {
+          "value": "#17171a",
           "kind": "color"
         }
       },

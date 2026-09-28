@@ -213,8 +213,8 @@ The scripts:
 | `npm run 4:capture` | renders the `arco-blue` example pages headless and records computed styles | a page does not reach a 1270×848 viewport, or Chrome fails |
 | `npm run 5:compare` | compares the `arco-blue` pages against the recorded reference | any compared value drifts |
 | `npm run 6:hygiene` | placeholders, links, JSON validity, required files, naming | a link is broken, a file is missing, a placeholder survives |
-| `npm run 7:brand-ramp` | re-derives the `brandcolor` ramp from the brand literal | a derived step drifts |
-| `npm run 8:package-diff` | proves both cross-package relationships: `arco-blue`↔`brandcolor` differ only in colour; `arco-blue`↔`industrial-steel-blue` differ only inside the recorded allow-list | a token outside the allow-list moves, or an addition is unrecorded |
+| `npm run 7:jiean-red-ramp` | re-derives the `jiean-red` ramp from the brand literal | a derived step drifts |
+| `npm run 8:package-diff` | proves both cross-package relationships: `arco-blue`↔`jiean-red` differ only in colour; `arco-blue`↔`industrial-steel-blue` differ only inside the recorded allow-list | a token outside the allow-list moves, or an addition is unrecorded |
 | `npm run 9:steel-ramp` | re-derives the ten steel steps and asserts eight contrast properties | a step or a ratio drifts, or a claim in the contract contradicts the derivation |
 | `npm run 10:screenshots` | checks the four previews: presence, PNG validity, exact 1280×900, freshness, pixel palette | a preview is missing, stale, the wrong size, or carries the wrong colours |
 | `npm run 11:screenshots:write` | re-renders the four previews headless | a page fails to reach 1280×900 |

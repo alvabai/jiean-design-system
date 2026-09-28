@@ -76,11 +76,11 @@ const CALIBRATION_ATTEMPTS = 5;
 
 /**
  * The flat-example packages: the ones whose `examples/` is a flat set of HTML
- * files with a PNG beside each. `arco-blue` and `brandcolor` ship the six-page set
- * with a shared stylesheet and keep their captured evidence under `reports/`
- * instead, where `npm run 4:capture` and `npm run 5:compare` own it.
+ * files with a PNG beside each. All three packages ship that shape; the reference
+ * captures that `npm run 4:capture` and `npm run 5:compare` own live separately,
+ * under `reports/evidence/`.
  */
-const FLAT_EXAMPLE_PACKAGES = new Set(['industrial-steel-blue']);
+const FLAT_EXAMPLE_PACKAGES = new Set(['arco-blue', 'jiean-red', 'industrial-steel-blue']);
 
 /** The example pages, in the order they are rendered. */
 const PAGES = ['dashboard', 'list-page', 'form-page', 'detail-page'];
@@ -306,16 +306,42 @@ async function renderPage({ chrome, profileDir, port, pkg, page, pngPath }) {
  * hundred pixels is a loose test with no false negatives.
  */
 const PALETTE = {
-  required: [
-    { role: 'canvas', hex: '#F2F3F5', minPixels: 20000 },
-    { role: 'surface', hex: '#FFFFFF', minPixels: 100000 },
-    { role: 'primary', hex: '#3E6489', minPixels: 300 },
-    { role: 'text-primary', hex: '#1D2129', minPixels: 300 },
-  ],
-  forbidden: [
-    { role: 'the baseline primary', hex: '#165DFF' },
-    { role: 'the brand red', hex: '#D7000F' },
-  ],
+  'arco-blue': {
+    required: [
+      { role: 'canvas', hex: '#F2F3F5', minPixels: 20000 },
+      { role: 'surface', hex: '#FFFFFF', minPixels: 100000 },
+      { role: 'primary', hex: '#165DFF', minPixels: 300 },
+      { role: 'text-primary', hex: '#1D2129', minPixels: 300 },
+    ],
+    forbidden: [
+      { role: "industrial-steel-blue's primary", hex: '#3E6489' },
+      { role: "jiean-red's primary", hex: '#D7000F' },
+    ],
+  },
+  'jiean-red': {
+    required: [
+      { role: 'canvas', hex: '#F2F3F5', minPixels: 20000 },
+      { role: 'surface', hex: '#FFFFFF', minPixels: 100000 },
+      { role: 'primary', hex: '#D7000F', minPixels: 300 },
+      { role: 'text-primary', hex: '#353535', minPixels: 300 },
+    ],
+    forbidden: [
+      { role: "arco-blue's primary", hex: '#165DFF' },
+      { role: "industrial-steel-blue's primary", hex: '#3E6489' },
+    ],
+  },
+  'industrial-steel-blue': {
+    required: [
+      { role: 'canvas', hex: '#F2F3F5', minPixels: 20000 },
+      { role: 'surface', hex: '#FFFFFF', minPixels: 100000 },
+      { role: 'primary', hex: '#3E6489', minPixels: 300 },
+      { role: 'text-primary', hex: '#1D2129', minPixels: 300 },
+    ],
+    forbidden: [
+      { role: 'the baseline primary', hex: '#165DFF' },
+      { role: 'the brand red', hex: '#D7000F' },
+    ],
+  },
 };
 
 /** Count exact pixel matches for a set of hex colours in a decoded image. */
@@ -382,6 +408,8 @@ async function check(packages) {
 
   for (const pkg of packages) {
     const pkgDir = path.join(REPO_ROOT, pkg);
+    const palette = PALETTE[pkg];
+    if (!palette) throw new Error(`no palette expectation recorded for ${pkg}`);
     const sources = await newestSourceMtime(pkgDir);
     for (const page of PAGES) {
       const htmlPath = path.join(pkgDir, 'examples', `${page}.html`);
@@ -412,11 +440,11 @@ async function check(packages) {
         continue;
       }
       const counts = countColours(image, [
-        ...PALETTE.required.map((c) => c.hex),
-        ...PALETTE.forbidden.map((c) => c.hex),
+        ...palette.required.map((c) => c.hex),
+        ...palette.forbidden.map((c) => c.hex),
       ]);
       const sample = {};
-      for (const c of PALETTE.required) {
+      for (const c of palette.required) {
         sample[c.role] = counts.get(c.hex.toUpperCase());
         if (sample[c.role] < c.minPixels) {
           failures.push(
@@ -425,7 +453,7 @@ async function check(packages) {
           );
         }
       }
-      for (const c of PALETTE.forbidden) {
+      for (const c of palette.forbidden) {
         const found = counts.get(c.hex.toUpperCase());
         sample[`not ${c.role}`] = found;
         if (found > 0) {
@@ -501,7 +529,7 @@ const packages = requestedPackages(requested).filter((pkg) => FLAT_EXAMPLE_PACKA
 
 if (packages.length === 0) {
   console.log(
-    'No flat-example package selected. `arco-blue` and `brandcolor` keep their captures under ' +
+    'No flat-example package selected. `arco-blue` and `jiean-red` keep their captures under ' +
       'reports/evidence and are handled by npm run 4:capture. Nothing to do.',
   );
   process.exit(0);

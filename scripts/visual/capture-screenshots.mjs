@@ -69,8 +69,6 @@ const pagesFor = (pkg) => [
   { id: 'list', file: `${pkg}/examples/list-page.html` },
   { id: 'form', file: `${pkg}/examples/form-page.html` },
   { id: 'detail', file: `${pkg}/examples/detail-page.html` },
-  { id: 'components', file: `${pkg}/examples/components.html` },
-  { id: 'index', file: `${pkg}/examples/index.html` },
 ];
 
 /** Where one package's captures are written. */

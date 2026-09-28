@@ -1,4 +1,10 @@
 # Feedback
+> **Scope and provenance.** This is JIEAN's own implementation guide for the
+> `ArcoBlue` package: it states what this package requires. It is not a
+> translation or a restatement of Arco's documentation, and it is not an Arco
+> publication. Where a value is labelled *measured* or *Arco*, that is evidence
+> about the research baseline recorded in [`../DESIGN.md`](../DESIGN.md)
+> (Reference Sources) — not a claim that Arco defines this system.
 
 ## Purpose
 

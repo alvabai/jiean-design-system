@@ -35,36 +35,25 @@
         "industrial-steel-blue": "#4C7BA9"
       },
       {
+        "role": "primary-on-dark",
+        "rule": "transform",
+        "arco-blue": "#6AA1FF",
+        "industrial-steel-blue": "#628DB8"
+      },
+      {
         "role": "primary-subtle",
         "rule": "transform",
         "arco-blue": "#E8F3FF",
         "industrial-steel-blue": "#EDF2F7"
       }
     ],
-    "added": [
-      {
-        "role": "error-strong",
-        "value": "#CB272D"
-      },
-      {
-        "role": "error-strong-active",
-        "value": "#770813"
-      },
-      {
-        "role": "error-strong-hover",
-        "value": "#A1151E"
-      },
-      {
-        "role": "primary-on-dark",
-        "value": "#628DB8"
-      }
-    ],
-    "identical": 25
+    "added": [],
+    "identical": 28
   },
   "groupsExact": [
     {
       "group": "typography",
-      "entries": 10
+      "entries": 11
     },
     {
       "group": "spacing",
@@ -75,37 +64,17 @@
       "entries": 5
     }
   ],
-  "groupsAdded": [
-    {
-      "group": "typography",
-      "name": "code"
-    }
-  ],
+  "groupsAdded": [],
   "components": {
     "group": "components",
-    "entries": 61
+    "entries": 75
   },
-  "componentsAdded": [
-    "button-danger",
-    "button-danger-active",
-    "button-danger-hover",
-    "button-outline",
-    "button-text",
-    "dark-button-primary",
-    "dark-link",
-    "input-disabled",
-    "input-error",
-    "input-readonly",
-    "menu-item-hover",
-    "table-empty",
-    "table-loading",
-    "table-row-selected"
-  ],
+  "componentsAdded": [],
   "source": [
     {
       "file": "examples/dashboard.html",
       "bytes": {
-        "arco-blue": 12766,
+        "arco-blue": 45933,
         "industrial-steel-blue": 45915
       },
       "colourRoles": [],
@@ -115,7 +84,7 @@
     {
       "file": "examples/list-page.html",
       "bytes": {
-        "arco-blue": 11159,
+        "arco-blue": 44228,
         "industrial-steel-blue": 44296
       },
       "colourRoles": [],
@@ -125,7 +94,7 @@
     {
       "file": "examples/form-page.html",
       "bytes": {
-        "arco-blue": 7967,
+        "arco-blue": 41038,
         "industrial-steel-blue": 41104
       },
       "colourRoles": [],
@@ -135,7 +104,7 @@
     {
       "file": "examples/detail-page.html",
       "bytes": {
-        "arco-blue": 8375,
+        "arco-blue": 41444,
         "industrial-steel-blue": 41512
       },
       "colourRoles": [],
