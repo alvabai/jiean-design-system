@@ -3,6 +3,60 @@
 All notable changes to the style packages in this repository. The version policy
 that governs which digit moves is in each package's `README.md` §Versioning.
 
+## 1.2.0 — 2026-09-28
+
+The `industrial-steel-blue` style package: an industrial blue derived from the
+baseline's own ramp rather than adopted from it, a structural validation layer the
+first two packages did not have, and previews that are checked down to their pixels.
+
+**A third package.** `industrial-steel-blue/` carries the whole package — contract,
+14 pattern documents, token artifacts, four self-contained example pages with four
+rendered previews, four reports, and its own README in English and Chinese. It is a
+**superset with an allow-list, not a recolour**: of 34 colour roles 25 are unchanged,
+5 move by a recorded transform and 4 are added; of 11 typography roles 10 are
+unchanged and `code` is added; all 13 spacing steps, all radii and 61 of 75 component
+tokens are `arcopro`'s.
+
+**The colour is derived, not chosen.** Hue is forced to 210°, saturation × 0.38, and
+steps 5–7 are darkened to × 0.78 so the interaction steps still carry white text. The
+ten steps, the three rules and eight contrast assertions live in
+`scripts/derive-steel-ramp.mjs`; the evidence is
+`reports/evidence/palette-derivation.json`. Two findings changed the design rather
+than being worked around: the baseline's error red cannot carry white text (3.71:1),
+so a destructive fill now uses the `error-strong` ladder (5.43 / 7.95 / 11.48:1) — the
+one place in the language where hover darkens — and a darker blue needs its own dark
+interactive colour (`primary-on-dark`, 5.13:1 on `dark-canvas`, 4.50:1 on
+`dark-surface`, and 3.41:1 on `dark-elevated`, recorded as an open gap with a
+placement rule).
+
+**A structural layer beside the official linter.** `scripts/lib/machine-validation.mjs`
+adds 12 deterministic checks the DESIGN.md format cannot express: reference
+resolution, section presence and order, the 38-component coverage matrix, the state
+matrices, typography and colour coverage, foreign-contamination and legacy-naming
+scans. `scripts/validate-design.mjs` now runs both layers and writes
+`reports/machine-validation.json` — 12 of 12 passing, with the contract's sha256 and
+token counts. Writing the checks found three real defects, all fixed in the checker or
+the contract rather than relaxed.
+
+**Previews with pixel evidence.** The four example pages are flat and self-contained
+(stylesheets inlined, `examples/assets/` removed), each with a 1280×900 PNG rendered
+from it by `scripts/generate-example-screenshots.mjs`. `npm run 10:screenshots` checks
+presence, PNG validity, exact dimensions, freshness and — on the decoded pixels —
+that the declared palette is present and that neither the baseline's blue nor the
+brand red appears. `npm run 11:screenshots:write` re-renders. Both run headless with
+`--use-mock-keychain`, so a build step never asks for the login keychain.
+
+**New commands.** `9:steel-ramp`, `10:screenshots` and `11:screenshots:write`;
+`8:package-diff` was rewritten to prove two pairs with two sets of criteria, and
+`npm run check` is now `1 → 2 → 3 → 7 → 9 → 8 → 10 → 6`. CI lints three contracts and
+confirms three packages' generated artifacts are committed.
+
+**Documentation.** The third package's docs state their own scope and provenance
+rather than inheriting a baseline's voice; `docs/accessibility.md` carries the
+re-derived ratios, including that the industrial blue resolves the baseline's
+dark-surface exception and leaves one open on `dark-elevated`. The root README,
+`AGENTS.md` and this file were updated for three packages.
+
 ## 1.1.0 — 2026-09-26
 
 The `brandcolor` style package: the same design system with 捷安's brand colours in

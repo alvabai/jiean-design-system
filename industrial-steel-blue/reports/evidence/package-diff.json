@@ -1,0 +1,159 @@
+{
+  "generatedBy": "scripts/compare-packages.mjs",
+  "pair": "arcopro-industrial-steel-blue",
+  "mode": "adapted",
+  "claim": "a documented adaptation — a superset with allow-listed additions",
+  "packages": [
+    "arcopro",
+    "industrial-steel-blue"
+  ],
+  "colours": {
+    "total": 34,
+    "differing": [
+      {
+        "role": "primary",
+        "rule": "transform",
+        "arcopro": "#165DFF",
+        "industrial-steel-blue": "#3E6489"
+      },
+      {
+        "role": "primary-active",
+        "rule": "transform",
+        "arcopro": "#0E42D2",
+        "industrial-steel-blue": "#324C65"
+      },
+      {
+        "role": "primary-disabled",
+        "rule": "transform",
+        "arcopro": "#94BFFF",
+        "industrial-steel-blue": "#A8C0D8"
+      },
+      {
+        "role": "primary-hover",
+        "rule": "transform",
+        "arcopro": "#4080FF",
+        "industrial-steel-blue": "#4C7BA9"
+      },
+      {
+        "role": "primary-subtle",
+        "rule": "transform",
+        "arcopro": "#E8F3FF",
+        "industrial-steel-blue": "#EDF2F7"
+      }
+    ],
+    "added": [
+      {
+        "role": "error-strong",
+        "value": "#CB272D"
+      },
+      {
+        "role": "error-strong-active",
+        "value": "#770813"
+      },
+      {
+        "role": "error-strong-hover",
+        "value": "#A1151E"
+      },
+      {
+        "role": "primary-on-dark",
+        "value": "#628DB8"
+      }
+    ],
+    "identical": 25
+  },
+  "groupsExact": [
+    {
+      "group": "typography",
+      "entries": 10
+    },
+    {
+      "group": "spacing",
+      "entries": 13
+    },
+    {
+      "group": "rounded",
+      "entries": 5
+    }
+  ],
+  "groupsAdded": [
+    {
+      "group": "typography",
+      "name": "code"
+    }
+  ],
+  "components": {
+    "group": "components",
+    "entries": 61
+  },
+  "componentsAdded": [
+    "button-danger",
+    "button-danger-active",
+    "button-danger-hover",
+    "button-outline",
+    "button-text",
+    "dark-button-primary",
+    "dark-link",
+    "input-disabled",
+    "input-error",
+    "input-readonly",
+    "menu-item-hover",
+    "table-empty",
+    "table-loading",
+    "table-row-selected"
+  ],
+  "source": [
+    {
+      "file": "examples/dashboard.html",
+      "bytes": {
+        "arcopro": 12762,
+        "industrial-steel-blue": 45915
+      },
+      "colourRoles": [],
+      "identical": false,
+      "asserted": false
+    },
+    {
+      "file": "examples/list-page.html",
+      "bytes": {
+        "arcopro": 11157,
+        "industrial-steel-blue": 44296
+      },
+      "colourRoles": [],
+      "identical": false,
+      "asserted": false
+    },
+    {
+      "file": "examples/form-page.html",
+      "bytes": {
+        "arcopro": 7965,
+        "industrial-steel-blue": 41104
+      },
+      "colourRoles": [],
+      "identical": false,
+      "asserted": false
+    },
+    {
+      "file": "examples/detail-page.html",
+      "bytes": {
+        "arcopro": 8373,
+        "industrial-steel-blue": 41512
+      },
+      "colourRoles": [],
+      "identical": false,
+      "asserted": false
+    },
+    {
+      "file": "examples/index.html",
+      "notCopied": "the industrial package ships the four required pages only"
+    },
+    {
+      "file": "examples/components.html",
+      "notCopied": "the industrial package ships the four required pages only"
+    },
+    {
+      "file": "examples/assets/app.css",
+      "notCopied": "styles are inlined so that examples/ stays flat"
+    }
+  ],
+  "failures": []
+}

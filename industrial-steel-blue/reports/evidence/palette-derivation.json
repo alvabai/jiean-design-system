@@ -1,0 +1,285 @@
+{
+  "$source": "Re-derivable with `node scripts/derive-steel-ramp.mjs`; this file is its output.",
+  "baseline": {
+    "primary": "Arco Design 2.66.16 arcoblue family",
+    "light": [
+      "#E8F3FF",
+      "#BEDAFF",
+      "#94BFFF",
+      "#6AA1FF",
+      "#4080FF",
+      "#165DFF",
+      "#0E42D2",
+      "#072CA6",
+      "#031A79",
+      "#000D4D"
+    ],
+    "dark": [
+      "#000D4D",
+      "#041B79",
+      "#0E32A6",
+      "#1D4DD2",
+      "#306FFF",
+      "#3C7EFF",
+      "#689FFF",
+      "#93BEFF",
+      "#BEDAFF",
+      "#EAF4FF"
+    ],
+    "sources": [
+      "components/style/theme/color/colors.less (@arcoblue-6: #165dff)",
+      "@arco-design/web-react@2.66.16/dist/css/arco.css (resolved --arcoblue-1..10, both themes)",
+      "components/style/theme/default.less (motion and typography variables)"
+    ]
+  },
+  "transform": {
+    "hue": 210,
+    "saturationFactor": 0.38,
+    "coreLuminanceFactor": 0.78,
+    "coreSteps": [
+      5,
+      6,
+      7
+    ]
+  },
+  "roleSteps": {
+    "primary-hover": 5,
+    "primary": 6,
+    "primary-active": 7,
+    "primary-disabled": 3,
+    "primary-subtle": 1
+  },
+  "family": [
+    {
+      "step": 1,
+      "arco": "#E8F3FF",
+      "value": "#EDF2F7",
+      "rgb": [
+        237,
+        242,
+        247
+      ],
+      "arcoLuminance": 0.8848,
+      "luminance": 0.8848,
+      "arcoHue": 211.3,
+      "arcoSaturation": 1,
+      "saturation": 0.38,
+      "hueShift": 1.3
+    },
+    {
+      "step": 2,
+      "arco": "#BEDAFF",
+      "value": "#CBD9E8",
+      "rgb": [
+        203,
+        217,
+        232
+      ],
+      "arcoLuminance": 0.6831,
+      "luminance": 0.6831,
+      "arcoHue": 214.2,
+      "arcoSaturation": 1,
+      "saturation": 0.38,
+      "hueShift": 4.2
+    },
+    {
+      "step": 3,
+      "arco": "#94BFFF",
+      "value": "#A8C0D8",
+      "rgb": [
+        168,
+        192,
+        216
+      ],
+      "arcoLuminance": 0.5078,
+      "luminance": 0.5078,
+      "arcoHue": 215.9,
+      "arcoSaturation": 1,
+      "saturation": 0.38,
+      "hueShift": 5.9
+    },
+    {
+      "step": 4,
+      "arco": "#6AA1FF",
+      "value": "#83A5C7",
+      "rgb": [
+        131,
+        165,
+        199
+      ],
+      "arcoLuminance": 0.3577,
+      "luminance": 0.3577,
+      "arcoHue": 217.9,
+      "arcoSaturation": 1,
+      "saturation": 0.38,
+      "hueShift": 7.9
+    },
+    {
+      "step": 5,
+      "arco": "#4080FF",
+      "value": "#4C7BA9",
+      "rgb": [
+        76,
+        123,
+        169
+      ],
+      "arcoLuminance": 0.2375,
+      "luminance": 0.1852,
+      "arcoHue": 219.9,
+      "arcoSaturation": 1,
+      "saturation": 0.38,
+      "hueShift": 9.9
+    },
+    {
+      "step": 6,
+      "arco": "#165DFF",
+      "value": "#3E6489",
+      "rgb": [
+        62,
+        100,
+        137
+      ],
+      "arcoLuminance": 0.1522,
+      "luminance": 0.1187,
+      "arcoHue": 221.7,
+      "arcoSaturation": 1,
+      "saturation": 0.38,
+      "hueShift": 11.7
+    },
+    {
+      "step": 7,
+      "arco": "#0E42D2",
+      "value": "#324C65",
+      "rgb": [
+        50,
+        76,
+        101
+      ],
+      "arcoLuminance": 0.0864,
+      "luminance": 0.0674,
+      "arcoHue": 224.1,
+      "arcoSaturation": 0.875,
+      "saturation": 0.332,
+      "hueShift": 14.1
+    },
+    {
+      "step": 8,
+      "arco": "#072CA6",
+      "value": "#293E54",
+      "rgb": [
+        41,
+        62,
+        84
+      ],
+      "arcoLuminance": 0.046,
+      "luminance": 0.046,
+      "arcoHue": 226,
+      "arcoSaturation": 0.919,
+      "saturation": 0.349,
+      "hueShift": 16
+    },
+    {
+      "step": 9,
+      "arco": "#031A79",
+      "value": "#1B2A39",
+      "rgb": [
+        27,
+        42,
+        57
+      ],
+      "arcoLuminance": 0.0214,
+      "luminance": 0.0214,
+      "arcoHue": 228.3,
+      "arcoSaturation": 0.952,
+      "saturation": 0.362,
+      "hueShift": 18.3
+    },
+    {
+      "step": 10,
+      "arco": "#000D4D",
+      "value": "#0E1720",
+      "rgb": [
+        14,
+        23,
+        32
+      ],
+      "arcoLuminance": 0.0082,
+      "luminance": 0.0082,
+      "arcoHue": 229.9,
+      "arcoSaturation": 1,
+      "saturation": 0.38,
+      "hueShift": 19.9
+    }
+  ],
+  "primaryOnDark": {
+    "value": "#628DB8",
+    "rgb": [
+      98,
+      141,
+      184
+    ],
+    "arco": "#3C7EFF",
+    "arcoLuminance": 0.231,
+    "raisedFor": 0.2509,
+    "target": 0.2509,
+    "luminance": 0.2509
+  },
+  "tokens": {
+    "primary-hover": "#4C7BA9",
+    "primary": "#3E6489",
+    "primary-active": "#324C65",
+    "primary-disabled": "#A8C0D8",
+    "primary-subtle": "#EDF2F7",
+    "primary-on-dark": "#628DB8"
+  },
+  "checks": [
+    {
+      "label": "white on primary fill meets AA",
+      "actual": 6.197,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "label": "primary as text on surface exceeds the Arco baseline",
+      "actual": 6.197,
+      "minimum": 5.15,
+      "pass": true
+    },
+    {
+      "label": "primary as text on canvas meets AA",
+      "actual": 5.581,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "label": "hover is lighter than default",
+      "actual": true,
+      "minimum": true,
+      "pass": true
+    },
+    {
+      "label": "active is darker than default",
+      "actual": true,
+      "minimum": true,
+      "pass": true
+    },
+    {
+      "label": "disabled is darker than subtle",
+      "actual": true,
+      "minimum": true,
+      "pass": true
+    },
+    {
+      "label": "primary on dark canvas meets 4.5:1",
+      "actual": 5.129,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "label": "primary on dark surface meets 4.5:1",
+      "actual": 4.502,
+      "minimum": 4.5,
+      "pass": true
+    }
+  ]
+}

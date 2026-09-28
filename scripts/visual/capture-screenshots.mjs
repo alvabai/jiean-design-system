@@ -454,6 +454,10 @@ function baseFlags(profileDir, chromePx = WINDOW_CHROME_PX) {
     '--disable-extensions',
     '--hide-scrollbars',
     '--force-device-scale-factor=1',
+    // A throwaway profile would otherwise ask the login keychain for its
+    // "Chrome Safe Storage" secret on every run — a prompt nobody should have to
+    // answer for a build step. The mock keychain keeps the profile throwaway.
+    '--use-mock-keychain',
     `--window-size=${VIEWPORT.width},${VIEWPORT.height + chromePx}`,
     `--user-data-dir=${profileDir}`,
   ];

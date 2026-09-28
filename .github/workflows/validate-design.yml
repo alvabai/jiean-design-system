@@ -4,11 +4,20 @@ name: validate-design
 # same order, so a green run locally means a green run here.
 #
 # `npm run check` runs, in order:
-#   1:validate          lint every <package>/DESIGN.md with the official toolchain
+#   1:validate          lint every <package>/DESIGN.md with the official toolchain,
+#                       then run the structural layer (industrial-steel-blue)
 #   2:export            run the official CLI to produce the token artifacts
 #   3:verify-generated  re-verify the artifacts against the contract, per package
 #   7:brand-ramp        re-derive brandcolor's primary ramp from the brand red
-#   8:package-diff      prove the two packages differ in colour and nothing else
+#   9:steel-ramp        re-derive industrial-steel-blue's ten-step steel family and
+#                       assert its eight contrast properties
+#   8:package-diff      prove both cross-package relationships: arcopro<->brandcolor
+#                       differ in colour and nothing else, and
+#                       arcopro<->industrial-steel-blue differ only inside the
+#                       recorded allow-list
+#   10:screenshots      check industrial-steel-blue's four previews: presence, PNG
+#                       validity, exact 1280x900, freshness and the palette on their
+#                       pixels. Browser-free, so it belongs on every commit.
 #   6:hygiene           placeholders, links, JSON validity, required files
 #
 # The official CLI is additionally invoked directly below, so that the tool's own
@@ -54,7 +63,7 @@ jobs:
 
       - name: Lint the contracts with the official CLI
         run: |
-          for contract in arcopro/DESIGN.md brandcolor/DESIGN.md; do
+          for contract in arcopro/DESIGN.md brandcolor/DESIGN.md industrial-steel-blue/DESIGN.md; do
             echo "design.md lint $contract"
             npx design.md lint "$contract"
           done
@@ -64,9 +73,10 @@ jobs:
 
       - name: Confirm the generated artifacts are part of the commit
         run: |
-          if [ -n "$(git status --porcelain -- arcopro/tokens arcopro/dist brandcolor/tokens brandcolor/dist)" ]; then
+          artifacts="arcopro/tokens arcopro/dist brandcolor/tokens brandcolor/dist industrial-steel-blue/tokens industrial-steel-blue/dist"
+          if [ -n "$(git status --porcelain -- $artifacts)" ]; then
             echo "::error::Generated token artifacts differ from the committed ones."
-            git status --porcelain -- arcopro/tokens arcopro/dist brandcolor/tokens brandcolor/dist
+            git status --porcelain -- $artifacts
             echo "Run 'npm run 2:export' locally and commit the result."
             exit 1
           fi

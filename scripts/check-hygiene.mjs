@@ -24,6 +24,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 import { PACKAGES, REPO_ROOT } from './lib/design-system.mjs';
+import { STRUCTURAL_PACKAGES } from './lib/machine-validation.mjs';
 
 const SKIP_DIRS = new Set(['node_modules', '.git', '.DS_Store']);
 const failures = [];
@@ -58,6 +59,24 @@ async function walk(dir, out = []) {
 const SELF = path.join(REPO_ROOT, 'scripts', 'check-hygiene.mjs');
 const files = (await walk(REPO_ROOT)).sort();
 const scannedFiles = files.filter((f) => f !== SELF);
+
+/**
+ * Two files necessarily contain an excluded marker, and both do so on purpose:
+ *
+ *   - `scripts/lib/machine-validation.mjs` defines the legacy names the structural
+ *     layer searches for, so the list has to spell them out;
+ *   - `industrial-steel-blue/reports/designmd-validation.md` reports what that
+ *     search found, and a report about a naming rule has to name the rule.
+ *
+ * They are exempt from the marker scan alone. Every occurrence is printed as an
+ * allowed mention, so the exemption is visible in the output instead of silent,
+ * and every other file is still scanned in full.
+ */
+const MARKER_SOURCES = new Set([
+  path.join(REPO_ROOT, 'scripts', 'lib', 'machine-validation.mjs'),
+  path.join(REPO_ROOT, 'industrial-steel-blue', 'reports', 'designmd-validation.md'),
+]);
+const allowedMarkerMentions = [];
 
 // ---------------------------------------------------------------------------
 // 6. no agent / session / task ids in names
@@ -126,9 +145,14 @@ for (const f of scannedFiles) {
   const lines = text.split('\n');
   for (const { id, re } of MARKERS) {
     lines.forEach((line, i) => {
-      if (re.test(line)) {
-        fail('marker', `${rel(f)}:${i + 1} — filler marker "${id}": ${line.trim().slice(0, 110)}`);
+      if (!re.test(line)) return;
+      const where = `${rel(f)}:${i + 1}`;
+      const what = `filler marker "${id}": ${line.trim().slice(0, 110)}`;
+      if (MARKER_SOURCES.has(f)) {
+        allowedMarkerMentions.push(`${where} — ${what}`);
+        return;
       }
+      fail('marker', `${where} — ${what}`);
     });
   }
 
@@ -235,6 +259,34 @@ const PATTERN_DOCS = [
   'responsive',
 ];
 
+/**
+ * The example files each package ships.
+ *
+ * `arcopro` and `brandcolor` ship the six-page set with a shared stylesheet.
+ * `industrial-steel-blue` ships the flat four-page set the industrial task book
+ * specifies — `dashboard`, `list-page`, `form-page`, `detail-page`, each as HTML
+ * plus the PNG rendered from it, with the styles inlined so `examples/` has no
+ * subdirectory.
+ */
+const SIX_PAGE_EXAMPLES = [
+  'examples/index.html',
+  'examples/dashboard.html',
+  'examples/list-page.html',
+  'examples/form-page.html',
+  'examples/detail-page.html',
+  'examples/components.html',
+  'examples/assets/app.css',
+];
+
+const FOUR_PAGE_EXAMPLES = ['dashboard', 'list-page', 'form-page', 'detail-page'].flatMap((page) => [
+  `examples/${page}.html`,
+  `examples/${page}.png`,
+]);
+
+const PACKAGE_EXAMPLE_FILES = {
+  'industrial-steel-blue': FOUR_PAGE_EXAMPLES,
+};
+
 const REQUIRED = [
   'README.md',
   'README_zh-CN.md',
@@ -254,6 +306,10 @@ const REQUIRED = [
   'scripts/visual/capture-screenshots.mjs',
   'scripts/visual/compare-metrics.mjs',
   'scripts/compare-packages.mjs',
+  'scripts/lib/machine-validation.mjs',
+  'scripts/derive-steel-ramp.mjs',
+  'scripts/generate-example-screenshots.mjs',
+  'scripts/final-metrics.mjs',
   // Every style package delivers the same file set, so the list is generated
   // from PACKAGES rather than repeated per package.
   ...PACKAGES.flatMap((pkg) => [
@@ -268,13 +324,11 @@ const REQUIRED = [
     `${pkg}/reports/source-audit.md`,
     `${pkg}/reports/designmd-validation.md`,
     `${pkg}/reports/visual-validation.md`,
-    `${pkg}/examples/index.html`,
-    `${pkg}/examples/dashboard.html`,
-    `${pkg}/examples/list-page.html`,
-    `${pkg}/examples/form-page.html`,
-    `${pkg}/examples/detail-page.html`,
-    `${pkg}/examples/components.html`,
-    `${pkg}/examples/assets/app.css`,
+    // The machine-readable verdict is written by 1:validate, which enforces the
+    // structural layer; the two earlier packages are grandfathered out of that
+    // layer, so they are not required to carry a report it did not produce.
+    ...(STRUCTURAL_PACKAGES.has(pkg) ? [`${pkg}/reports/machine-validation.json`] : []),
+    ...(PACKAGE_EXAMPLE_FILES[pkg] ?? SIX_PAGE_EXAMPLES).map((file) => `${pkg}/${file}`),
     ...PATTERN_DOCS.map((doc) => `${pkg}/docs/${doc}.md`),
   ]),
 ];
@@ -304,9 +358,15 @@ console.log('Hygiene scan');
 console.log('------------');
 console.log(`  files scanned          ${scannedFiles.length}`);
 console.log(`  checker excluded       ${rel(SELF)} (it defines the patterns)`);
+console.log(`  marker exemptions      ${MARKER_SOURCES.size} file(s) that define or report the terms`);
 console.log(`  placeholder occurrences ${placeholderHits.length} across ${placeholderByFile.size} file(s)`);
 for (const [file, count] of [...placeholderByFile].sort()) {
   console.log(`    ${String(count).padStart(3)}  ${file}`);
+}
+if (allowedMarkerMentions.length > 0) {
+  for (const mention of allowedMarkerMentions) {
+    notes.push(`allowed marker mention (a file that defines or reports the term): ${mention}`);
+  }
 }
 notes.push(
   'The word "placeholder" is legitimate UI vocabulary: an input\'s hint text, the CSS ' +

@@ -1,52 +1,52 @@
 #!/usr/bin/env node
 /**
- * Compare the two style packages in this repository and prove — or refuse to
- * claim — that they differ in nothing but colour.
+ * 8:package-diff — compare the style packages and prove, or refuse to claim, the
+ * relationship each one asserts.
  *
- * `brandcolor` is `arcopro` with the colour layer replaced: 8 of 30 colour roles
- * take 捷安 brand values, and every other design decision was to stay identical.
- * That claim is checkable without a browser, so this script checks it in two
- * layers and fails the moment an unexplained difference appears.
+ * The repository holds three packages with two different relationships, so the
+ * comparison is configured per pair rather than hard-coded for one:
  *
- *   tokens  — `dist/tokens.full.json` of both packages. Typography, spacing and
- *             radii must be byte-identical; the 61 component tokens must be
- *             identical once every colour literal is replaced by the role it
- *             belongs to; and of the 30 colour roles, exactly the 8 in COLOUR_MAP
- *             may differ, each in the recorded direction. Each file is also
- *             checked against the contract it names, by hash.
+ *   arcopro ↔ brandcolor — "colour only". 8 of 30 colour roles take 捷安 brand
+ *     values and every other design decision was to stay identical. Typography,
+ *     spacing and radii must be byte-identical; the 61 component tokens must be
+ *     identical once each colour literal is replaced by the role it belongs to;
+ *     exactly the 8 roles in `colourMap` may differ; and the six example pages
+ *     plus their stylesheet must be character-for-character the same file once
+ *     the package name and every palette literal are normalised. The whole point
+ *     is that "only the colours changed" is a statement about the stylesheet, not
+ *     about a screenshot: a colour literal that belongs to no palette surfaces as
+ *     an unexplained difference instead of passing quietly.
  *
- *   source  — the six example pages and their stylesheet. The package's own name
- *             and every colour literal are normalised to their role, after which
- *             the two packages must be character-for-character the same file.
- *             This is what makes "only the colours changed" a statement about the
- *             stylesheet rather than about a screenshot: no rule, no length, no
- *             spacing, no font and no selector may differ, and a colour literal
- *             that belongs to no palette shows up as an unexplained difference
- *             instead of passing quietly.
+ *   arcopro ↔ industrial-steel-blue — "documented adaptation". This package is
+ *     not a recolour: it keeps the baseline's structure and adds to it. So the
+ *     check is a superset check with an allow-list — every arcopro typography
+ *     role, spacing step, radius and component token must still be present, and
+ *     must still be identical except where colour is normalised; colour roles may
+ *     differ only in the recorded families; and anything *added* must be named in
+ *     `allowedAdditions`, so an undocumented change cannot slip in. Example pages
+ *     are reported, not asserted, because this package's pages are deliberately
+ *     adapted rather than copied.
  *
- * What this does not cover: rendered output. Comparing pictures of the two
- * packages needs a headless browser that can be given a stable viewport, which
- * this machine could not provide; the render layer is genuinely absent rather
- * than approximated — see `brandcolor/reports/visual-validation.md`.
+ * Both pairs verify that each package's `dist/` was exported from the contract
+ * that is on disk right now, by hash, so a stale artifact fails here.
  *
- * Usage: node scripts/compare-packages.mjs
+ * What this does not cover: rendered output. Comparing pictures of the packages
+ * needs a headless browser; for `brandcolor` that layer is absent rather than
+ * approximated (see `brandcolor/reports/visual-validation.md`), and for
+ * `industrial-steel-blue` it is covered by `npm run 10:screenshots`, which
+ * re-derives the committed PNGs from the committed HTML.
+ *
+ * Run: npm run 8:package-diff
  */
 
 import { createHash } from 'node:crypto';
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { REPO_ROOT, PACKAGES } from './lib/design-system.mjs';
+import { REPO_ROOT } from './lib/design-system.mjs';
 
-/**
- * The colour roles that are expected to differ, with both values.
- *
- * The other 22 roles must match exactly. `primary` and the three brand-grey
- * roles are literals from the brand guide; the four derived steps keep the WCAG
- * relative luminance of their `arcopro` counterpart, which `npm run 7:brand-ramp`
- * asserts on its own.
- */
-const COLOUR_MAP = {
+/** The colour roles `brandcolor` is expected to change, with both values. */
+const BRAND_COLOUR_MAP = {
   primary: ['#165DFF', '#D7000F'],
   'primary-hover': ['#4080FF', '#FF303F'],
   'primary-active': ['#0E42D2', '#A80B16'],
@@ -57,14 +57,8 @@ const COLOUR_MAP = {
   mask: ['#1D212999', '#35353599'],
 };
 
-/** Token groups that must match without any normalisation at all. */
-const GROUPS_EXACT = ['typography', 'spacing', 'rounded'];
-
-/** Token groups that carry colour and must match once colour is normalised. */
-const GROUPS_NORMALISED = ['components'];
-
 /** The example pages whose source must survive normalisation unchanged. */
-const SOURCE_FILES = [
+const ARCOPRO_SOURCE_FILES = [
   'examples/index.html',
   'examples/dashboard.html',
   'examples/list-page.html',
@@ -74,14 +68,77 @@ const SOURCE_FILES = [
   'examples/assets/app.css',
 ];
 
+/** The pages `industrial-steel-blue` ships: flat, four pages, no shared stylesheet file. */
+const STEEL_SOURCE_FILES = [
+  'examples/dashboard.html',
+  'examples/list-page.html',
+  'examples/form-page.html',
+  'examples/detail-page.html',
+];
+
+/**
+ * The industrial package's relationship to the baseline, as an allow-list.
+ *
+ * Every entry here is also stated in `industrial-steel-blue/DESIGN.md`; this
+ * object is what makes the statement checkable rather than merely asserted.
+ */
+const STEEL_RELATIONSHIP = {
+  /** Typography roles the adaptation adds; everything else must be identical. */
+  addedTypography: ['code'],
+  /** Colour roles the adaptation adds, with the value it must have. */
+  addedColours: {
+    'primary-on-dark': '#628DB8',
+    'error-strong': '#CB272D',
+    'error-strong-hover': '#A1151E',
+    'error-strong-active': '#770813',
+  },
+  /**
+   * Colour roles allowed to differ from the baseline, with the rule that
+   * describes each family. `transform` means "derive from the baseline step, do
+   * not copy it" — the derivation itself is checked by `npm run 9:steel-ramp`.
+   */
+  changedColours: {
+    primary: 'transform',
+    'primary-hover': 'transform',
+    'primary-active': 'transform',
+    'primary-disabled': 'transform',
+    'primary-subtle': 'transform',
+  },
+  /** Files the adaptation does not copy, and why. */
+  notCopied: {
+    'examples/index.html': 'the industrial package ships the four required pages only',
+    'examples/components.html': 'the industrial package ships the four required pages only',
+    'examples/assets/app.css': 'styles are inlined so that examples/ stays flat',
+  },
+};
+
+const PAIRS = [
+  {
+    id: 'arcopro-brandcolor',
+    left: 'arcopro',
+    right: 'brandcolor',
+    mode: 'colour-only',
+    colourMap: BRAND_COLOUR_MAP,
+    sourceFiles: ARCOPRO_SOURCE_FILES,
+    evidenceIn: 'brandcolor',
+    claim: 'colour only',
+  },
+  {
+    id: 'arcopro-industrial-steel-blue',
+    left: 'arcopro',
+    right: 'industrial-steel-blue',
+    mode: 'adapted',
+    relationship: STEEL_RELATIONSHIP,
+    sourceFiles: STEEL_SOURCE_FILES,
+    evidenceIn: 'industrial-steel-blue',
+    claim: 'a documented adaptation — a superset with allow-listed additions',
+  },
+];
+
 const read = (file) => readFile(path.join(REPO_ROOT, file), 'utf8');
 const sha256 = (text) => createHash('sha256').update(text, 'utf8').digest('hex');
 
-/**
- * A colour token's value as written by the exporter: the hex of the colour, with
- * its alpha as a trailing hex byte when it is translucent (`mask`), so the
- * comparison sees the whole value rather than a truncated prefix.
- */
+/** A colour token's value as the exporter writes it, alpha included. */
 const valueOf = (token) => String(token?.value ?? '').toUpperCase();
 
 /**
@@ -112,9 +169,9 @@ function colourLiterals(palette) {
 }
 
 /**
- * Rewrite text so that what remains is what the two packages must share: the
+ * Rewrite text so what remains is what the two packages must share: the
  * package's own name and every palette literal become a stable stand-in of the
- * form «colour:role», so that two different hexes for the same role read the same.
+ * form «colour:role», so two different hexes for one role read the same.
  */
 function normalise(text, pkg, literals) {
   let out = text.split(pkg).join('«package»');
@@ -140,15 +197,14 @@ function firstDifference(a, b) {
   return `one text is ${a.length} characters, the other ${b.length}`;
 }
 
-async function main() {
-  const [left, right] = PACKAGES;
+/** Read both packages' tokens and prove each export came from the contract on disk. */
+async function readTokens(pair) {
   const failures = [];
-  const report = { generatedBy: 'scripts/compare-packages.mjs', packages: PACKAGES };
-
-  // --- tokens ---------------------------------------------------------------
   const tokens = {};
-  for (const pkg of PACKAGES) {
+  const literals = {};
+  for (const pkg of [pair.left, pair.right]) {
     tokens[pkg] = JSON.parse(await read(`${pkg}/dist/tokens.full.json`));
+    literals[pkg] = colourLiterals(tokens[pkg].colors);
     const contract = await read(`${pkg}/DESIGN.md`);
     const named = tokens[pkg].$source?.contractSha256;
     if (named !== sha256(contract)) {
@@ -161,138 +217,298 @@ async function main() {
       failures.push(`${pkg}/dist/tokens.full.json names ${tokens[pkg].$source?.contract} as its contract`);
     }
   }
+  return { tokens, literals, failures };
+}
 
+/** Colour roles: exact for the colour-only pair, allow-listed for the adaptation. */
+function compareColours(pair, tokens) {
+  const { left, right } = pair;
+  const failures = [];
   const roles = new Set([...Object.keys(tokens[left].colors), ...Object.keys(tokens[right].colors)]);
   const differing = [];
-  let identicalColours = 0;
+  const added = [];
+  let identical = 0;
+
   for (const role of [...roles].sort()) {
     const a = tokens[left].colors[role];
     const b = tokens[right].colors[role];
     if (!a || !b) {
-      failures.push(`colour role ${role} exists in only one package`);
+      const missing = a ? role : role;
+      if (pair.mode === 'adapted' && !a && b) {
+        const expected = pair.relationship.addedColours[role];
+        if (expected === undefined) {
+          failures.push(`colour role ${role} is added but is not in the allow-list`);
+        } else if (valueOf(b) !== expected.toUpperCase()) {
+          failures.push(`colour role ${role} is ${valueOf(b)}, expected ${expected.toUpperCase()}`);
+        } else {
+          added.push({ role, value: valueOf(b) });
+        }
+        continue;
+      }
+      failures.push(`colour role ${missing} exists in only one package`);
       continue;
     }
-    const expected = COLOUR_MAP[role];
-    if (!expected) {
-      if (JSON.stringify(a) !== JSON.stringify(b)) {
-        failures.push(
-          `colour role ${role} differs but is not in COLOUR_MAP: ` +
-            `${valueOf(a)} vs ${valueOf(b)}`,
-        );
-      } else {
-        identicalColours += 1;
+    if (pair.mode === 'adapted') {
+      if (valueOf(a) === valueOf(b)) {
+        identical += 1;
+        continue;
       }
+      const rule = pair.relationship.changedColours[role];
+      if (!rule) {
+        failures.push(`colour role ${role} differs but is not a recorded change: ${valueOf(a)} vs ${valueOf(b)}`);
+        continue;
+      }
+      differing.push({ role, rule, [left]: valueOf(a), [right]: valueOf(b) });
+      continue;
+    }
+    if (valueOf(a) === valueOf(b)) {
+      identical += 1;
+      continue;
+    }
+    const expected = pair.colourMap[role];
+    if (!expected) {
+      failures.push(`colour role ${role} differs but is not in the colour map: ${valueOf(a)} vs ${valueOf(b)}`);
       continue;
     }
     if (valueOf(a) !== expected[0] || valueOf(b) !== expected[1]) {
-      failures.push(
-        `colour role ${role} is ${valueOf(a)} / ${valueOf(b)}, ` +
-          `expected ${expected[0]} / ${expected[1]}`,
-      );
+      failures.push(`colour role ${role} is ${valueOf(a)} / ${valueOf(b)}, expected ${expected[0]} / ${expected[1]}`);
       continue;
     }
-    differing.push({ role, [left]: valueOf(a), [right]: valueOf(b), token: b.value });
+    differing.push({ role, [left]: valueOf(a), [right]: valueOf(b) });
   }
-  report.colours = { total: roles.size, differing, identical: identicalColours };
+  return { failures, summary: { total: roles.size, differing, added, identical } };
+}
 
-  const literals = {};
-  for (const pkg of PACKAGES) literals[pkg] = colourLiterals(tokens[pkg].colors);
+/** Typography, spacing and radii. */
+function compareGroups(pair, tokens, literals) {
+  const { left, right } = pair;
+  const failures = [];
+  const exact = [];
+  const added = [];
 
-  report.groupsExact = [];
-  for (const group of GROUPS_EXACT) {
-    const a = JSON.stringify(tokens[left][group], null, 2);
-    const b = JSON.stringify(tokens[right][group], null, 2);
-    if (a !== b) {
-      failures.push(`${group} tokens differ — ${firstDifference(a, b)}`);
+  for (const group of ['typography', 'spacing', 'rounded']) {
+    const a = tokens[left][group] ?? {};
+    const b = tokens[right][group] ?? {};
+    for (const [name, value] of Object.entries(a)) {
+      if (!(name in b)) {
+        failures.push(`${group} entry ${name} is missing from ${right}`);
+        continue;
+      }
+      if (JSON.stringify(value) !== JSON.stringify(b[name])) {
+        failures.push(
+          `${group} entry ${name} differs — ` +
+            `${JSON.stringify(value)} vs ${JSON.stringify(b[name])}`,
+        );
+      }
+    }
+    for (const name of Object.keys(b)) {
+      if (name in a) continue;
+      const allowed =
+        pair.mode === 'adapted' &&
+        ((group === 'typography' && pair.relationship.addedTypography.includes(name)) ||
+          group !== 'typography');
+      if (!allowed) failures.push(`${group} entry ${name} is added but is not in the allow-list`);
+      else added.push({ group, name });
+    }
+    exact.push({ group, entries: Object.keys(a).length });
+  }
+  return { failures, exact, added };
+}
+
+/**
+ * Component tokens: every baseline token must survive, and must survive
+ * unchanged once colour is normalised.
+ */
+function compareComponents(pair, tokens, literals) {
+  const { left, right } = pair;
+  const failures = [];
+  const a = tokens[left].components ?? {};
+  const b = tokens[right].components ?? {};
+  const shared = [];
+  const added = [];
+
+  for (const [name, value] of Object.entries(a)) {
+    if (!(name in b)) {
+      failures.push(`component token ${name} is missing from ${right}`);
       continue;
     }
-    report.groupsExact.push({ group, entries: Object.keys(tokens[left][group] ?? {}).length });
-  }
-
-  report.groupsNormalised = [];
-  for (const group of GROUPS_NORMALISED) {
-    const a = normalise(JSON.stringify(tokens[left][group], null, 2), left, literals[left]);
-    const b = normalise(JSON.stringify(tokens[right][group], null, 2), right, literals[right]);
-    const coloured = new Set((b.match(/«colour:[^»]+»/g) ?? []).map((p) => p.slice(9, -1)));
-    if (a !== b) {
-      failures.push(`${group} tokens differ beyond colour — ${firstDifference(a, b)}`);
+    const na = normalise(JSON.stringify(value, null, 2), left, literals[left]);
+    const nb = normalise(JSON.stringify(b[name], null, 2), right, literals[right]);
+    if (na !== nb) {
+      failures.push(`component token ${name} differs beyond colour — ${firstDifference(na, nb)}`);
       continue;
     }
-    report.groupsNormalised.push({
-      group,
-      entries: Object.keys(tokens[left][group] ?? {}).length,
-      colourRoles: [...coloured].sort(),
-    });
+    shared.push(name);
   }
+  for (const name of Object.keys(b)) if (!(name in a)) added.push(name);
 
-  // --- source ---------------------------------------------------------------
-  report.source = [];
-  for (const file of SOURCE_FILES) {
-    const texts = {};
-    for (const pkg of PACKAGES) texts[pkg] = await read(path.join(pkg, file));
+  return {
+    failures,
+    normalised: { group: 'components', entries: shared.length },
+    added: added.sort(),
+  };
+}
+
+/** Example pages. Asserted for the colour-only pair, reported for the adaptation. */
+async function compareSource(pair, literals) {
+  const { left, right } = pair;
+  const rows = [];
+  const failures = [];
+
+  for (const file of pair.sourceFiles) {
+    let texts = {};
+    try {
+      for (const pkg of [left, right]) texts[pkg] = await read(path.join(pkg, file));
+    } catch (err) {
+      if (pair.mode === 'adapted' && err.code === 'ENOENT') {
+        failures.push(`${file} could not be read in ${right}: ${err.message}`);
+        continue;
+      }
+      failures.push(`${file} could not be read: ${err.message}`);
+      continue;
+    }
     const normalised = {};
-    for (const pkg of PACKAGES) normalised[pkg] = normalise(texts[pkg], pkg, literals[pkg]);
-    const coloured = new Set((normalised[right].match(/«colour:[^»]+»/g) ?? []).map((p) => p.slice(9, -1)));
+    for (const pkg of [left, right]) normalised[pkg] = normalise(texts[pkg], pkg, literals[pkg]);
+    const coloured = new Set(
+      (normalised[right].match(/«colour:[^»]+»/g) ?? []).map((p) => p.slice(9, -1)),
+    );
     const identical = normalised[left] === normalised[right];
-    if (!identical) {
-      failures.push(`${file} differs beyond colour and package name — ${firstDifference(normalised[left], normalised[right])}`);
+    if (!identical && pair.mode === 'colour-only') {
+      failures.push(
+        `${file} differs beyond colour and package name — ` +
+          firstDifference(normalised[left], normalised[right]),
+      );
     }
-    report.source.push({
+    rows.push({
       file,
       bytes: { [left]: texts[left].length, [right]: texts[right].length },
       colourRoles: [...coloured].sort(),
       identical,
+      asserted: pair.mode === 'colour-only',
     });
   }
 
-  // --- output ---------------------------------------------------------------
-  console.log(`${left} vs ${right}`);
+  for (const [file, reason] of Object.entries(pair.relationship?.notCopied ?? {})) {
+    rows.push({ file, notCopied: reason });
+  }
+  return { failures, rows };
+}
+
+async function comparePair(pair) {
+  const failures = [];
+  const report = {
+    generatedBy: 'scripts/compare-packages.mjs',
+    pair: pair.id,
+    mode: pair.mode,
+    claim: pair.claim,
+    packages: [pair.left, pair.right],
+  };
+
+  const { tokens, literals, failures: tokenFailures } = await readTokens(pair);
+  failures.push(...tokenFailures);
+
+  const colours = compareColours(pair, tokens);
+  failures.push(...colours.failures);
+  report.colours = colours.summary;
+
+  const groups = compareGroups(pair, tokens, literals);
+  failures.push(...groups.failures);
+  report.groupsExact = groups.exact;
+  report.groupsAdded = groups.added;
+
+  const components = compareComponents(pair, tokens, literals);
+  failures.push(...components.failures);
+  report.components = components.normalised;
+  report.componentsAdded = components.added;
+
+  const source = await compareSource(pair, literals);
+  failures.push(...source.failures);
+  report.source = source.rows;
+
+  return { report: { ...report, failures }, failures };
+}
+
+function printPair({ report }, pair) {
+  const [left, right] = report.packages;
+  console.log(`${left} vs ${right} — ${pair.claim}`);
   console.log('');
+
+  const colors = report.colours;
   console.log(
-    `tokens   colours ${report.colours.total} roles — ${differing.length} differ as recorded, ` +
-      `${identicalColours} identical`,
+    `colours  ${colors.total} roles — ${colors.differing.length} ${pair.mode === 'adapted' ? 'changed by the recorded rule' : 'differ as recorded'}, ` +
+      `${colors.identical} identical${colors.added.length > 0 ? `, ${colors.added.length} added` : ''}`,
   );
-  for (const row of differing) {
-    console.log(`           ${`${row.role}`.padEnd(17)} ${row[left]} → ${row[right]}`);
+  for (const row of colors.differing) {
+    const note = row.rule ? `  (${row.rule})` : '';
+    console.log(`         ${`${row.role}`.padEnd(19)} ${row[left]} → ${row[right]}${note}`);
   }
+  for (const row of colors.added) console.log(`         ${`${row.role}`.padEnd(19)} + ${row.value}`);
+
   for (const group of report.groupsExact) {
-    console.log(`tokens   ${`${group.group} ${group.entries}`.padEnd(26)} identical`);
-  }
-  for (const group of report.groupsNormalised) {
     console.log(
-      `tokens   ${`${group.group} ${group.entries}`.padEnd(26)} identical once colour is ` +
-        `normalised (${group.colourRoles.length} roles appear in it)`,
+      `tokens   ${`${group.group} ${group.entries}`.padEnd(24)} present and identical`,
+    );
+  }
+  for (const group of report.groupsAdded) {
+    console.log(`tokens   ${`${group.group} ${group.name}`.padEnd(24)} added (allow-listed)`);
+  }
+  console.log(
+    `tokens   ${`components ${report.components.entries}`.padEnd(24)} present and identical once colour is normalised`,
+  );
+  if (report.componentsAdded.length > 0) {
+    console.log(`tokens   ${`+${report.componentsAdded.length} components`.padEnd(24)} ${report.componentsAdded.join(', ')}`);
+  }
+
+  console.log('');
+  for (const row of report.source) {
+    if (row.notCopied) {
+      console.log(`source   ${row.file.padEnd(30)} not copied — ${row.notCopied}`);
+      continue;
+    }
+    const shared = new Set(row.colourRoles).size;
+    console.log(
+      `source   ${row.file.padEnd(30)} ${row.identical ? 'identical' : 'differs'} after normalising ${shared} colour role(s)` +
+        (row.asserted ? '' : ' [reported]'),
     );
   }
   console.log('');
-  const rolesInSource = new Set(report.source.flatMap((s) => s.colourRoles));
-  console.log(
-    `source   ${report.source.length} files identical after normalising the package name and ` +
-      `${rolesInSource.size} colour roles`,
-  );
-  for (const entry of report.source) {
-    console.log(`           ${entry.file.padEnd(30)} ${entry.identical ? 'identical' : 'DIFFERS'}`);
-  }
-
-  const evidencePath = path.join(REPO_ROOT, right, 'reports', 'evidence', 'package-diff.json');
-  await mkdir(path.dirname(evidencePath), { recursive: true });
-  await writeFile(
-    evidencePath,
-    `${JSON.stringify({ ...report, failures }, null, 2)}\n`,
-    'utf8',
-  );
-  console.log(`evidence ${path.relative(REPO_ROOT, evidencePath)}`);
-
-  if (failures.length > 0) {
-    console.error('');
-    for (const failure of failures) console.error(`FAIL  ${failure}`);
-    throw new Error(`${failures.length} unexplained difference(s): the packages differ in more than colour`);
-  }
-  console.log('');
-  console.log(`8:package-diff OK — ${left} and ${right} differ in colour only.`);
 }
 
-main().catch((err) => {
+try {
+  await run();
+} catch (err) {
   console.error(`\ncompare-packages failed: ${err.message}`);
   process.exit(1);
-});
+}
+
+async function run() {
+const results = [];
+for (const [index, pair] of PAIRS.entries()) {
+  if (index > 0) console.log('');
+  const result = await comparePair(pair);
+  printPair(result, pair);
+  results.push({ pair, result });
+}
+
+let totalFailures = 0;
+for (const { pair, result } of results) {
+  const evidencePath = path.join(REPO_ROOT, pair.evidenceIn, 'reports', 'evidence', 'package-diff.json');
+  await mkdir(path.dirname(evidencePath), { recursive: true });
+  await writeFile(evidencePath, `${JSON.stringify(result.report, null, 2)}\n`, 'utf8');
+  console.log(`evidence ${path.relative(REPO_ROOT, evidencePath)}`);
+  totalFailures += result.failures.length;
+}
+
+if (totalFailures > 0) {
+  console.error('');
+  for (const { result } of results) {
+    for (const failure of result.failures) console.error(`FAIL  ${failure}`);
+  }
+  throw new Error(`${totalFailures} unexplained difference(s) between the packages`);
+}
+
+console.log('');
+console.log(
+  `8:package-diff OK — ${PAIRS.length} package pair(s) match the relationship each one asserts.`,
+);
+}

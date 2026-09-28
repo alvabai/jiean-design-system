@@ -1,5 +1,8 @@
 {
   "generatedBy": "scripts/compare-packages.mjs",
+  "pair": "arcopro-brandcolor",
+  "mode": "colour-only",
+  "claim": "colour only",
   "packages": [
     "arcopro",
     "brandcolor"
@@ -10,52 +13,45 @@
       {
         "role": "mask",
         "arcopro": "#1D212999",
-        "brandcolor": "#35353599",
-        "token": "#35353599"
+        "brandcolor": "#35353599"
       },
       {
         "role": "primary",
         "arcopro": "#165DFF",
-        "brandcolor": "#D7000F",
-        "token": "#d7000f"
+        "brandcolor": "#D7000F"
       },
       {
         "role": "primary-active",
         "arcopro": "#0E42D2",
-        "brandcolor": "#A80B16",
-        "token": "#a80b16"
+        "brandcolor": "#A80B16"
       },
       {
         "role": "primary-disabled",
         "arcopro": "#94BFFF",
-        "brandcolor": "#FFA4AA",
-        "token": "#ffa4aa"
+        "brandcolor": "#FFA4AA"
       },
       {
         "role": "primary-hover",
         "arcopro": "#4080FF",
-        "brandcolor": "#FF303F",
-        "token": "#ff303f"
+        "brandcolor": "#FF303F"
       },
       {
         "role": "primary-subtle",
         "arcopro": "#E8F3FF",
-        "brandcolor": "#FFEEEF",
-        "token": "#ffeeef"
+        "brandcolor": "#FFEEEF"
       },
       {
         "role": "text-primary",
         "arcopro": "#1D2129",
-        "brandcolor": "#353535",
-        "token": "#353535"
+        "brandcolor": "#353535"
       },
       {
         "role": "tooltip",
         "arcopro": "#1D2129",
-        "brandcolor": "#353535",
-        "token": "#353535"
+        "brandcolor": "#353535"
       }
     ],
+    "added": [],
     "identical": 22
   },
   "groupsExact": [
@@ -72,40 +68,12 @@
       "entries": 5
     }
   ],
-  "groupsNormalised": [
-    {
-      "group": "components",
-      "entries": 61,
-      "colourRoles": [
-        "anvas",
-        "ark-border",
-        "ark-canvas",
-        "ark-elevated",
-        "ark-surface",
-        "ark-text",
-        "ark-text-secondary",
-        "arning",
-        "arning-subtle",
-        "ask",
-        "ext-disabled",
-        "ext-primary",
-        "ext-secondary",
-        "ext-tertiary",
-        "rimary",
-        "rimary-active",
-        "rimary-disabled",
-        "rimary-hover",
-        "rimary-subtle",
-        "rror",
-        "rror-subtle",
-        "uccess",
-        "uccess-subtle",
-        "urface",
-        "urface-hover",
-        "urface-pressed"
-      ]
-    }
-  ],
+  "groupsAdded": [],
+  "components": {
+    "group": "components",
+    "entries": 61
+  },
+  "componentsAdded": [],
   "source": [
     {
       "file": "examples/index.html",
@@ -114,7 +82,8 @@
         "brandcolor": 8231
       },
       "colourRoles": [],
-      "identical": true
+      "identical": true,
+      "asserted": true
     },
     {
       "file": "examples/dashboard.html",
@@ -123,7 +92,8 @@
         "brandcolor": 12771
       },
       "colourRoles": [],
-      "identical": true
+      "identical": true,
+      "asserted": true
     },
     {
       "file": "examples/list-page.html",
@@ -132,7 +102,8 @@
         "brandcolor": 11163
       },
       "colourRoles": [],
-      "identical": true
+      "identical": true,
+      "asserted": true
     },
     {
       "file": "examples/form-page.html",
@@ -141,7 +112,8 @@
         "brandcolor": 7971
       },
       "colourRoles": [],
-      "identical": true
+      "identical": true,
+      "asserted": true
     },
     {
       "file": "examples/detail-page.html",
@@ -150,7 +122,8 @@
         "brandcolor": 8379
       },
       "colourRoles": [],
-      "identical": true
+      "identical": true,
+      "asserted": true
     },
     {
       "file": "examples/components.html",
@@ -182,7 +155,8 @@
         "urface-hover",
         "urface-pressed"
       ],
-      "identical": true
+      "identical": true,
+      "asserted": true
     },
     {
       "file": "examples/assets/app.css",
@@ -191,7 +165,8 @@
         "brandcolor": 32768
       },
       "colourRoles": [],
-      "identical": true
+      "identical": true,
+      "asserted": true
     }
   ],
   "failures": []
