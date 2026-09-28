@@ -66,7 +66,7 @@ export const EXTENDED_PACKAGES = new Set(['industrial-steel-blue']);
 /**
  * Packages the structural layer is enforced on.
  *
- * `arcopro` and `brandcolor` were written before this layer existed, and they are
+ * `arco-blue` and `brandcolor` were written before this layer existed, and they are
  * grandfathered: their checks are reported as `waived` with the reason, instead of
  * being failed or quietly skipped. The repository README records the gap as open
  * work, and nothing about those two packages is changed or hidden by the waiver.

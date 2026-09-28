@@ -36,7 +36,7 @@ time:
   (up to five attempts), then crops any surplus window above the viewport.
 - **The browser is launched with `--use-mock-keychain`.** A throwaway profile without
   it asks the login keychain for "Chrome Safe Storage" on every run; the flag keeps
-  the profile throwaway without asking. The same flag was added to the `arcopro`
+  the profile throwaway without asking. The same flag was added to the `arco-blue`
   capture script, which had been prompting on every capture.
 
 ## 2. What was checked
@@ -105,7 +105,7 @@ Arco Design Pro material and **not** an official Arco publication.
 
 Stated plainly, because a render is easy to over-claim:
 
-1. **No comparison against the reference site for this package.** `arcopro` carries a
+1. **No comparison against the reference site for this package.** `arco-blue` carries a
    measured comparison against the live reference (`4:capture`, `5:compare`, 89
    values); this package deliberately does not look like that reference — it shares
    structure and geometry, not appearance — so a fidelity diff would be measuring the

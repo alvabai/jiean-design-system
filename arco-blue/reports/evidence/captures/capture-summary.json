@@ -1,0 +1,96 @@
+{
+  "package": "arco-blue",
+  "requestedViewport": {
+    "width": 1270,
+    "height": 848
+  },
+  "windowChromePxDefault": 87,
+  "browser": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "viewportMismatches": [],
+  "pages": [
+    {
+      "id": "dashboard",
+      "measured": 51,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 107092,
+      "windowChromePx": 87
+    },
+    {
+      "id": "list",
+      "measured": 49,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 106128,
+      "windowChromePx": 87
+    },
+    {
+      "id": "form",
+      "measured": 37,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 74596,
+      "windowChromePx": 87
+    },
+    {
+      "id": "detail",
+      "measured": 45,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 85396,
+      "windowChromePx": 87
+    },
+    {
+      "id": "components",
+      "measured": 67,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 74963,
+      "windowChromePx": 87
+    },
+    {
+      "id": "index",
+      "measured": 31,
+      "viewport": {
+        "width": 1270,
+        "height": 848
+      },
+      "png": {
+        "width": 1270,
+        "height": 848
+      },
+      "bytes": 144187,
+      "windowChromePx": 87
+    }
+  ]
+}

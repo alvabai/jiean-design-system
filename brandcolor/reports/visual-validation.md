@@ -21,10 +21,10 @@ local-only by design (§5).
 Eight of the 30 roles are different. `primary` is the brand red from the 捷安
 brand guide; `text-primary`, `tooltip` and `mask` take the brand grey; the four
 primary derivatives were derived by holding the WCAG relative luminance of their
-`arcopro` counterpart (see `DESIGN.md` §Colors, and `npm run 7:brand-ramp`, which
+`arco-blue` counterpart (see `DESIGN.md` §Colors, and `npm run 7:brand-ramp`, which
 re-derives them and fails if any step drifts).
 
-| Role | `arcopro` | `brandcolor` | Δ luminance |
+| Role | `arco-blue` | `brandcolor` | Δ luminance |
 |---|---|---|---|
 | `primary` | `#165DFF` | `#D7000F` | −0.00738 |
 | `primary-hover` | `#4080FF` | `#FF303F` | −0.00016 |
@@ -56,7 +56,7 @@ recomputed for this package rather than inherited:
 
 The pairs closest to their floor all moved the safe way:
 
-| Pair | `arcopro` | `brandcolor` | Floor |
+| Pair | `arco-blue` | `brandcolor` | Floor |
 |---|---|---|---|
 | `primary` on `primary-subtle` | 4.62:1 | **4.81:1** | 4.5 |
 | `primary` on `canvas` | 4.68:1 | **4.85:1** | 3.0 (non-text) |
@@ -66,21 +66,21 @@ The pairs closest to their floor all moved the safe way:
 The cost is paid by the dark text, as expected when a near-black is replaced by a
 mid-grey: `text-primary` on `surface` drops from 16.13:1 to **12.27:1**, and the
 weakest pairing it takes part in — on `error-subtle` — is **10.76:1**. Far above
-the 4.5:1 floor, but a smaller margin than `arcopro`'s, so it is the number to
+the 4.5:1 floor, but a smaller margin than `arco-blue`'s, so it is the number to
 watch if the grey is ever darkened further.
 
 `primary` on the three dark surfaces is 3.32 / 2.91 / 2.20:1 against a 3:1
-non-text floor. This is exemption E5 and was already exempt in `arcopro`
+non-text floor. This is exemption E5 and was already exempt in `arco-blue`
 (3.44 / 3.02 / 2.29:1): the brand red makes those pairs marginally worse, not
 better. `DESIGN.md` states the rule that follows — on a dark surface the brand red
 is used as a fill with light text on it, never as a thin line or a small glyph.
 
-## 3. What carries over from `arcopro`'s render evidence
+## 3. What carries over from `arco-blue`'s render evidence
 
-`arcopro/reports/visual-validation.md` records an 89-item comparison between that
+`arco-blue/reports/visual-validation.md` records an 89-item comparison between that
 package's pages and the reference site: 16 pixel probes, 38 dashboard landmarks
 and 35 shell landmarks, measured in a 1270×848 viewport and kept under
-`arcopro/reports/evidence/`.
+`arco-blue/reports/evidence/`.
 
 That evidence describes geometry, and this package's geometry is the same file.
 The source layers above are what make that statement precise rather than hopeful:
@@ -127,10 +127,10 @@ evidence for this package is committed.
 The reason is environmental, not conceptual. The capture needs the page to see a
 deterministic 1270×848 viewport; `--window-size` sizes the browser *window*, and
 the height its frame costs is not fixed. On this machine it measured 87px when
-`arcopro`'s evidence was produced, and 96–107px on a later run taken while a
+`arco-blue`'s evidence was produced, and 96–107px on a later run taken while a
 normal Chrome session was open — varying per page and per launch, which leaves the
 stored picture cropped or padded against a viewport the page never had. That run
-had already overwritten `arcopro`'s captures before the mismatch was noticed; the
+had already overwritten `arco-blue`'s captures before the mismatch was noticed; the
 committed captures were restored from git and the run's output was discarded
 rather than kept as evidence.
 
@@ -148,13 +148,13 @@ To produce the render evidence later, on a desktop with no other browser session
 open:
 
 ```bash
-npm run 4:capture -- --package=arcopro
+npm run 4:capture -- --package=arco-blue
 npm run 4:capture -- --package=brandcolor
 npm run 5:compare
 ```
 
 Until that is done, this package's appearance is evidenced by its tokens, by its
-source and by its contrast audit — plus `arcopro`'s render measurement for
+source and by its contrast audit — plus `arco-blue`'s render measurement for
 geometry, under the conditions set out in §3.
 
 ## 6. Known unknowns
@@ -163,9 +163,9 @@ geometry, under the conditions set out in §3.
   painted by a browser has been sampled; the value is the brand guide's, and the
   contrast figures are computed from it.
 - **The two subtle reds are not separable on screen** (§4). Rule-carried.
-- **Dark mode is inherited, not re-derived**: the dark ramp keeps `arcopro`'s
+- **Dark mode is inherited, not re-derived**: the dark ramp keeps `arco-blue`'s
   steps, and the E5 pairs are marginally worse against the brand red (§2).
-- **`text-primary` is lighter than in `arcopro`** (12.27:1 against 16.13:1 on
+- **`text-primary` is lighter than in `arco-blue`** (12.27:1 against 16.13:1 on
   surface). Intentional and quantified; its tightest pairing is 10.76:1.
 - **Nothing here was measured on a second display.** No gamma, colour-profile or
   font-smoothing question was examined.

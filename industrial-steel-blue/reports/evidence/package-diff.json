@@ -1,10 +1,10 @@
 {
   "generatedBy": "scripts/compare-packages.mjs",
-  "pair": "arcopro-industrial-steel-blue",
+  "pair": "arco-blue-industrial-steel-blue",
   "mode": "adapted",
   "claim": "a documented adaptation — a superset with allow-listed additions",
   "packages": [
-    "arcopro",
+    "arco-blue",
     "industrial-steel-blue"
   ],
   "colours": {
@@ -13,31 +13,31 @@
       {
         "role": "primary",
         "rule": "transform",
-        "arcopro": "#165DFF",
+        "arco-blue": "#165DFF",
         "industrial-steel-blue": "#3E6489"
       },
       {
         "role": "primary-active",
         "rule": "transform",
-        "arcopro": "#0E42D2",
+        "arco-blue": "#0E42D2",
         "industrial-steel-blue": "#324C65"
       },
       {
         "role": "primary-disabled",
         "rule": "transform",
-        "arcopro": "#94BFFF",
+        "arco-blue": "#94BFFF",
         "industrial-steel-blue": "#A8C0D8"
       },
       {
         "role": "primary-hover",
         "rule": "transform",
-        "arcopro": "#4080FF",
+        "arco-blue": "#4080FF",
         "industrial-steel-blue": "#4C7BA9"
       },
       {
         "role": "primary-subtle",
         "rule": "transform",
-        "arcopro": "#E8F3FF",
+        "arco-blue": "#E8F3FF",
         "industrial-steel-blue": "#EDF2F7"
       }
     ],
@@ -105,7 +105,7 @@
     {
       "file": "examples/dashboard.html",
       "bytes": {
-        "arcopro": 12762,
+        "arco-blue": 12766,
         "industrial-steel-blue": 45915
       },
       "colourRoles": [],
@@ -115,7 +115,7 @@
     {
       "file": "examples/list-page.html",
       "bytes": {
-        "arcopro": 11157,
+        "arco-blue": 11159,
         "industrial-steel-blue": 44296
       },
       "colourRoles": [],
@@ -125,7 +125,7 @@
     {
       "file": "examples/form-page.html",
       "bytes": {
-        "arcopro": 7965,
+        "arco-blue": 7967,
         "industrial-steel-blue": 41104
       },
       "colourRoles": [],
@@ -135,7 +135,7 @@
     {
       "file": "examples/detail-page.html",
       "bytes": {
-        "arcopro": 8373,
+        "arco-blue": 8375,
         "industrial-steel-blue": 41512
       },
       "colourRoles": [],

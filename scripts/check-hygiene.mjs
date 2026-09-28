@@ -262,7 +262,7 @@ const PATTERN_DOCS = [
 /**
  * The example files each package ships.
  *
- * `arcopro` and `brandcolor` ship the six-page set with a shared stylesheet.
+ * `arco-blue` and `brandcolor` ship the six-page set with a shared stylesheet.
  * `industrial-steel-blue` ships the flat four-page set the industrial task book
  * specifies — `dashboard`, `list-page`, `form-page`, `detail-page`, each as HTML
  * plus the PNG rendered from it, with the styles inlined so `examples/` has no

@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: JIEAN Design System / brandcolor
-description: Enterprise application shell and data-workspace design language in the JIEAN brand colours. The arcopro package with its colour layer replaced by 捷安红 #D7000F and 深灰 #353535; typography, spacing, radii and component geometry are unchanged.
+description: Enterprise application shell and data-workspace design language in the JIEAN brand colours. The arco-blue package with its colour layer replaced by 捷安红 #D7000F and 深灰 #353535; typography, spacing, radii and component geometry are unchanged.
 colors:
   primary: "#D7000F"
   primary-hover: "#FF303F"
@@ -302,7 +302,7 @@ components:
 ## Overview
 
 `brandcolor` is the enterprise application language of the JIEAN design system expressed in the
-JIEAN brand colours. It is the sibling package `arcopro` with exactly one layer replaced — the
+JIEAN brand colours. It is the sibling package `arco-blue` with exactly one layer replaced — the
 colour tokens — so a screen built from this document is the same screen, in 捷安红 and 深灰.
 
 The colour layer was derived from two brand values and nothing else: 捷安红 `#D7000F` and
@@ -311,7 +311,7 @@ takes, is stated in Colors; `npm run 7:brand-ramp` re-derives them and fails if 
 
 It covers 捷安高科 (JIEAN) internal software: dense back-office consoles, admin shells, data
 workspaces, approval flows and record management screens. Its geometry, type scale and pattern
-documents are `arcopro`'s, which was reverse engineered from **Arco Design Pro**
+documents are `arco-blue`'s, which was reverse engineered from **Arco Design Pro**
 (`@arco-design/arco-design-pro`, the `arco-design-pro-next` application, plus the
 `@arco-themes/react-arco-pro` theme package and the Arco Design token layer it builds on) and keeps
 Arco's measured values rather than replacing them with generic taste. Its colour layer is the JIEAN
@@ -364,8 +364,8 @@ a `brandcolor` screen stops looking like `brandcolor`.
 
 ## Colors
 
-`brandcolor` is the `arcopro` language in the JIEAN brand palette. Typography, spacing, the radius
-vocabulary, the component geometry and every pattern document are identical to `arcopro`; only the
+`brandcolor` is the `arco-blue` language in the JIEAN brand palette. Typography, spacing, the radius
+vocabulary, the component geometry and every pattern document are identical to `arco-blue`; only the
 eight colour roles below differ, and this section states exactly how they were derived.
 
 The palette is warm-neutral infrastructure plus a single saturated brand red for action, and it is
@@ -383,12 +383,12 @@ Two brand values were given. Nothing else was invented.
 | 捷安红 — JIEAN red (primary) | `#D7000F` | `primary`, plus the four ramp steps derived from it |
 | 深灰 — dark grey (secondary) | `#353535` | `text-primary`, `tooltip`, `mask` |
 
-The four derived steps each keep their `arcopro` counterpart's **WCAG relative luminance** and move
+The four derived steps each keep their `arco-blue` counterpart's **WCAG relative luminance** and move
 the hue to the brand red (`355.8°`) at the counterpart's saturation. Luminance is what every contrast
 pair is computed from, so holding it is what lets the accessibility audit keep its conclusions
 instead of being re-argued colour by colour.
 
-| Token | arcopro | brandcolor | arcopro luminance | brandcolor luminance |
+| Token | arco-blue | brandcolor | arco-blue luminance | brandcolor luminance |
 |---|---|---|---|---|
 | `primary` | `#165DFF` | `#D7000F` | 0.1522 | 0.1448 |
 | `primary-hover` | `#4080FF` | `#FF303F` | 0.2375 | 0.2373 |
@@ -440,7 +440,7 @@ aliasing: `border` and `surface-pressed` are the same measured `#E5E6EB`, and `b
   tooltip surface itself, which inverts to white text.
 - **Dark** anchors (`dark-canvas` `#17171A`, `dark-surface` `#232324`, `dark-elevated` `#373739`,
   `dark-text` `rgba(255,255,255,0.9)`, `dark-text-secondary` `rgba(255,255,255,0.7)`,
-  `dark-border` `#484849`) are unchanged from `arcopro`: the brand grey takes the light theme's dark
+  `dark-border` `#484849`) are unchanged from `arco-blue`: the brand grey takes the light theme's dark
   anchors, not the dark surface ramp. They are surface anchors only: this package does not validate a
   full dark theme, and a screen that renders in dark mode must re-check every contrast pair it uses.
 

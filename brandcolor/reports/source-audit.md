@@ -8,9 +8,9 @@ the commands in the last section.
 
 | Input | Revision | How it was obtained | Evidence kept in this repository |
 |---|---|---|---|
-| `@arco-themes/react-arco-pro` | **0.0.7**, MIT | installed package; `tokens.less`, `variables.less`, `component.less`, `css/arco.css` read directly | `arcopro/reports/evidence/arco-theme-tokens.json` (43,895 bytes) |
-| Arco Design Pro source | commit **`bb6aebcceca6b294b438be4c13dc7328ee80d70b`**, 2024-04-26 | repository clone; page modules, `style/index.module.less` and `components/NavBar/style/index.module.less` read | values quoted inline in `arcopro/reports/evidence/arco-pro-live-probe.json` and `brandcolor/docs/*` |
-| `react-pro.arco.design` | live, signed-in session, 2026-09-26 | computed styles and box rectangles read from the running pages; screenshots taken | `arcopro/reports/evidence/arco-pro-live-probe.json`, `arco-pro-metrics.json`, `reference-{dashboard,list,form,detail}.png` |
+| `@arco-themes/react-arco-pro` | **0.0.7**, MIT | installed package; `tokens.less`, `variables.less`, `component.less`, `css/arco.css` read directly | `arco-blue/reports/evidence/arco-theme-tokens.json` (43,895 bytes) |
+| Arco Design Pro source | commit **`bb6aebcceca6b294b438be4c13dc7328ee80d70b`**, 2024-04-26 | repository clone; page modules, `style/index.module.less` and `components/NavBar/style/index.module.less` read | values quoted inline in `arco-blue/reports/evidence/arco-pro-live-probe.json` and `brandcolor/docs/*` |
+| `react-pro.arco.design` | live, signed-in session, 2026-09-26 | computed styles and box rectangles read from the running pages; screenshots taken | `arco-blue/reports/evidence/arco-pro-live-probe.json`, `arco-pro-metrics.json`, `reference-{dashboard,list,form,detail}.png` |
 | `@google/design.md` | **0.4.0** | installed CLI; `dist/spec.md` read | `brandcolor/reports/designmd-validation.md` |
 | `google-labs-code/design.md` | HEAD **`9bf8eae67128b6cc55ad9bf86665767deb4c11cd`** | revision resolved over the network at build time | the identity check in section 4 below |
 
@@ -21,7 +21,7 @@ is 60px tall, where the rule is drawn, why the group header has a wider right
 inset). Where the two could disagree, the running site decided it.
 
 **The reference-site evidence is kept once, in the sibling package.** Every file
-under `arcopro/reports/evidence/` records the upstream theme, the live reference
+under `arco-blue/reports/evidence/` records the upstream theme, the live reference
 site or the raw readings taken from it — none of it is this package's own output,
 and none of it changes when the colour layer does, so it is cited rather than
 copied. The one evidence file this package writes is

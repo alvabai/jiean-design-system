@@ -15,7 +15,7 @@ The industrial style package of the JIEAN Design System.
 `industrial-steel-blue` is JIEAN's industrial application style package: an
 enterprise admin language whose interactive colour is a deep blue-steel
 (`primary` `#3E6489`) rather than a saturated product blue. It keeps the whole
-non-colour layer of the sibling package `arcopro` — the shell geometry, the
+non-colour layer of the sibling package `arco-blue` — the shell geometry, the
 neutral greys, the typography scale, the spacing steps, the radii, the
 data-visualisation colours and the pattern language — and replaces the accent
 family with a ten-step steel blue derived from the baseline's own ramp.
@@ -24,7 +24,7 @@ It is a **superset with an allow-list, not a recolour**, and that claim is prove
 mechanically rather than asserted. `npm run 8:package-diff` re-derives it from both
 packages' tokens and example sources:
 
-| Layer | Relationship to `arcopro` |
+| Layer | Relationship to `arco-blue` |
 |---|---|
 | Colours (34 roles) | 25 identical · 5 changed by a recorded transform · 4 added |
 | Typography (11 roles) | 10 identical · 1 added (`code`) |
@@ -121,7 +121,7 @@ recorded in `reports/designmd-validation.md`.
 
 What was read from each source, what it was used for, and what was deliberately
 not taken are in `reports/source-audit.md`. The reference-site measurements are
-imported from `arcopro/reports/evidence/` rather than re-captured: the baseline has
+imported from `arco-blue/reports/evidence/` rather than re-captured: the baseline has
 not changed, and re-measuring it would produce evidence about the same revision.
 
 JIEAN's own additions — the steel family, the danger ladder, the `code` role, the
@@ -210,11 +210,11 @@ The scripts:
 | `npm run 1:validate` | lints `DESIGN.md` with the official toolchain, then runs 12 structural checks | the contract does not parse, lint reports an error, or a structural check fails |
 | `npm run 2:export` | runs the official CLI for three formats, then derives the lossless pair | the CLI fails, or an artifact comes out empty |
 | `npm run 3:verify-generated` | 26 checks: provenance, losslessness, known toolchain limitations, contrast | any artifact drifted from the contract |
-| `npm run 4:capture` | renders the `arcopro` example pages headless and records computed styles | a page does not reach a 1270×848 viewport, or Chrome fails |
-| `npm run 5:compare` | compares the `arcopro` pages against the recorded reference | any compared value drifts |
+| `npm run 4:capture` | renders the `arco-blue` example pages headless and records computed styles | a page does not reach a 1270×848 viewport, or Chrome fails |
+| `npm run 5:compare` | compares the `arco-blue` pages against the recorded reference | any compared value drifts |
 | `npm run 6:hygiene` | placeholders, links, JSON validity, required files, naming | a link is broken, a file is missing, a placeholder survives |
 | `npm run 7:brand-ramp` | re-derives the `brandcolor` ramp from the brand literal | a derived step drifts |
-| `npm run 8:package-diff` | proves both cross-package relationships: `arcopro`↔`brandcolor` differ only in colour; `arcopro`↔`industrial-steel-blue` differ only inside the recorded allow-list | a token outside the allow-list moves, or an addition is unrecorded |
+| `npm run 8:package-diff` | proves both cross-package relationships: `arco-blue`↔`brandcolor` differ only in colour; `arco-blue`↔`industrial-steel-blue` differ only inside the recorded allow-list | a token outside the allow-list moves, or an addition is unrecorded |
 | `npm run 9:steel-ramp` | re-derives the ten steel steps and asserts eight contrast properties | a step or a ratio drifts, or a claim in the contract contradicts the derivation |
 | `npm run 10:screenshots` | checks the four previews: presence, PNG validity, exact 1280×900, freshness, pixel palette | a preview is missing, stale, the wrong size, or carries the wrong colours |
 | `npm run 11:screenshots:write` | re-renders the four previews headless | a page fails to reach 1280×900 |

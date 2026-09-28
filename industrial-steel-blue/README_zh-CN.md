@@ -12,14 +12,14 @@
 ## industrial-steel-blue 是什么？
 
 `industrial-steel-blue` 是捷安面向工业场景的应用设计语言。它的交互主色是一枚偏深的
-钢蓝（`primary` `#3E6489`），而不是饱和度很高的产品蓝。它完整保留了同门包 `arcopro`
+钢蓝（`primary` `#3E6489`），而不是饱和度很高的产品蓝。它完整保留了同门包 `arco-blue`
 的非颜色层——外壳几何、中性灰、字阶、间距、圆角、数据可视化配色与整套版式语言——只把
 主色族替换为由基线自身色阶推导出的十阶钢蓝。
 
 它的定位是**带白名单的超集，不是换色**，而且这个说法是机器验证过的，不是自我声明。
 `npm run 8:package-diff` 会从两个包的令牌与示例源码重新推导这层关系：
 
-| 层级 | 与 `arcopro` 的关系 |
+| 层级 | 与 `arco-blue` 的关系 |
 |---|---|
 | 颜色（34 个角色） | 25 个完全相同 · 5 个按已记录的变换改变 · 4 个新增 |
 | 字体（11 个角色） | 10 个完全相同 · 1 个新增（`code`） |
@@ -98,7 +98,7 @@ DESIGN.md 格式尚在 1.0 之前，因此 CLI 版本在 `package.json` 里钉�
 `reports/designmd-validation.md`。
 
 每个来源读到了什么、用在哪里、哪些是刻意不采用的，都写在 `reports/source-audit.md`。参考站的
-实测数据是从 `arcopro/reports/evidence/` 引入的，没有重新采集：基线没有变化，重测只会产出同一版
+实测数据是从 `arco-blue/reports/evidence/` 引入的，没有重新采集：基线没有变化，重测只会产出同一版
 本的证据。
 
 捷安自己的新增部分——钢蓝色族、危险操作阶梯、`code` 字阶角色、组件覆盖与状态覆盖矩阵、动效 /
@@ -178,11 +178,11 @@ open industrial-steel-blue/examples/dashboard.html
 | `npm run 1:validate` | 用官方工具链 lint `DESIGN.md`，再跑 12 项结构校验 | 契约无法解析、lint 报错或结构校验不通过 |
 | `npm run 2:export` | 用官方 CLI 导出三种格式，再派生无损产物 | CLI 失败或产物为空 |
 | `npm run 3:verify-generated` | 26 项：出处、无损、工具链已知限制、对比度 | 任何产物与契约漂移 |
-| `npm run 4:capture` | 渲染 `arcopro` 示例页并记录计算样式 | 页面达不到 1270×848 视口或 Chrome 失败 |
-| `npm run 5:compare` | 用 `arcopro` 页面与记录基线比对 | 任何被比对的值漂移 |
+| `npm run 4:capture` | 渲染 `arco-blue` 示例页并记录计算样式 | 页面达不到 1270×848 视口或 Chrome 失败 |
+| `npm run 5:compare` | 用 `arco-blue` 页面与记录基线比对 | 任何被比对的值漂移 |
 | `npm run 6:hygiene` | 占位符、链接、JSON 合法性、必需文件、命名 | 链接失效、文件缺失、占位符残留 |
 | `npm run 7:brand-ramp` | 从品牌字面值重新推导 `brandcolor` 色阶 | 推导值漂移 |
-| `npm run 8:package-diff` | 证明两组跨包关系：`arcopro`↔`brandcolor` 只差颜色；`arcopro`↔`industrial-steel-blue` 只在记录的白名单内不同 | 白名单外有令牌移动，或有未记录的新增 |
+| `npm run 8:package-diff` | 证明两组跨包关系：`arco-blue`↔`brandcolor` 只差颜色；`arco-blue`↔`industrial-steel-blue` 只在记录的白名单内不同 | 白名单外有令牌移动，或有未记录的新增 |
 | `npm run 9:steel-ramp` | 重新推导十阶钢蓝并断言 8 条对比度性质 | 色阶或比值漂移，或契约中的说法与推导矛盾 |
 | `npm run 10:screenshots` | 校验四张预览：存在、PNG 合法、精确 1280×900、不过期、像素配色 | 预览缺失、过期、尺寸不对或颜色不对 |
 | `npm run 11:screenshots:write` | 重新渲染四张预览 | 页面无法达到 1280×900 |

@@ -1,10 +1,10 @@
 {
   "generatedBy": "scripts/compare-packages.mjs",
-  "pair": "arcopro-brandcolor",
+  "pair": "arco-blue-brandcolor",
   "mode": "colour-only",
   "claim": "colour only",
   "packages": [
-    "arcopro",
+    "arco-blue",
     "brandcolor"
   ],
   "colours": {
@@ -12,42 +12,42 @@
     "differing": [
       {
         "role": "mask",
-        "arcopro": "#1D212999",
+        "arco-blue": "#1D212999",
         "brandcolor": "#35353599"
       },
       {
         "role": "primary",
-        "arcopro": "#165DFF",
+        "arco-blue": "#165DFF",
         "brandcolor": "#D7000F"
       },
       {
         "role": "primary-active",
-        "arcopro": "#0E42D2",
+        "arco-blue": "#0E42D2",
         "brandcolor": "#A80B16"
       },
       {
         "role": "primary-disabled",
-        "arcopro": "#94BFFF",
+        "arco-blue": "#94BFFF",
         "brandcolor": "#FFA4AA"
       },
       {
         "role": "primary-hover",
-        "arcopro": "#4080FF",
+        "arco-blue": "#4080FF",
         "brandcolor": "#FF303F"
       },
       {
         "role": "primary-subtle",
-        "arcopro": "#E8F3FF",
+        "arco-blue": "#E8F3FF",
         "brandcolor": "#FFEEEF"
       },
       {
         "role": "text-primary",
-        "arcopro": "#1D2129",
+        "arco-blue": "#1D2129",
         "brandcolor": "#353535"
       },
       {
         "role": "tooltip",
-        "arcopro": "#1D2129",
+        "arco-blue": "#1D2129",
         "brandcolor": "#353535"
       }
     ],
@@ -78,7 +78,7 @@
     {
       "file": "examples/index.html",
       "bytes": {
-        "arcopro": 8213,
+        "arco-blue": 8221,
         "brandcolor": 8231
       },
       "colourRoles": [],
@@ -88,7 +88,7 @@
     {
       "file": "examples/dashboard.html",
       "bytes": {
-        "arcopro": 12762,
+        "arco-blue": 12766,
         "brandcolor": 12771
       },
       "colourRoles": [],
@@ -98,7 +98,7 @@
     {
       "file": "examples/list-page.html",
       "bytes": {
-        "arcopro": 11157,
+        "arco-blue": 11159,
         "brandcolor": 11163
       },
       "colourRoles": [],
@@ -108,7 +108,7 @@
     {
       "file": "examples/form-page.html",
       "bytes": {
-        "arcopro": 7965,
+        "arco-blue": 7967,
         "brandcolor": 7971
       },
       "colourRoles": [],
@@ -118,7 +118,7 @@
     {
       "file": "examples/detail-page.html",
       "bytes": {
-        "arcopro": 8373,
+        "arco-blue": 8375,
         "brandcolor": 8379
       },
       "colourRoles": [],
@@ -128,7 +128,7 @@
     {
       "file": "examples/components.html",
       "bytes": {
-        "arcopro": 20129,
+        "arco-blue": 20132,
         "brandcolor": 20138
       },
       "colourRoles": [
@@ -161,7 +161,7 @@
     {
       "file": "examples/assets/app.css",
       "bytes": {
-        "arcopro": 32753,
+        "arco-blue": 32761,
         "brandcolor": 32768
       },
       "colourRoles": [],

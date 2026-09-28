@@ -8,16 +8,16 @@ The enterprise style package of the JIEAN Design System.
 
 `brandcolor` is JIEAN's enterprise application style package expressed in the JIEAN
 brand colours: the same token set, the same written pattern language and the same
-reference implementation as the sibling package `arcopro`, with one layer — colour —
+reference implementation as the sibling package `arco-blue`, with one layer — colour —
 replaced.
 
 Exactly eight of the thirty colour roles differ. The other twenty-two are
-byte-identical to `arcopro`, and no non-colour token moved: the same 10 typography
+byte-identical to `arco-blue`, and no non-colour token moved: the same 10 typography
 roles, 13 spacing steps, 5 radii and 61 component tokens. That claim is verified,
 not asserted — `npm run 8:package-diff` re-derives it from the two packages'
 rendered captures.
 
-| Role | `arcopro` | `brandcolor` | Where it comes from |
+| Role | `arco-blue` | `brandcolor` | Where it comes from |
 |---|---|---|---|
 | `primary` | `#165DFF` | `#D7000F` | 捷安红, given by the brand |
 | `primary-hover` | `#4080FF` | `#FF303F` | derived: same luminance, brand hue |
@@ -29,14 +29,14 @@ rendered captures.
 | `mask` | `rgba(29, 33, 41, 0.6)` | `rgba(53, 53, 53, 0.6)` | 深灰 at the same alpha |
 
 The derivation is stated and checkable rather than left to taste: each derived step
-keeps its `arcopro` counterpart's WCAG relative luminance and moves the hue to the
+keeps its `arco-blue` counterpart's WCAG relative luminance and moves the hue to the
 brand red at the counterpart's saturation, so the contrast audit transfers with
 nearly the same ratios instead of being re-argued colour by colour. `npm run
 7:brand-ramp` re-derives all four from the brand literal and fails if `DESIGN.md`
 disagrees; `DESIGN.md` › Colors carries the luminance table and the numbers.
 
 Because the accent and the error colour are both red, this palette carries one rule
-`arcopro` never needed: `primary` is **identity and action** — a filled button, a
+`arco-blue` never needed: `primary` is **identity and action** — a filled button, a
 link, a selection, a focus ring — while `error` `#F53F3F` is **status** — a
 validation failure, a destructive action, a failure banner. The two never trade
 places, and `docs/accessibility.md` states it as a rule with the numbers behind it.
@@ -64,7 +64,7 @@ application template maintained by ByteDance, and from its official theme packag
 The colour layer does not come from that lineage. Two values were supplied by the
 brand — 捷安红 `#D7000F` (R215 G0 B15) and 深灰 `#353535` (R53 G53 B53) — and the
 four remaining primary steps are derived from them by the rule stated above. Every
-other value in the package is inherited from `arcopro` unchanged, and the provenance
+other value in the package is inherited from `arco-blue` unchanged, and the provenance
 table above therefore applies to this package as well.
 
 Preferring source code over visual guessing is the rule this package was built
@@ -282,7 +282,7 @@ a local exception.
 lints `DESIGN.md` with the official toolchain, exports the tokens with the official
 CLI, verifies the generated artifacts against the contract (including that the
 contract's sha256 in the artifacts still matches), re-derives the brand ramp, proves
-that `brandcolor` and `arcopro` differ in colour and nothing else, and checks
+that `brandcolor` and `arco-blue` differ in colour and nothing else, and checks
 repository hygiene. CI runs the same command, so a green run locally means a green
 run in CI.
 
@@ -306,7 +306,7 @@ landmarks — which needs a browser that can be handed a deterministic 1270×848
 viewport. **It has not been run for this package.** On the machine that produced the
 sibling's evidence the viewport height could not be held still, so no capture
 evidence for `brandcolor` is committed; §5 of `reports/visual-validation.md` records
-what happened, and §3 sets out what carries over from `arcopro`'s measurement
+what happened, and §3 sets out what carries over from `arco-blue`'s measurement
 instead of pretending the render layer was checked.
 
 ## Updating brandcolor
@@ -377,7 +377,7 @@ Stated here because a design system that hides its limits gets used past them.
    what is expected instead.
 4. **One 14px line height, where the reference has two.** The reference sets 14px
    text at a 21px line box in the shell and 22.001px in table cells; this system
-   uses 22px everywhere. The measurement is `arcopro`'s; §3 of this package's
+   uses 22px everywhere. The measurement is `arco-blue`'s; §3 of this package's
    `reports/visual-validation.md` states why it still describes this one.
 5. **States were not visually compared.** Hover, focus and pressed are specified and
    contrast-audited, but the fidelity comparison is a static render.
@@ -395,10 +395,10 @@ Stated here because a design system that hides its limits gets used past them.
    get wrong (`docs/feedback.md`, `docs/data-visualization.md`).
 9. **The brand grey takes the light theme's dark anchors only.** `text-primary`,
    `tooltip` and `mask` are `#353535`; the six `dark-*` anchors are inherited
-   unchanged from `arcopro`, and this package still does not validate a full dark
+   unchanged from `arco-blue`, and this package still does not validate a full dark
    theme — the same limit as the sibling, now with one more reason to re-audit
    before shipping dark UI.
-10. **`text-primary` is lighter than in `arcopro`** (`#353535` against `#1D2129`),
+10. **`text-primary` is lighter than in `arco-blue`** (`#353535` against `#1D2129`),
     so text on `surface` sits at 12.27:1 instead of 16.13:1. Still far above AA
     (4.5:1) and above AAA for normal text (7:1), but a real reduction: E1's
     `text-tertiary` behaviour and E3's error red are unchanged, while the body-text

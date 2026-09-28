@@ -6,7 +6,7 @@
  * The repository holds three packages with two different relationships, so the
  * comparison is configured per pair rather than hard-coded for one:
  *
- *   arcopro ↔ brandcolor — "colour only". 8 of 30 colour roles take 捷安 brand
+ *   arco-blue ↔ brandcolor — "colour only". 8 of 30 colour roles take 捷安 brand
  *     values and every other design decision was to stay identical. Typography,
  *     spacing and radii must be byte-identical; the 61 component tokens must be
  *     identical once each colour literal is replaced by the role it belongs to;
@@ -17,9 +17,9 @@
  *     about a screenshot: a colour literal that belongs to no palette surfaces as
  *     an unexplained difference instead of passing quietly.
  *
- *   arcopro ↔ industrial-steel-blue — "documented adaptation". This package is
+ *   arco-blue ↔ industrial-steel-blue — "documented adaptation". This package is
  *     not a recolour: it keeps the baseline's structure and adds to it. So the
- *     check is a superset check with an allow-list — every arcopro typography
+ *     check is a superset check with an allow-list — every arco-blue typography
  *     role, spacing step, radius and component token must still be present, and
  *     must still be identical except where colour is normalised; colour roles may
  *     differ only in the recorded families; and anything *added* must be named in
@@ -58,7 +58,7 @@ const BRAND_COLOUR_MAP = {
 };
 
 /** The example pages whose source must survive normalisation unchanged. */
-const ARCOPRO_SOURCE_FILES = [
+const ARCO_BLUE_SOURCE_FILES = [
   'examples/index.html',
   'examples/dashboard.html',
   'examples/list-page.html',
@@ -114,18 +114,18 @@ const STEEL_RELATIONSHIP = {
 
 const PAIRS = [
   {
-    id: 'arcopro-brandcolor',
-    left: 'arcopro',
+    id: 'arco-blue-brandcolor',
+    left: 'arco-blue',
     right: 'brandcolor',
     mode: 'colour-only',
     colourMap: BRAND_COLOUR_MAP,
-    sourceFiles: ARCOPRO_SOURCE_FILES,
+    sourceFiles: ARCO_BLUE_SOURCE_FILES,
     evidenceIn: 'brandcolor',
     claim: 'colour only',
   },
   {
-    id: 'arcopro-industrial-steel-blue',
-    left: 'arcopro',
+    id: 'arco-blue-industrial-steel-blue',
+    left: 'arco-blue',
     right: 'industrial-steel-blue',
     mode: 'adapted',
     relationship: STEEL_RELATIONSHIP,
@@ -169,12 +169,31 @@ function colourLiterals(palette) {
 }
 
 /**
+ * The names a package calls itself in its own sources, longest first.
+ *
+ * The directory name is also the id, and it is the form a path or a token
+ * reference takes. The display name is the form a page names itself with: the
+ * reference pages carry it in their `<title>` and in their footer line, so it
+ * has to stand in as well, or a page title would read as a difference between
+ * two packages whose sources are otherwise identical. Both are "this package's
+ * own name"; nothing else is, so a name belonging to a third package still
+ * surfaces as an unexplained difference.
+ */
+const SELF_NAMES = {
+  'arco-blue': ['arco-blue', 'ArcoBlue'],
+  brandcolor: ['brandcolor'],
+};
+
+/**
  * Rewrite text so what remains is what the two packages must share: the
  * package's own name and every palette literal become a stable stand-in of the
  * form «colour:role», so two different hexes for one role read the same.
  */
 function normalise(text, pkg, literals) {
-  let out = text.split(pkg).join('«package»');
+  let out = text;
+  for (const name of SELF_NAMES[pkg] ?? [pkg]) {
+    out = out.split(name).join('«package»');
+  }
   for (const [literal, role] of literals) {
     out = out.split(literal).join(`«colour:${role}»`);
     out = out.split(literal.toUpperCase()).join(`«colour:${role}»`);

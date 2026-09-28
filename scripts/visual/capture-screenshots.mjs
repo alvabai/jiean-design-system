@@ -19,8 +19,8 @@
  *
  * Output
  * ------
- *   arcopro/reports/evidence/captures/<page>.json   measured computed styles
- *   arcopro/reports/evidence/captures/<page>.png    viewport screenshot
+ *   arco-blue/reports/evidence/captures/<page>.json   measured computed styles
+ *   arco-blue/reports/evidence/captures/<page>.png    viewport screenshot
  *
  * Run: npm run 4:capture
  */
@@ -309,11 +309,11 @@ const AUDIT_SCRIPT = `
       entry.host = read(host);
       result.pseudo[pname] = entry;
     }
-    var slot = document.getElementById('__arcopro_audit__');
+    var slot = document.getElementById('__arco_blue_audit__');
     if (!slot) {
       slot = document.createElement('script');
       slot.type = 'application/json';
-      slot.id = '__arcopro_audit__';
+      slot.id = '__arco_blue_audit__';
       document.body.appendChild(slot);
     }
     slot.textContent = JSON.stringify(result);
@@ -523,7 +523,7 @@ async function main() {
         );
 
         const m = dom.stdout.match(
-          /<script type="application\/json" id="__arcopro_audit__">([\s\S]*?)<\/script>/,
+          /<script type="application\/json" id="__arco_blue_audit__">([\s\S]*?)<\/script>/,
         );
         if (!m) {
           throw new Error(

@@ -3,7 +3,7 @@
  * Derive the `brandcolor` primary ramp from the JIEAN brand red, and check the
  * contract against that derivation.
  *
- * Rule: keep each `arcopro` step's WCAG relative luminance, move the hue to the
+ * Rule: keep each `arco-blue` step's WCAG relative luminance, move the hue to the
  * brand hue, keep the step's saturation. Luminance is what every contrast pair
  * in `scripts/verify-generated.mjs` is computed from, so preserving it makes
  * the whole accessibility audit transfer with nearly the same ratios instead of
@@ -14,7 +14,7 @@
  * tightest pairs in the safe direction and is reported below.
  *
  * The rule is only worth anything if it can fail, so `--check` re-derives every
- * step from the *sibling contract* (`arcopro/DESIGN.md`, the shape being
+ * step from the *sibling contract* (`arco-blue/DESIGN.md`, the shape being
  * transferred) and from the *brand literal*, then compares the result with
  * `brandcolor/DESIGN.md`. Both files are read through the resolved model, not by
  * re-parsing YAML here.

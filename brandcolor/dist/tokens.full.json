@@ -1,12 +1,12 @@
 {
   "$source": {
     "contract": "brandcolor/DESIGN.md",
-    "contractSha256": "df77c0a61d19b0410ee2ae2014b4f45cde643c8ca410b05e0635f735a2f7239e",
+    "contractSha256": "f198f60c9b8fbfb02145a9eafb2d0f26b57c8665151c08e3191a1b3e004f3b5c",
     "generator": "scripts/export-tokens.mjs",
     "note": "Lossless derivation of brandcolor/DESIGN.md. The official design.md exports (tokens/tokens.json, dist/tokens.css, dist/tailwind.theme.json) are the interoperability formats and are stored verbatim. None of them emits the component token table or the fontFeature setting, and the css-vars export omits typography entirely; this file carries the complete contract, plus rgb/alpha/luminance per colour for consumers that need numeric channels."
   },
   "name": "JIEAN Design System / brandcolor",
-  "description": "Enterprise application shell and data-workspace design language in the JIEAN brand colours. The arcopro package with its colour layer replaced by 捷安红",
+  "description": "Enterprise application shell and data-workspace design language in the JIEAN brand colours. The arco-blue package with its colour layer replaced by 捷安红",
   "colors": {
     "primary": {
       "value": "#d7000f",

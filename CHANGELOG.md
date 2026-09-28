@@ -3,6 +3,42 @@
 All notable changes to the style packages in this repository. The version policy
 that governs which digit moves is in each package's `README.md` §Versioning.
 
+## 2.0.0 — 2026-09-28
+
+The enterprise style package is renamed. `arcopro` becomes **`arco-blue`**, its
+display name **`ArcoBlue`**, its Chinese name **阿科蓝**. No token value and no pattern
+changed, so a consumer's migration is a path change — but every path changed, which is
+what makes this a major version rather than a patch.
+
+**What moved.** The directory `arcopro/` is now `arco-blue/`, and `arco-blue` replaces
+the identifier wherever it was used as an id or a path: the contract, the 14 pattern
+documents, the reference pages and their stylesheet, the reports, the two root
+READMEs, `AGENTS.md`, `THIRD_PARTY_NOTICES.md`, the CI workflow, and the scripts —
+`scripts/lib/design-system.mjs` §`PACKAGES`, the `8:package-diff` pair ids, and the
+visual capture channel's audit element id (now `__arco_blue_audit__`). Where the
+package names *itself* rather than referring to itself it uses the display name, in
+the same positions `industrial-steel-blue` uses `IndustrialSteelBlue`: the contract's
+`name:` is now `JIEAN Design System / ArcoBlue (阿科蓝)`, and the contract's prose, the
+pattern documents, the example pages' titles and footers, and their stylesheet header
+read `ArcoBlue`. That name is recorded in the contract's frontmatter, so it also
+reaches `tokens/tokens.json` and both `dist/` artifacts on the next export.
+
+**What deliberately did not move.** Arco Design Pro is a source, not the author, so
+every attribution is untouched: `Arco Design Pro`, `Arco Pro`,
+`@arco-themes/react-arco-pro`, `react-pro.arco.design`, the `arco-pro-*.json` evidence
+files, and the `--arcoblue-N` palette tokens — Arco's own family, one letter away from
+the new directory name and unrelated to it. `arcopro` and `arcopro-design` also stay
+in `LEGACY_TERMS`: they are now the *former* names of this package, and the point of
+that check is that a package may not call itself by a name it no longer has.
+
+**One check moved with the name.** `8:package-diff` normalises "the package's own
+name" out of the two packages' example sources before comparing them. Now that the
+name has a display form as well as an id form, both are normalised, through an
+explicit `SELF_NAMES` table in `scripts/compare-packages.mjs`. The colour-only proof
+is otherwise untouched: the six pages and their stylesheet still have to be
+character-for-character the same file once name and colour are normalised, and a name
+belonging to neither package still fails the run.
+
 ## 1.2.0 — 2026-09-28
 
 The `industrial-steel-blue` style package: an industrial blue derived from the
@@ -15,7 +51,7 @@ rendered previews, four reports, and its own README in English and Chinese. It i
 **superset with an allow-list, not a recolour**: of 34 colour roles 25 are unchanged,
 5 move by a recorded transform and 4 are added; of 11 typography roles 10 are
 unchanged and `code` is added; all 13 spacing steps, all radii and 61 of 75 component
-tokens are `arcopro`'s.
+tokens are `arco-blue`'s.
 
 **The colour is derived, not chosen.** Hue is forced to 210°, saturation × 0.38, and
 steps 5–7 are darkened to × 0.78 so the interaction steps still carry white text. The
@@ -64,7 +100,7 @@ place of the blue, and a machine check that says so.
 
 **A second package.** `brandcolor/` carries the whole package — contract, 14 pattern
 documents, token artifacts, six example pages, three evidence reports, and its own
-README in English and Chinese. Eight of the 30 colour roles differ from `arcopro`:
+README in English and Chinese. Eight of the 30 colour roles differ from `arco-blue`:
 捷安红 `#D7000F` as `primary`, 深灰 `#353535` for `text-primary`, `tooltip` and `mask`,
 and four primary steps (`hover`, `active`, `disabled`, `subtle`) derived by holding
 each step's WCAG relative luminance, so that the measured contrast transfers. The
@@ -98,7 +134,7 @@ now `1 → 2 → 3 → 7 → 8 → 6`; `npm run check:visual` (`4 → 5`) stays 
 `brandcolor`: this desktop could not hand a headless browser a stable 1270×848
 viewport, so no capture evidence for the package is committed.
 `brandcolor/reports/visual-validation.md` §5 gives the reason and the commands that
-produce it; §3 sets out what carries over from `arcopro`'s measurement, and why the
+produce it; §3 sets out what carries over from `arco-blue`'s measurement, and why the
 pixel probes it rests on are colour-neutral.
 
 **Known limitations.** The brand red and the status red are neighbouring reds whose
@@ -109,12 +145,12 @@ the five primary steps are derived values rather than brand-issued ones. See
 
 ## 1.0.0 — 2026-09-26
 
-Initial release of the JIEAN Design System and its `arcopro` style package.
+Initial release of the JIEAN Design System and its `arco-blue` style package.
 
-**The contract.** `arcopro/DESIGN.md` — 30 colours, 10 typography roles in pixel
+**The contract.** `arco-blue/DESIGN.md` — 30 colours, 10 typography roles in pixel
 dimensions, 13 spacing steps, 5 radii, 61 component tokens, plus the prose that
 says what they are for. Reverse-engineered from Arco Design Pro and its theme
-package; every value's origin is recorded in `arcopro/reports/source-audit.md`.
+package; every value's origin is recorded in `arco-blue/reports/source-audit.md`.
 
 **Token artifacts.** Three official Google DESIGN.md CLI exports — DTCG
 (`tokens/tokens.json`), CSS custom properties (`dist/tokens.css`, 48 properties)
@@ -124,11 +160,11 @@ properties) and `dist/tokens.full.json` (lossless, including line heights, font
 features and all 61 component tokens). The derived pair records the contract's
 sha256 in its header.
 
-**Pattern documentation.** Fourteen documents under `arcopro/docs/`, each with the
+**Pattern documentation.** Fourteen documents under `arco-blue/docs/`, each with the
 same structure: purpose, structure and values, composition, states, density, the
 empty/long/contradictory cases, contrast and accessibility, and do's and don'ts.
 
-**Reference implementation.** Six framework-free pages under `arcopro/examples/` —
+**Reference implementation.** Six framework-free pages under `arco-blue/examples/` —
 index, dashboard, list, form, detail and a components page — served by one
 stylesheet written against the tokens.
 
@@ -139,7 +175,7 @@ dashboard landmarks, and 35 shell landmarks on the other five pages. Result: 89 
 89 match, no drift. Six defects in this system were found and fixed by it, and the
 comparison itself was corrected twice — a mislabelled reference reading and a
 stale-screenshot race. Accepted deviations are listed in
-`arcopro/reports/visual-validation.md` §5.
+`arco-blue/reports/visual-validation.md` §5.
 
 **Verification.** `npm run check` — the contract lints clean (0 errors, 0 warnings,
 1 info), the exports are re-verified against the contract on every run (26 checks,
@@ -150,5 +186,5 @@ undocumented), and repository hygiene is enforced.
 **Known limitations.** Two 14px line heights exist in the reference where this
 system uses one; no official export carries the component tokens; `lineHeight`
 must be a pixel dimension in the contract, because a unitless multiplier is
-dropped silently. All three are in `arcopro/README.md` §Known Limitations and in
+dropped silently. All three are in `arco-blue/README.md` §Known Limitations and in
 the reports.

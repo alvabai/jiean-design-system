@@ -25,7 +25,7 @@ against cannot be re-verified later.
 | Source | Version | Commit / identity | Date | How it was read |
 |---|---|---|---|---|
 | Arco Design (component library, styles, tokens) | latest release tag `2.66.16` | `fbf2ec0a8cc28a5d20f1f82de6c2c4196ef66950` | published 2026-07-14 | published package artifacts: `@arco-design/web-react@2.66.16` `dist/css/arco.css`, `components/style/theme/default.less`, `components/style/theme/colors.less`, per-component `style/index.less` |
-| Arco Design Pro (the shell and page patterns) | repository `main`, version string `2.8.1` in the commit message; **no GitHub release exists (HTTP 404 on `/releases`)** | `bb6aebcceca6` | 2024-04-26 | the running reference application and its published tokens (`@arco-themes/react-arco-pro/tokens.less`), plus measured computed styles recorded in `arcopro/reports/evidence/` |
+| Arco Design Pro (the shell and page patterns) | repository `main`, version string `2.8.1` in the commit message; **no GitHub release exists (HTTP 404 on `/releases`)** | `bb6aebcceca6` | 2024-04-26 | the running reference application and its published tokens (`@arco-themes/react-arco-pro/tokens.less`), plus measured computed styles recorded in `arco-blue/reports/evidence/` |
 | Google DESIGN.md (format, parser, linter, exporter) | latest release `0.4.0` | `9bf8eae67128` | 2026-07-27 | the CLI itself, `@google/design.md@0.4.0`, resolved from this repository's `node_modules` |
 | This repository's own local CLI | `0.4.0` | same as above | 2026-09-28 | `package.json` `devDependencies`, so the pinned version and the upstream latest agree |
 
@@ -61,15 +61,15 @@ Research date for this package: **2026-09-28**.
 ### 2.2 Arco Design Pro (the shell and page patterns)
 
 The measured values in the shell, table, form, search and detail patterns come
-from the reference application as captured for the `arcopro` package and kept in
+from the reference application as captured for the `arco-blue` package and kept in
 that package's evidence directory:
 
 | Evidence file | Contents | Reused here as |
 |---|---|---|
-| `arcopro/reports/evidence/arco-pro-live-probe.json` | computed styles read from the live application | the baseline column of the metric tables in `docs/` |
-| `arcopro/reports/evidence/arco-pro-metrics.json` | per-page geometry for the four reference pages | the geometry this package's example pages reproduce |
-| `arcopro/reports/evidence/arco-theme-tokens.json` | 837 resolved theme variables across 34 component groups | the source of every inherited alias (`--color-*`, `--color-text-*`, `--color-fill-*`, `--color-border-*`) |
-| `arcopro/reports/evidence/visual-comparison.json` | pixel comparison of the built pages against the reference | the reason the layout in this package's examples is trusted |
+| `arco-blue/reports/evidence/arco-pro-live-probe.json` | computed styles read from the live application | the baseline column of the metric tables in `docs/` |
+| `arco-blue/reports/evidence/arco-pro-metrics.json` | per-page geometry for the four reference pages | the geometry this package's example pages reproduce |
+| `arco-blue/reports/evidence/arco-theme-tokens.json` | 837 resolved theme variables across 34 component groups | the source of every inherited alias (`--color-*`, `--color-text-*`, `--color-fill-*`, `--color-border-*`) |
+| `arco-blue/reports/evidence/visual-comparison.json` | pixel comparison of the built pages against the reference | the reason the layout in this package's examples is trusted |
 
 No new capture of the reference site was taken for this package. The baseline it
 was researched against is unchanged, so re-capturing it would produce evidence
@@ -156,7 +156,7 @@ over the baseline and is written as such in the contract.
 The relationship to the baseline is not "a recolour" and the package does not
 claim to be one. It is a superset with an allow-list, and
 `npm run 8:package-diff` proves the superset claim mechanically against
-`arcopro`: every baseline typography role, spacing step, radius and component
+`arco-blue`: every baseline typography role, spacing step, radius and component
 token is still present, and is still identical once colour is normalised.
 
 **Inherited unchanged:** layout geometry (60 / 220 / 48 / 1100px shell), the

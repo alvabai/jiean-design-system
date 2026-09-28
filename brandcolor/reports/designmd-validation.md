@@ -61,7 +61,7 @@ not overlap:
 The `json-tailwind` output is the most complete of the three, and it does preserve
 line height — as a string, per size, alongside the weight.
 
-The css and Tailwind files land on exactly the byte counts `arcopro`'s do. That is
+The css and Tailwind files land on exactly the byte counts `arco-blue`'s do. That is
 a coincidence of this palette rather than a sign the export was skipped: every hex
 in the brand's ramp happens to be the same length as the one it replaced, and the
 two files carry no other difference. `tokens.json` is 11 bytes larger, because one

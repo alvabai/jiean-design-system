@@ -76,7 +76,7 @@ const CALIBRATION_ATTEMPTS = 5;
 
 /**
  * The flat-example packages: the ones whose `examples/` is a flat set of HTML
- * files with a PNG beside each. `arcopro` and `brandcolor` ship the six-page set
+ * files with a PNG beside each. `arco-blue` and `brandcolor` ship the six-page set
  * with a shared stylesheet and keep their captured evidence under `reports/`
  * instead, where `npm run 4:capture` and `npm run 5:compare` own it.
  */
@@ -501,7 +501,7 @@ const packages = requestedPackages(requested).filter((pkg) => FLAT_EXAMPLE_PACKA
 
 if (packages.length === 0) {
   console.log(
-    'No flat-example package selected. `arcopro` and `brandcolor` keep their captures under ' +
+    'No flat-example package selected. `arco-blue` and `brandcolor` keep their captures under ' +
       'reports/evidence and are handled by npm run 4:capture. Nothing to do.',
   );
   process.exit(0);

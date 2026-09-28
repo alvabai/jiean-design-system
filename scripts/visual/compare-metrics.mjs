@@ -11,7 +11,7 @@
  *      section reads the pixels of both screenshots and asserts on them.
  *
  *   2. GEOMETRY AND TYPE. Does every landmark the pages share measure the same?
- *      Compared against arcopro/reports/evidence/arco-pro-live-probe.json, which
+ *      Compared against arco-blue/reports/evidence/arco-pro-live-probe.json, which
  *      records the reference values and, for each one, how it was obtained.
  *
  *   3. EVERY PAGE. The shell is one component, so it has to measure the same on
@@ -25,7 +25,7 @@
  * an unambiguous selector is left out and reported as uncovered rather than
  * guessed at.
  *
- * Output: arcopro/reports/evidence/visual-comparison.json
+ * Output: arco-blue/reports/evidence/visual-comparison.json
  * Run:    npm run 5:compare   (needs npm run 4:capture first)
  */
 
@@ -40,7 +40,7 @@ import { readPng } from '../lib/png.mjs';
  * screenshots. It is the external source both packages are measured against, so
  * it is kept in one place instead of being copied into every package.
  */
-const REFERENCE_EVIDENCE = path.join(REPO_ROOT, 'arcopro', 'reports', 'evidence');
+const REFERENCE_EVIDENCE = path.join(REPO_ROOT, 'arco-blue', 'reports', 'evidence');
 
 const packages = requestedPackages();
 
@@ -356,7 +356,7 @@ for (const [pkgIndex, pkg] of packages.entries()) {
       ['lineHeight', sidebar.menuInlineHeader.lineHeight, style(d.menuGroupLabel, 'lineHeight')],
     ],
     'the row and its insets come from the reference; the type on it is this system\'s caption, '
-      + 'a divergence recorded in arcopro/reports/visual-validation.md',
+      + 'a divergence recorded in arco-blue/reports/visual-validation.md',
   );
   compareValues(
     'geometry',

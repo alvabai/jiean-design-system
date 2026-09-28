@@ -8,9 +8,9 @@ JIEAN product. Read this file first. It is short on purpose.
    repository and your own instincts disagree about a colour, a size, a space, a
    radius or a pattern, this repository is right.
 
-2. **The system ships three style packages: `arcopro`, `brandcolor` and
+2. **The system ships three style packages: `arco-blue`, `brandcolor` and
    `industrial-steel-blue`.** The company-wide system is `JIEAN Design System`;
-   `arcopro` is the enterprise package researched from Arco Design Pro (Arco is a
+   `arco-blue` is the enterprise package researched from Arco Design Pro (Arco is a
    source, not the author of this repository), `brandcolor` is that same package with
    the colour layer replaced by 捷安's brand colours, and `industrial-steel-blue` is
    the industrial package, which adapts the colour layer into a derived steel blue
@@ -32,10 +32,10 @@ JIEAN product. Read this file first. It is short on purpose.
    and responsive behaviour. Read the ones the task touches, not just `DESIGN.md`.
 
 5. **Use exported tokens where appropriate.** `<package>/dist/tokens.full.css` (217
-   custom properties in `arcopro` and `brandcolor`, 262 in `industrial-steel-blue`) or
+   custom properties in `arco-blue` and `brandcolor`, 262 in `industrial-steel-blue`) or
    `<package>/dist/tokens.full.json`; `<package>/dist/tokens.css` and
    `tailwind.theme.json` when you want the official output. Reference a token by its
-   **role**, never by its value — `primary` is `#165DFF` in `arcopro`, `#D7000F` in
+   **role**, never by its value — `primary` is `#165DFF` in `arco-blue`, `#D7000F` in
    `brandcolor` and `#3E6489` in `industrial-steel-blue`, and each is correct in its
    own package.
 

@@ -304,7 +304,7 @@ rounded:
   // ---------------------------------------------------------------------------
 
   /**
-   * Every pair quoted in arcopro/docs/accessibility.md. `min` is the WCAG
+   * Every pair quoted in arco-blue/docs/accessibility.md. `min` is the WCAG
    * threshold the pair must meet to be considered compliant for its use.
    * Pairs below their `min` must be listed in WAIVED below, which is the
    * machine-readable form of the "preserved exceptions" section.
@@ -357,7 +357,7 @@ rounded:
   ];
 
   /**
-   * The documented "preserved exceptions" from arcopro/docs/accessibility.md.
+   * The documented "preserved exceptions" from arco-blue/docs/accessibility.md.
    * A pair belongs here only if the documentation names it AND gives a mitigation.
    * Each id is E1..E5 from that document.
    */
@@ -401,7 +401,7 @@ rounded:
     'every documented contrast exception is still an actual failure',
     staleWaivers.length === 0,
     staleWaivers.length
-      ? `now passing (update arcopro/docs/accessibility.md): ${staleWaivers.join(', ')}`
+      ? `now passing (update arco-blue/docs/accessibility.md): ${staleWaivers.join(', ')}`
       : '',
   );
 

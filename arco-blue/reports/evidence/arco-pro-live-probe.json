@@ -1,0 +1,345 @@
+{
+  "note": "Values measured directly on the reference implementation, react-pro.arco.design, in one session at a 1270x848 viewport, plus values read from the Arco Design Pro source. Every entry names where its number came from. This file is the authority for the reference side of scripts/visual/compare-metrics.mjs; the wider arco-pro-metrics.json sweep next to it records a broader but less precisely targeted set of elements and is used only where an entry here is absent.",
+  "references": [
+    "https://react-pro.arco.design/dashboard/workplace",
+    "https://react-pro.arco.design/list/search-table",
+    "https://react-pro.arco.design/form/group",
+    "https://react-pro.arco.design/profile/basic"
+  ],
+  "capturedAt": "2026-09-26",
+  "captureViewport": {
+    "width": 1270,
+    "height": 848
+  },
+  "probeMethod": "getComputedStyle + getBoundingClientRect through the browser's own script channel, on the pages listed above while signed in",
+  "sourceMethod": "read from the arco-design-pro repository under arco-design-pro-next/src (page modules, style/index.module.less, components/NavBar/style/index.module.less)",
+  "pixelMethod": "decoded from the reference screenshots in this directory (reference-*.png), which were taken in the same session at the same viewport",
+  "shell": {
+    "header": {
+      "box": [
+        0,
+        0,
+        1270,
+        60
+      ],
+      "position": "fixed",
+      "zIndex": "100",
+      "minWidth": "1100px",
+      "padding": "0px",
+      "source": "getComputedStyle(.arco-layout-header)",
+      "pixels": {
+        "note": "the white fill and the border come from .navbar in the source, which is the header's only child",
+        "y58": "#FFFFFF",
+        "y59": "#E5E6EB",
+        "y60": "#F2F3F5",
+        "source": "reference-dashboard.png, column x=700"
+      },
+      "sourceCss": ".navbar { border-bottom: 1px solid var(--color-border); box-sizing: border-box; background-color: var(--color-bg-2); height: 100%; }"
+    },
+    "brandBlock": {
+      "box": [
+        0,
+        13,
+        200,
+        33
+      ],
+      "paddingLeft": "20px",
+      "display": "flex",
+      "source": "getComputedStyle([class*=logo--]); source: .logo { width: 200px; padding-left: 20px; }"
+    },
+    "brandMark": {
+      "box": [
+        20,
+        13,
+        33,
+        33
+      ],
+      "source": "the logo svg inside the brand block"
+    },
+    "brandName": {
+      "box": [
+        63,
+        14.5,
+        83.1,
+        30
+      ],
+      "fontSize": "20px",
+      "fontWeight": "500",
+      "lineHeight": "30px",
+      "marginLeft": "10px",
+      "source": "getComputedStyle(.logo-name); source: .logo-name { font-size: 20px; font-weight: 500; margin-left: 10px; } with no line-height, so it inherits the layout's 1.5"
+    },
+    "searchBox": {
+      "box": [
+        758,
+        13.5,
+        196,
+        32
+      ],
+      "borderRadius": "16px",
+      "backgroundColor": "rgb(242, 243, 245)",
+      "source": "getComputedStyle of the search wrapper; the 16px radius is on the wrapper, the inner input has 0"
+    },
+    "iconButton": {
+      "boxes": [
+        [
+          1018,
+          13.5,
+          32,
+          32
+        ],
+        [
+          1066,
+          13.5,
+          32,
+          32
+        ],
+        [
+          1114,
+          13.5,
+          32,
+          32
+        ]
+      ],
+      "borderRadius": "50%",
+      "backgroundColor": "rgb(242, 243, 245)",
+      "source": "getComputedStyle(.arco-btn-secondary[shape=circle]); the 48px spacing is the adjacent <li>s' own 8px padding"
+    },
+    "badgeDot": {
+      "box": [
+        1045,
+        12.5,
+        6,
+        6
+      ],
+      "backgroundColor": "rgb(245, 63, 63)",
+      "borderRadius": "50%",
+      "source": "getComputedStyle(.arco-badge-dot)"
+    },
+    "avatar": {
+      "box": [
+        1210,
+        13.5,
+        32,
+        32
+      ],
+      "borderRadius": "50%",
+      "backgroundColor": "rgb(201, 205, 212)",
+      "source": "getComputedStyle(.arco-avatar)"
+    },
+    "toolsRow": {
+      "box": [
+        710,
+        14,
+        560,
+        31
+      ],
+      "display": "flex",
+      "itemWidth": "48px",
+      "itemPadding": "0 8px",
+      "items": 7,
+      "source": "getComputedStyle([class*=right--]) and its <li> children; source: .right li { padding: 0 8px; }"
+    },
+    "rightInset": {
+      "value": "28px",
+      "derivation": "1270 - (avatar.x + avatar.width) = 1270 - (1210 + 32) = 28, which is the header's 20px padding plus the tool item's 8px",
+      "source": "measured"
+    }
+  },
+  "sidebar": {
+    "box": [
+      0,
+      0,
+      220,
+      848
+    ],
+    "position": "fixed",
+    "zIndex": "99",
+    "paddingTop": "60px",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "boxShadow": "rgba(0, 0, 0, 0.08) 0px 2px 5px 0px",
+    "borderRightWidth": "0px",
+    "source": "getComputedStyle(.arco-layout-sider)",
+    "rightRule": {
+      "pseudoElement": "::after",
+      "content": "\"\"",
+      "position": "absolute",
+      "left": "220px",
+      "right": "-1px",
+      "width": "1px",
+      "height": "848px",
+      "backgroundColor": "rgb(229, 230, 235)",
+      "source": "getComputedStyle(.arco-layout-sider, '::after')",
+      "pixels": {
+        "x219": "#FFFFFF",
+        "x220": "#E5E6EB",
+        "x221": "#EDEEF0",
+        "x224": "#F2F3F5",
+        "note": "the 1px rule is at x=220, outside the 220px box; x=221..223 is the light-sider shadow falling on the canvas",
+        "source": "reference-dashboard.png, row y=400"
+      }
+    },
+    "menu": {
+      "box": [
+        0,
+        60,
+        220,
+        448
+      ],
+      "innterPadding": "4px top and bottom",
+      "source": "getComputedStyle(.arco-menu) and (.arco-menu-inner); source: the menu is 220px wide with 8px side padding, so an item is 204px"
+    },
+    "menuItem": {
+      "box": [
+        8,
+        64,
+        204,
+        40
+      ],
+      "paddingLeft": "12px",
+      "paddingRight": "12px",
+      "height": "40px",
+      "lineHeight": "40px",
+      "marginBottom": "4px",
+      "borderRadius": "2px",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "source": "getComputedStyle(.arco-menu-item): 12px of padding on both sides. The selected state keeps the same box and adds weight 500 and rgb(22, 93, 255)."
+    },
+    "menuInlineHeader": {
+      "box": [
+        8,
+        64,
+        204,
+        40
+      ],
+      "paddingLeft": "12px",
+      "paddingRight": "28px",
+      "height": "40px",
+      "lineHeight": "40px",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "source": "getComputedStyle(.arco-menu-inline-header.arco-menu-selected): the collapsible submenu header is a 40px row with a 12px left inset and a 28px right inset, which leaves room for its trailing arrow.",
+      "note": "A submenu header variant, not a leaf item. An earlier reading of this file recorded its 28px right padding against the leaf item; that mislabelling is corrected here.",
+      "typeInThisSystem": "This system keeps the header row and its 12/28 insets but sets 12px text-tertiary caption type on it instead of the reference's 14px/500 text-primary, so a group label does not read as a menu item. The divergence is recorded in arco-blue/reports/visual-validation.md."
+    },
+    "menuItemSelected": {
+      "box": [
+        8,
+        64,
+        204,
+        40
+      ],
+      "paddingLeft": "12px",
+      "paddingRight": "12px",
+      "height": "40px",
+      "lineHeight": "40px",
+      "borderRadius": "2px",
+      "fontWeight": "500",
+      "color": "rgb(22, 93, 255)",
+      "backgroundColor": "rgb(242, 243, 245)",
+      "source": "getComputedStyle(.arco-menu-item.arco-menu-selected): the selected leaf keeps the plain item's box and padding and changes only its fill, text colour and weight."
+    }
+  },
+  "page": {
+    "contentColumn": {
+      "box": [
+        240,
+        116,
+        1010,
+        1061.14
+      ],
+      "padding": "0px",
+      "source": "getComputedStyle(.arco-layout-content). The 240px left offset and the 16px top offset come from the layout's content wrapper."
+    },
+    "breadcrumb": {
+      "box": [
+        240,
+        76,
+        226.42,
+        24
+      ],
+      "height": "24px",
+      "source": "getComputedStyle(.arco-breadcrumb)"
+    },
+    "card": {
+      "box": [
+        240,
+        116,
+        714,
+        605.14
+      ],
+      "borderRadius": "4px",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "boxShadow": "none",
+      "source": "getComputedStyle(.arco-card.arco-card-size-default). Note: the earlier sweep in arco-pro-metrics.json records 716px for a key named 'card'; this direct measurement of the same landmark with an exact selector gives 714px, which is the value to compare against."
+    },
+    "cardBody": {
+      "width": "714px",
+      "padding": "20px",
+      "source": "getComputedStyle(.arco-card-body); source: .panel { border-radius: 4px; }"
+    },
+    "pageTitle": {
+      "selector": "h5",
+      "height": "28px",
+      "fontSize": "20px",
+      "fontWeight": "500",
+      "lineHeight": "28px",
+      "source": "getComputedStyle of the workplace greeting heading"
+    }
+  },
+  "dashboard": {
+    "wrapper": {
+      "source": "arco-design-pro-next/src/pages/dashboard/workplace/style/index.module.less and index.tsx",
+      "gutter": "16px",
+      "leftCss": ".left { width: calc(100% - 296px); margin-right: 16px; }",
+      "rightCss": ".right { width: 280px; }",
+      "measured": {
+        "leftItem": [
+          240,
+          116,
+          714,
+          1061.14
+        ],
+        "rightItem": [
+          970,
+          116,
+          280,
+          1015
+        ],
+        "leftMarginRight": "16px",
+        "parent": "arco-space, display inline-flex, 1010px wide"
+      }
+    },
+    "kpiDisc": {
+      "box": [
+        280,
+        205,
+        54,
+        54
+      ],
+      "borderRadius": "50%",
+      "backgroundColor": "rgb(242, 243, 245)",
+      "color": "rgb(29, 33, 41)",
+      "source": "getComputedStyle of the round icon wrapper on the workplace KPI row"
+    },
+    "kpiCount": {
+      "box": [
+        346,
+        224.5,
+        124.46,
+        33
+      ],
+      "height": "33px",
+      "fontSize": "22px",
+      "fontWeight": "600",
+      "lineHeight": "33px",
+      "color": "rgb(29, 33, 41)",
+      "source": "getComputedStyle(.count--*); the width is text-dependent and is not a design value"
+    }
+  },
+  "notMeasured": [
+    "The list, form and detail pages were swept into arco-pro-metrics.json but not re-probed with exact selectors, so their entries there keep the generic key names and are not used as comparison targets. Elements they share with the dashboard (sidebar, header, card, control heights) are covered by the shell and page sections above.",
+    "Colours were taken from the Arco theme package rather than from the live pages; see arco-blue/DESIGN.md for the token-by-token sources."
+  ]
+}

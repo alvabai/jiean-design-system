@@ -1,8 +1,8 @@
 {
   "name": "jiean-design-system",
   "private": true,
-  "version": "1.2.0",
-  "description": "JIEAN Design System. Style packages: 'arcopro', an enterprise application design language reverse engineered from Arco Design Pro for JIEAN (捷安高科); 'brandcolor', that same system expressed in the JIEAN brand colours; and 'industrial-steel-blue' (工业钢蓝), an independent adaptation of the same baseline to a cool, deep steel blue. Specified with the Google DESIGN.md format.",
+  "version": "2.0.0",
+  "description": "JIEAN Design System. Style packages: 'arco-blue' (阿科蓝), an enterprise application design language reverse engineered from Arco Design Pro for JIEAN (捷安高科); 'brandcolor', that same system expressed in the JIEAN brand colours; and 'industrial-steel-blue' (工业钢蓝), an independent adaptation of the same baseline to a cool, deep steel blue. Specified with the Google DESIGN.md format.",
   "license": "MIT",
   "type": "module",
   "engines": {
